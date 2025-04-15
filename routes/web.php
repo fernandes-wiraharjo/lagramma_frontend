@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\TonerController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,8 +23,10 @@ Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang'
 
 Auth::routes();
 
+Route::get('/', [CatalogueController::class, 'index']);
+
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+    // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
     Route::get('logout', [TonerController::class, 'logout']);
 
     Route::get('{any}', [TonerController::class, 'index']);

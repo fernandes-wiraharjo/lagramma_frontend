@@ -213,4 +213,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    'phone' => env('PHONE', '0819-5268-4970'),
+    'backend_url' => env('BACKEND_URL', 'http://localhost:3000')
+
 ];

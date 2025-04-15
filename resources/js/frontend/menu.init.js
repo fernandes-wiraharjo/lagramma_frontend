@@ -410,7 +410,7 @@ function windowResizeHover() {
         toggle: false
     })
     bsCollapse.hide();
-  
+
 }
 
 window.addEventListener("resize", windowResizeHover);
@@ -474,7 +474,7 @@ function initMenuItemScroll() {
                 setTimeout(function () {
                     sidebarMenu.scrollTop = activeMenu
                 }, 0);
-                
+
             }
         }
     }, 250);
@@ -492,7 +492,7 @@ function initModeSetting() {
     }else if (sessionStorage.getItem("data-bs-theme") == "dark") {
         document.documentElement.setAttribute('data-bs-theme', 'dark');
     }
-    
+
     var html = document.getElementsByTagName("HTML")[0];
     document.querySelectorAll("#light-dark-mode .dropdown-item").forEach(function (item) {
         item.addEventListener("click", function (event) {
@@ -559,7 +559,7 @@ function firstTimeLoad() {
     }, 1000);
 }
 
-firstTimeLoad();
+// firstTimeLoad();
 
 // var tooltipTriggerList = [].slice.call(
 //     document.querySelectorAll('[data-bs-toggle="tooltip"]')
