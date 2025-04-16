@@ -728,7 +728,7 @@
 </button>
 <!--end back-to-top-->
 
-<a class="btn btn-danger shadow-lg chat-button rounded-bottom-0 d-none d-lg-block" data-bs-toggle="collapse" href="#chatBot" aria-expanded="false" aria-controls="chatBot">Online Chat</a>
+<!-- <a class="btn btn-danger shadow-lg chat-button rounded-bottom-0 d-none d-lg-block" data-bs-toggle="collapse" href="#chatBot" aria-expanded="false" aria-controls="chatBot">Online Chat</a> -->
 <div class="collapse chat-box" id="chatBot">
     <div class="card shadow-lg border-0 rounded-bottom-0 mb-0">
         <div class="card-header bg-success d-flex align-items-center border-0">

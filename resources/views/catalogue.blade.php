@@ -11,7 +11,7 @@
 @section('content')
     <section class="section pb-0 mt-4">
         <div class="container-fluid">
-            <div class="position-relative rounded-3"
+            <!-- <div class="position-relative rounded-3"
                 style="background-image: url('build/images/ecommerce/banner.jpg');background-size: cover;background-position: center;">
                 <div class="row justify-content-end">
                     <div class="col-xxl-4">
@@ -23,11 +23,11 @@
                                         class="ri-arrow-right-line align-bottom ms-1"></i></a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!--end col-->
-                </div>
+                <!-- </div> -->
                 <!--end row-->
-            </div>
+            <!-- </div> -->
         </div>
         <!--end container-->
     </section>
@@ -559,217 +559,6 @@
         </div>
         <!--end conatiner-fluid-->
     </div>
-
-    <section class="section pt-0">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="d-flex align-items-center justify-content-between mb-4 pb-1">
-                        <h3 class="flex-grow-1 mb-0">Deals Of The Day</h3>
-                        <div class="flex-shrink-0">
-                            <a href="#!" class="link-effect link-success">All Deals <i
-                                    class="ri-arrow-right-line ms-1 align-bottom"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-            </div>
-            <!--end row-->
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="ecommerce-deals-widgets">
-                        <div class="card overflow-hidden mb-0">
-                            <div class="gallery-product">
-                                <img src="{{ URL::asset('build/images/ecommerce/img-5.jpg') }}" alt=""
-                                    class="mx-auto d-block object-fit-cover">
-                            </div>
-                        </div>
-                        <div class="content mx-4">
-                            <div class="countdown-deals mb-3">
-                                <div data-countdown="Oct 30, 2023" class="countdownlist"></div>
-                            </div>
-                            <div class="card border-0 p-4 position-relative rounded-3 shadow-lg">
-                                <a href="#!">
-                                    <h6 class="text-capitalize fs-16 lh-base text-truncate">World's most expensive t-shirt
-                                    </h6>
-                                </a>
-                                <p class="text-muted"><i class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-half-fill text-warning align-bottom"></i> (4.9)</p>
-                                <div class="mt-3 d-flex align-items-center">
-                                    <h5 class="text-secondary flex-grow-1 mb-0">$124.99 <span
-                                            class="text-muted fs-12"><del>$354.99</del></span></h5>
-                                    <a href="#!" class="btn btn-primary btn-sm"><i
-                                            class="ri-shopping-bag-line align-bottom me-1"></i> Add</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-                <div class="col-lg-4 col-md-6">
-                    <div class="ecommerce-deals-widgets">
-                        <div class="card overflow-hidden mb-0">
-                            <div class="gallery-product">
-                                <img src="{{ URL::asset('build/images/ecommerce/img-3.jpg') }}" alt=""
-                                    class="mx-auto d-block object-fit-cover">
-                            </div>
-                        </div>
-                        <div class="content mx-4">
-                            <div class="countdown-deals mb-3">
-                                <div data-countdown="Oct 23, 2023" class="countdownlist"></div>
-                            </div>
-                            <div class="card border-0 p-4 position-relative rounded-3 shadow-lg">
-                                <a href="#!">
-                                    <h6 class="text-capitalize fs-16 lh-base text-truncate">Best Footwear Collections</h6>
-                                </a>
-                                <p class="text-muted"><i class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-half-fill text-warning align-bottom"></i> (4.3)</p>
-                                <div class="mt-3 d-flex align-items-center">
-                                    <h5 class="text-secondary flex-grow-1 mb-0">$80.00 <span
-                                            class="text-muted fs-12"><del>$180.00</del></span></h5>
-                                    <a href="#!" class="btn btn-primary btn-sm"><i
-                                            class="ri-shopping-bag-line align-bottom me-1"></i> Add</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-                <div class="col-lg-4 col-md-6">
-                    <div class="ecommerce-deals-widgets">
-                        <div class="card overflow-hidden mb-0">
-                            <div class="gallery-product">
-                                <img src="{{ URL::asset('build/images/ecommerce/img-1.jpg') }}" alt=""
-                                    class="mx-auto d-block object-fit-cover">
-                            </div>
-                        </div>
-                        <div class="content mx-4">
-                            <div class="countdown-deals mb-3">
-                                <div data-countdown="Oct 20, 2023" class="countdownlist"></div>
-                            </div>
-                            <div class="card border-0 p-4 position-relative rounded-3 shadow-lg">
-                                <a href="#!">
-                                    <h6 class="text-capitalize fs-16 lh-base text-truncate">Elegant Designer Western Dress
-                                    </h6>
-                                </a>
-                                <p class="text-muted"><i class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-fill text-warning align-bottom"></i> <i
-                                        class="ri-star-half-fill text-warning align-bottom"></i> (5.0)</p>
-                                <div class="mt-3 d-flex align-items-center">
-                                    <h5 class="text-secondary flex-grow-1 mb-0">$30.10 <span
-                                            class="text-muted fs-12"><del>$121.99</del></span></h5>
-                                    <a href="#!" class="btn btn-primary btn-sm"><i
-                                            class="ri-shopping-bag-line align-bottom me-1"></i> Add</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-            </div>
-            <!--end row-->
-        </div>
-        <!--end container-->
-    </section>
-
-    <section class="section bg-light bg-opacity-25"
-        style="background-image: url('build/images/ecommerce/bg-effect.png');background-position: center; background-size: cover;">
-        <div class="container">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-6">
-                    <div>
-                        <p class="fs-15 text-uppercase fw-medium"><span class="fw-semibold text-danger">25% Up to</span>
-                            off all Products</p>
-                        <h1 class="lh-base text-capitalize mb-3">Stay home & get your daily needs from our shop</h1>
-                        <p class="fs-15 mb-4 pb-2">Start You'r Daily Shopping with <a href="#!"
-                                class="link-info fw-medium">Toner</a></p>
-                        <form action="#!">
-                            <div class="position-relative ecommerce-subscript">
-                                <input type="email" class="form-control rounded-pill" placeholder="Enter your email">
-                                <button type="submit" class="btn btn-primary btn-hover rounded-pill">Subscript
-                                    Now</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <!--end col-->
-                <div class="col-lg-4">
-                    <div class="mt-5 mt-lg-0">
-                        <img src="{{ URL::asset('build/images/ecommerce/subscribe.png') }}" alt="" class="img-fluid">
-                    </div>
-                </div>
-                <!--end col-->
-            </div>
-            <!--end row-->
-        </div>
-        <!--end conatiner-->
-    </section>
-
-    <section class="position-relative py-5">
-        <div class="container">
-            <div class="row gy-3 gy-lg-0">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('build/images/ecommerce/fast-delivery.png') }}" alt="" class="avatar-sm">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="fs-15">Fast &amp; Secure Delivery</h5>
-                            <p class="text-muted mb-0">Tell about your service.</p>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-                <div class="col-lg-3 col-sm-6">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('build/images/ecommerce/returns.png') }}" alt="" class="avatar-sm">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="fs-15">2 Days Return Policy</h5>
-                            <p class="text-muted mb-0">No question ask.</p>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-                <div class="col-lg-3 col-sm-6">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('build/images/ecommerce/guarantee-certificate.png') }}" alt=""
-                                class="avatar-sm">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="fs-15">Money Back Guarantee</h5>
-                            <p class="text-muted mb-0">Within 5 business days</p>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-                <div class="col-lg-3 col-sm-6">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('build/images/ecommerce/24-hours-support.png') }}" alt="" class="avatar-sm">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="fs-15">24 X 7 Service</h5>
-                            <p class="text-muted mb-0">Online service for customer</p>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-            </div>
-            <!--end row-->
-        </div>
-        <!--end container-->
-    </section>
 @endsection
 @section('scripts')
     <!-- nouisliderribute js -->
