@@ -390,22 +390,22 @@
                 <!-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="ph-user-circle fs-22"></i>
                 </button>    -->
-                <div class="dropdown-menu dropdown-menu-end">
+                <div class="dropdown-menu dropdown-menu-end" id="userDropdownContent">
                     <!-- item-->
-                    <h6 class="dropdown-header">Welcome {{ @Auth::user()->last_name }}!</h6>
+                    <!-- <h6 class="dropdown-header">Welcome {{ @Auth::user()->name }}!</h6>
                     <a class="dropdown-item" href="account"><i class="bi bi-person-circle text-muted fs-15 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                    <a class="dropdown-item" href="order-history"><i class="bi bi-cart4 text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Order History</span></a>
+                    <a class="dropdown-item" href="order-history"><i class="bi bi-cart4 text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Order History</span></a> -->
                     <!-- <a class="dropdown-item" href="track-order"><i class="bi bi-truck text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Track Orders</span></a> -->
                     <!-- <a class="dropdown-item" href="javascript:void(0)"><i class="bi bi-speedometer2 text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Dashboard</span></a>
                     <a class="dropdown-item" href="ecommerce-faq"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Help</span></a> -->
-                    <div class="dropdown-divider"></div>
+                    <!-- <div class="dropdown-divider"></div> -->
                     <!-- <a class="dropdown-item" href="account"><i class="bi bi-coin text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Balance : <b>$8451.36</b></span></a> -->
-                    <a class="dropdown-item" href="account">
+                    <!-- <a class="dropdown-item" href="account"> -->
                         <!-- <span class="badge bg-success-subtle text-success mt-1 float-end">New</span> -->
-                        <i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i>
+                        <!-- <i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i>
                         <span class="align-middle">Settings</span>
                     </a>
-                    <a class="dropdown-item" href="{{ config('app.backend_url') }}/logout"><i class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">{{ __('t-logout') }}</span></a>
+                    <a class="dropdown-item" href="{{ config('app.backend_url') }}/logout"><i class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">{{ __('t-logout') }}</span></a> -->
                 </div>
             </div>
         </div>
