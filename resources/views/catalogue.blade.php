@@ -55,9 +55,18 @@
                         <div class="accordion accordion-flush filter-accordion">
                             <div class="card-body border-bottom">
                                 <div>
-                                    <p class="text-muted text-uppercase fs-12 fw-medium mb-3">Products</p>
+                                    <p class="text-muted text-uppercase fs-12 fw-medium mb-3">Categories</p>
                                     <ul class="list-unstyled mb-0 filter-list">
-                                        <li>
+                                        @foreach($categories as $category)
+                                            <li>
+                                                <a href="#" class="d-flex py-1 align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h5 class="fs-13 mb-0 listname">{{ $category->name }}</h5>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                        <!-- <li>
                                             <a href="#" class="d-flex py-1 align-items-center">
                                                 <div class="flex-grow-1">
                                                     <h5 class="fs-13 mb-0 listname">Grocery</h5>
@@ -125,23 +134,23 @@
                                                     <h5 class="fs-13 mb-0 listname">Kids</h5>
                                                 </div>
                                             </a>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                             </div>
 
-                            <div class="card-body border-bottom">
+                            <!-- <div class="card-body border-bottom">
                                 <p class="text-muted text-uppercase fs-12 fw-medium mb-4">Price</p>
 
                                 <div id="product-price-range" data-slider-color="info"></div>
                                 <div class="formCost d-flex gap-2 align-items-center mt-3">
-                                    <input class="form-control form-control-sm" type="text" id="minCost"
-                                        value="0" /> <span class="fw-semibold text-muted">to</span> <input
-                                        class="form-control form-control-sm" type="text" id="maxCost" value="1000" />
+                                    <input class="form-control form-control-sm" type="text" id="minCost" value="0" />
+                                    <span class="fw-semibold text-muted">to</span>
+                                    <input class="form-control form-control-sm" type="text" id="maxCost" value="2000" />
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <div class="accordion-item">
+                            <!-- <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingColors">
                                     <button class="accordion-button bg-transparent shadow-none" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#flush-collapseColors"
@@ -207,10 +216,10 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- end accordion-item -->
 
-                            <div class="accordion-item">
+                            <!-- <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingSize">
                                     <button class="accordion-button bg-transparent shadow-none" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#flush-collapseSize"
@@ -276,10 +285,10 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- end accordion-item -->
 
-                            <div class="accordion-item">
+                            <!-- <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingBrands">
                                     <button class="accordion-button bg-transparent shadow-none" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#flush-collapseBrands"
@@ -332,10 +341,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- end accordion-item -->
 
-                            <div class="accordion-item">
+                            <!-- <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingDiscount">
                                     <button class="accordion-button bg-transparent shadow-none collapsed" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#flush-collapseDiscount"
@@ -391,10 +400,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- end accordion-item -->
 
-                            <div class="accordion-item">
+                            <!-- <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingRating">
                                     <button class="accordion-button bg-transparent shadow-none collapsed" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#flush-collapseRating"
@@ -463,7 +472,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- end accordion-item -->
                         </div>
                     </div>
@@ -561,6 +570,10 @@
     </div>
 @endsection
 @section('scripts')
+    <script>
+        const productListData = @json($productsArray);
+    </script>
+
     <!-- nouisliderribute js -->
     <script src="{{ URL::asset('build/libs/nouislider/nouislider.min.js') }}"></script>
     <script src="{{ URL::asset('build/libs/wnumb/wNumb.min.js') }}"></script>
