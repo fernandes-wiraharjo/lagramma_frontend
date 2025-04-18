@@ -7,6 +7,12 @@
 
     <!-- nouisliderribute css -->
     <link rel="stylesheet" href="{{ URL::asset('build/libs/nouislider/nouislider.min.css') }}">
+
+    <style>
+        .filter-list a.active {
+            background-color: #94DA25; /* highlight background */
+        }
+    </style>
 @endsection
 @section('content')
     <section class="section pb-0 mt-4">
@@ -43,7 +49,7 @@
                                     <h5 class="fs-16">Filters</h5>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <a href="#" class="text-decoration-underline" id="clearall">Clear All</a>
+                                    <a href="" class="text-decoration-underline" id="clearall">Clear All</a>
                                 </div>
                             </div>
                             <div class="search-box">
@@ -57,6 +63,13 @@
                                 <div>
                                     <p class="text-muted text-uppercase fs-12 fw-medium mb-3">Categories</p>
                                     <ul class="list-unstyled mb-0 filter-list">
+                                        <li>
+                                            <a href="#" class="d-flex py-1 align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <h5 class="fs-13 mb-0 listname">All</h5>
+                                                </div>
+                                            </a>
+                                        </li>
                                         @foreach($categories as $category)
                                             <li>
                                                 <a href="#" class="d-flex py-1 align-items-center">
@@ -480,7 +493,7 @@
                 </div>
                 <div class="flex-grow-1" id="col-3-layout">
                     <div class="d-flex align-items-center gap-2 mb-4">
-                        <p class="text-muted flex-grow-1 mb-0">Showing 1-12 of 84 results</p>
+                        <p id="product-count" class="text-muted flex-grow-1 mb-0">Showing 1-12 of 84 results</p>
 
                         <div class="flex-shrink-0">
                             <div class="d-flex gap-2">
@@ -489,9 +502,9 @@
                                 </div>
                                 <div class="flex-shrink-0">
                                     <select class="form-select w-md" id="sort-elem">
-                                        <option value="">All</option>
-                                        <option value="low_to_high">Low to High</option>
-                                        <option value="high_to_low">High to Low</option>
+                                        <!-- <option value="">All</option> -->
+                                        <option value="a_to_z">A - Z</option>
+                                        <option value="z_to_a">Z - A</option>
                                     </select>
                                 </div>
                             </div>

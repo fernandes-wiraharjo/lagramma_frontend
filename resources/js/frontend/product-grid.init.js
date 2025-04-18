@@ -1,13 +1,3 @@
-/*
-Template Name: Toner eCommerce + Admin HTML Template
-Author: Themesbrand
-Version: 1.2.0
-Website: https://Themesbrand.com/
-Contact: Themesbrand@gmail.com
-File: product grid list init Js File
-*/
-
-
 // var productListData = [{
 //     'id': 1,
 //     "wishList": false,
@@ -141,11 +131,15 @@ File: product grid list init Js File
 //     "color": ["success"],
 // }];
 
+var filteredProductList = productListData;
 var prevButton = document.getElementById('page-prev');
 var nextButton = document.getElementById('page-next');
 
 // configuration variables
 var currentPage = 1;
+var currentCategory = "All";
+var currentSearchTerm = "";
+var currentSortOrder = "asc";
 var itemsPerPage
 
 if (document.getElementById("col-3-layout")) {
@@ -154,8 +148,43 @@ if (document.getElementById("col-3-layout")) {
     itemsPerPage = 9;
 }
 
+function updateProductCount(totalItems, currentPage, itemsPerPage) {
+    const countElement = document.getElementById('product-count');
+
+    const start = (currentPage - 1) * itemsPerPage + 1;
+    const end = Math.min(currentPage * itemsPerPage, totalItems);
+
+    countElement.innerText = `Showing ${start}-${end} of ${totalItems} results`;
+}
+
 loadProductList(productListData, currentPage);
 paginationEvents();
+
+function applyFilters() {
+    let result = productListData;
+
+    // filter by category
+    if (currentCategory !== "All") {
+        result = result.filter(item => item.category === currentCategory);
+    }
+
+    // filter by search term
+    if (currentSearchTerm.trim() !== "") {
+        result = result.filter(item => item.productTitle.toLowerCase().includes(currentSearchTerm.toLowerCase()));
+    }
+
+    // sort after filtering
+    if (currentSortOrder === "asc") {
+        result.sort((a, b) => a.productTitle.localeCompare(b.productTitle));
+    } else if (currentSortOrder === "desc") {
+        result.sort((a, b) => b.productTitle.localeCompare(a.productTitle));
+    }
+
+    filteredProductList = result;
+    currentPage = 1; // reset to first page
+    searchResult(filteredProductList);
+    loadProductList(filteredProductList, currentPage);
+}
 
 function loadProductList(datas, page) {
     var pages = Math.ceil(datas.length / itemsPerPage)
@@ -339,6 +368,7 @@ function loadProductList(datas, page) {
             }
         }
     }
+    updateProductCount(datas.length, page, itemsPerPage);
     selectedPage();
     currentPage == 1 ? prevButton.parentNode.classList.add('disabled') : prevButton.parentNode.classList.remove('disabled');
     currentPage == pages ? nextButton.parentNode.classList.add('disabled') : nextButton.parentNode.classList.remove('disabled');
@@ -358,14 +388,14 @@ function selectedPage() {
 // paginationEvents
 function paginationEvents() {
     var numPages = function numPages() {
-        return Math.ceil(productListData.length / itemsPerPage);
+        return Math.ceil(filteredProductList.length / itemsPerPage);
     };
 
     function clickPage() {
         document.addEventListener('click', function (e) {
             if (e.target.nodeName == "A" && e.target.classList.contains("clickPageNumber")) {
                 currentPage = e.target.textContent;
-                loadProductList(productListData, currentPage);
+                loadProductList(filteredProductList, currentPage);
             }
         });
     };
@@ -382,14 +412,14 @@ function paginationEvents() {
     prevButton.addEventListener('click', function () {
         if (currentPage > 1) {
             currentPage--;
-            loadProductList(productListData, currentPage);
+            loadProductList(filteredProductList, currentPage);
         }
     });
 
     nextButton.addEventListener('click', function () {
         if (currentPage < numPages()) {
             currentPage++;
-            loadProductList(productListData, currentPage);
+            loadProductList(filteredProductList, currentPage);
         }
     });
 
@@ -423,26 +453,31 @@ Array.from(document.querySelectorAll('.filter-list a')).forEach(function (filter
         if (filterListItem) filterListItem.classList.remove("active");
         filteritem.classList.add('active');
 
-        var filterItemValue = filteritem.querySelector(".listname").innerHTML
-        var filterData = productListData.filter(filterlist => filterlist.category === filterItemValue);
+        // var filterItemValue = filteritem.querySelector(".listname").innerHTML
+        // var filterData = productListData.filter(filterlist => filterlist.category === filterItemValue);
 
-        searchResult(filterData);
-        loadProductList(filterData, currentPage);
+        // searchResult(filterData);
+        // loadProductList(filterData, currentPage);
+        currentCategory = filteritem.querySelector(".listname").innerHTML;
+        applyFilters();
     });
 })
 
 // Search product list
 var searchProductList = document.getElementById("searchProductList");
 searchProductList.addEventListener("keyup", function () {
-    var inputVal = searchProductList.value.toLowerCase();
-    function filterItems(arr, query) {
-        return arr.filter(function (el) {
-            return el.productTitle.toLowerCase().indexOf(query.toLowerCase()) !== -1
-        })
-    }
-    var filterData = filterItems(productListData, inputVal);
-    searchResult(filterData);
-    loadProductList(filterData, currentPage);
+    // var inputVal = searchProductList.value.toLowerCase();
+    // function filterItems(arr, query) {
+    //     return arr.filter(function (el) {
+    //         return el.productTitle.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    //     })
+    // }
+    // filteredProductList = filterItems(productListData, inputVal);
+    // searchResult(filteredProductList);
+    // currentPage = 1;
+    // loadProductList(filteredProductList, currentPage);
+    currentSearchTerm = searchProductList.value;
+    applyFilters();
 });
 
 
@@ -609,9 +644,9 @@ document.querySelectorAll("#size-filter li").forEach(function (item) {
 
 document.getElementById("sort-elem").addEventListener("change", function (e) {
     var inputVal = e.target.value
-    if (inputVal == "low_to_high") {
+    if (inputVal == "a_to_z") {
         sortElementsByAsc();
-    } else if (inputVal == "high_to_low") {
+    } else if (inputVal == "z_to_a") {
         sortElementsByDesc();
     } else if (inputVal == "") {
         sortElementsById()
@@ -620,50 +655,54 @@ document.getElementById("sort-elem").addEventListener("change", function (e) {
 
 // sort element ascending
 function sortElementsByAsc() {
-    var list = productListData.sort(function (a, b) {
-        var text = a.discount;
-        var myArray = text.split("%");
-        var discount = myArray[0];
-        var x = a.price - (a.price * discount / 100);
+    // var list = productListData.sort(function (a, b) {
+        // var text = a.discount;
+        // var myArray = text.split("%");
+        // var discount = myArray[0];
+        // var x = a.price - (a.price * discount / 100);
 
-        var text1 = b.discount;
-        var myArray1 = text1.split("%");
-        var discount = myArray1[0];
-        var y = b.price - (b.price * discount / 100);
+        // var text1 = b.discount;
+        // var myArray1 = text1.split("%");
+        // var discount = myArray1[0];
+        // var y = b.price - (b.price * discount / 100);
 
-        if (x < y) {
-            return -1;
-        }
-        if (x > y) {
-            return 1;
-        }
-        return 0;
-    })
-    loadProductList(list, currentPage);
+        // if (x < y) {
+        //     return -1;
+        // }
+        // if (x > y) {
+        //     return 1;
+        // }
+        // return 0;
+    // })
+    // loadProductList(list, currentPage);
+    currentSortOrder = "asc";
+    applyFilters();
 }
 
 // sort element descending
 function sortElementsByDesc() {
-    var list = productListData.sort(function (a, b) {
-        var text = a.discount;
-        var myArray = text.split("%");
-        var discount = myArray[0];
-        var x = a.price - (a.price * discount / 100);
+    // var list = productListData.sort(function (a, b) {
+        // var text = a.discount;
+        // var myArray = text.split("%");
+        // var discount = myArray[0];
+        // var x = a.price - (a.price * discount / 100);
 
-        var text1 = b.discount;
-        var myArray1 = text1.split("%");
-        var discount = myArray1[0];
-        var y = b.price - (b.price * discount / 100);
+        // var text1 = b.discount;
+        // var myArray1 = text1.split("%");
+        // var discount = myArray1[0];
+        // var y = b.price - (b.price * discount / 100);
 
-        if (x > y) {
-            return -1;
-        }
-        if (x < y) {
-            return 1;
-        }
-        return 0;
-    })
-    loadProductList(list, currentPage);
+        // if (x > y) {
+        //     return -1;
+        // }
+        // if (x < y) {
+        //     return 1;
+        // }
+        // return 0;
+    // })
+    // loadProductList(list, currentPage);
+    currentSortOrder = "desc";
+    applyFilters();
 }
 
 // sort element id
