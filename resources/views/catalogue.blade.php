@@ -591,8 +591,8 @@
     <script src="{{ URL::asset('build/libs/nouislider/nouislider.min.js') }}"></script>
     <script src="{{ URL::asset('build/libs/wnumb/wNumb.min.js') }}"></script>
 
-    <!-- Product-grid init js -->
-    <script src="{{ URL::asset('build/js/frontend/product-grid.init.js') }}"></script>
+    <!-- Catalogue init js -->
+    <script src="{{ URL::asset('build/js/frontend/catalogue.init.js') }}"></script>
     <!-- coming-soon -->
     <script src="{{ URL::asset('build/js/pages/coming-soon.init.js') }}"></script>
 

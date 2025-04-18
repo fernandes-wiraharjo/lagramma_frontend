@@ -34,4 +34,12 @@ class CatalogueController extends Controller
 
         return view('catalogue', compact('categories', 'products', 'productsArray'));
     }
+
+    public function getByID($id) {
+        $product = Product::with('images', 'mainImage')
+            ->where('id', $id)
+            ->first();
+
+        return view('product-detail', compact('product'));
+    }
 }
