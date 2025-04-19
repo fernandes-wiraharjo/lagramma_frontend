@@ -32,6 +32,15 @@
                                             </div>
                                         </div>
                                     @endforeach
+
+                                    {{-- Fallback image if no images are present --}}
+                                    @if($product->mainImage == null && $product->images->isEmpty())
+                                        <div class="swiper-slide">
+                                            <div class="product-thumb rounded cursor-pointer">
+                                                <img src="{{ asset('images/no_image.jpg') }}" alt="No Image" class="img-fluid" />
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -57,6 +66,13 @@
                                                 <img src="{{ asset(config('app.backend_url') . '/storage/' . ($image->image_path ?? '')) }}" alt="" class="img-fluid" />
                                             </div>
                                         @endforeach
+
+                                        {{-- Fallback image if no images are present --}}
+                                        @if($product->mainImage == null && $product->images->isEmpty())
+                                            <div class="swiper-slide">
+                                                <img src="{{ asset('images/no_image.jpg') }}" alt="No Image" class="img-fluid" />
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="swiper-button-next bg-transparent"></div>
                                     <div class="swiper-button-prev bg-transparent"></div>

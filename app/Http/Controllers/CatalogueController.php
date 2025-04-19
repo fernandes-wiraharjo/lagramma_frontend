@@ -22,7 +22,7 @@ class CatalogueController extends Controller
                 'wishList' => false,
                 'productImg' => $product->mainImage?->image_path
                     ? asset(config('app.backend_url') . '/storage/' . $product->mainImage->image_path)
-                    : '',
+                    : asset('images/no_image.jpg'),
                 'productTitle' => $product->name,
                 'category' => $product->category->name ?? 'Uncategorized',
                 'price' => '0.00',
