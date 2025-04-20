@@ -84,10 +84,10 @@
                             <div class="mt-3">
                                 <div class="hstack gap-2">
                                     <button type="button" class="btn btn-success btn-hover w-100">
-                                        <i class="bi bi-basket2 me-2"></i> Add To Cart
+                                        <i class="bi bi-cart2 me-2"></i> Add To Cart
                                     </button>
                                     <button type="button" class="btn btn-primary btn-hover w-100">
-                                        <i class="bi bi-cart2 me-2"></i> Buy Now
+                                        <i class="bi bi-basket2 me-2"></i> Buy Now
                                     </button>
                                     <!-- <button class="btn btn-soft-danger custom-toggle btn-hover" data-bs-toggle="button"
                                         aria-pressed="true"> <span class="icon-on"><i class="ri-heart-line"></i></span>
@@ -103,58 +103,9 @@
                 <div class="col-lg-5 ms-auto">
                     <div class="ecommerce-product-widgets mt-4 mt-lg-0">
                         <div class="mb-4">
-                            <div class="d-flex gap-3 mb-2">
-                                <div class="fs-15 text-warning">
-                                    <i class="ri-star-fill align-bottom"></i>
-                                    <i class="ri-star-fill align-bottom"></i>
-                                    <i class="ri-star-fill align-bottom"></i>
-                                    <i class="ri-star-fill align-bottom"></i>
-                                    <i class="ri-star-half-fill align-bottom"></i>
-                                </div>
-                                <span class="fw-medium"> (50 Review)</span>
-                            </div>
-                            <h4 class="lh-base mb-1">Opinion Striped Round Neck Green T-shirt</h4>
-                            <p class="text-muted mb-4">The best part about stripped t shirt denim & white sneakers or wear
-                                it with a cool chinos and blazer to dress up <a href="javascript:void(0);"
-                                    class="link-info">Read More</a></p>
+                            <h4 class="lh-base mb-1">{{ $product->name }}</h4>
                             <h5 class="fs-24 mb-4">$185.79 <span class="text-muted fs-14"><del>$280.99</del></span> <span
                                     class="fs-14 ms-2 text-danger"> (50% off)</span></h5>
-                            <ul class="list-unstyled vstack gap-2">
-                                <li class=""><i class="bi bi-check2-circle me-2 align-middle text-success"></i>In
-                                    stock</li>
-                                <li class=""><i class="bi bi-check2-circle me-2 align-middle text-success"></i>Free
-                                    delivery available</li>
-                                <li class=""><i class="bi bi-check2-circle me-2 align-middle text-success"></i>Sales
-                                    10% Off Use Code: <b>FASHION10</b></li>
-                            </ul>
-                            <h6 class="fs-14 text-muted mb-3">Available offers :</h6>
-                            <ul class="list-unstyled vstack gap-2 mb-0">
-                                <li>
-                                    <div class="d-flex gap-3">
-                                        <div class="flex-shrink-0">
-                                            <i class="bi bi-tag-fill text-success align-middle fs-15"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <b>Bank Offer</b> 10% instant discount on Federal Bank Debit Cards, up to ₹3000
-                                            on orders of ₹5,000 and above <a href="#!" data-bs-toggle="tooltip"
-                                                data-bs-title="Terms & Conditions">T&C</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="d-flex gap-3">
-                                        <div class="flex-shrink-0">
-                                            <i class="bi bi-tag-fill text-success align-middle fs-15"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <b>Bank Offer</b> 10% instant discount on Federal Bank Debit Cards, up to ₹3000
-                                            on orders of ₹5,000 and above <a href="#!" data-bs-toggle="tooltip"
-                                                data-bs-title="Terms & Conditions">T&C</a>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
                         <div class="d-flex align-items-center mb-4">
                             <h5 class="fs-15 mb-0">Quantity:</h5>
                             <div class="input-step ms-2">
