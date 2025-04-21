@@ -37,7 +37,7 @@ class CatalogueController extends Controller
     }
 
     public function getByID($id) {
-        $product = Product::with('images', 'mainImage')
+        $product = Product::with('images', 'mainImage', 'variants', 'category', 'modifiers.modifier.options')
             ->where('id', $id)
             ->first();
 
