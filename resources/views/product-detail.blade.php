@@ -138,6 +138,7 @@
                     data-category="{{ strtolower($product->category->name) }}"
                     @if(strtolower($product->category->name) === 'hampers' && $product->variants->first())
                         data-base-price="{{ $product->variants->first()->price }}"
+                        data-stock="{{ $product->variants->first()->stock }}"
                     @endif>
                 </div>
 
@@ -187,14 +188,21 @@
                                                     } else {
                                                         $price = $variant->price ?? 0;
                                                     }
+
+                                                    $isOutOfStock = $variant->stock <= 0;
                                                 @endphp
                                                 <li>
                                                     <input type="radio" name="variant" id="{{ $inputId }}" value="{{ $price }}"
-                                                        data-variant-id="{{ $variant->id }}"
+                                                        data-variant-id="{{ $variant->id }}" {{ $isOutOfStock ? 'disabled' : '' }}
                                                     >
-                                                    <label class="variant-label btn btn-soft-primary text-uppercase p-0 px-3 py-1 fs-12 d-flex align-items-center justify-content-center rounded-pill text-wrap text-center"
+                                                    <label class="variant-label btn btn-soft-primary text-uppercase p-0
+                                                     px-3 py-1 fs-12 d-flex align-items-center justify-content-center
+                                                     rounded-pill text-wrap text-center {{ $isOutOfStock ? 'disabled text-muted' : '' }}"
                                                         for="{{ $inputId }}">
                                                         {{ $variantName }}
+                                                        @if($isOutOfStock)
+                                                            <span class="ms-1">(Out of Stock)</span>
+                                                        @endif
                                                     </label>
                                                 </li>
                                             @endforeach

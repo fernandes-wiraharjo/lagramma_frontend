@@ -38,10 +38,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const productCategory = productInfo?.dataset.category || '';
     const isHampers = productCategory === 'hampers';
     let basePrice = 0;
+    let hamperStock = 0;
     let quantity = parseInt(quantityInput.value);
 
     if (isHampers && productInfo.dataset.basePrice) {
-        basePrice = parseInt(productInfo.dataset.basePrice);
+        hamperStock = parseInt(productInfo.dataset.stock);
+        basePrice = hamperStock <= 0 ? 0 : parseInt(productInfo.dataset.basePrice);
         updateTotalPrice(); // Immediately show total
     }
 
@@ -56,6 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateTotalPrice() {
         if (basePrice === 0) {
+            if (hamperStock <= 0) {
+                basePriceEl.innerHTML = '<span class="text-danger fs-14 fst-italic ms-2">(Out of Stock)</span>'
+            }
             totalPriceEl.classList.add('d-none');
             return;
         }
@@ -63,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const modifierPrice = getSelectedModifierTotal();
         const total = (basePrice + modifierPrice) * quantity;
 
-        basePriceEl.textContent = `Rp ${formatRupiah(basePrice)}`;
+        basePriceEl.innerHTML = `Rp ${formatRupiah(basePrice)}`;
         totalPriceEl.textContent = `Total Harga: Rp ${formatRupiah(total)}`;
         totalPriceEl.classList.remove('d-none');
     }
