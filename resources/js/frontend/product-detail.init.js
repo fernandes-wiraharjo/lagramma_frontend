@@ -34,6 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const plusBtn = document.getElementById('btn-plus');
     const totalPriceEl = document.getElementById('total-price');
     const basePriceEl = document.getElementById('base-price');
+    const addToCartBtn = document.getElementById('btn-add-to-cart');
+    const buyNowBtn = document.getElementById('btn-buy-now');
 
     //get product info and init variable
     const productInfo = document.getElementById('product-info');
@@ -42,6 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let basePrice = 0;
     let hamperStock = 0;
     let quantity = parseInt(quantityInput.value);
+
+    addToCartBtn.disabled = false;
+    buyNowBtn.disabled = false;
 
     //js for hampers item
     if (isHampers && productInfo.dataset.basePrice) {
@@ -90,6 +95,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 updateTotalPrice();
             });
         });
+
+        addToCartBtn.disabled = true
+        buyNowBtn.disabled = true
     }
 
     //general function
@@ -107,9 +115,14 @@ document.addEventListener('DOMContentLoaded', function () {
             if (hamperStock <= 0 && isHampers) {
                 basePriceEl.innerHTML = '<span class="text-danger fs-14 fst-italic ms-2">(Out of Stock)</span>'
             }
+            addToCartBtn.disabled = true;
+            buyNowBtn.disabled = true;
             totalPriceEl.classList.add('d-none');
             return;
         }
+
+        addToCartBtn.disabled = false;
+        buyNowBtn.disabled = false;
 
         const modifierPrice = getSelectedModifierTotal();
         const total = (basePrice + modifierPrice) * quantity;

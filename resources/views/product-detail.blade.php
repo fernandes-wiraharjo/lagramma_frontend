@@ -115,10 +115,10 @@
                         <div class="col-lg-12">
                             <div class="mt-3">
                                 <div class="hstack gap-2">
-                                    <button type="button" class="btn btn-success btn-hover w-100">
+                                    <button id="btn-add-to-cart" type="button" class="btn btn-success btn-hover w-100">
                                         <i class="bi bi-cart2 me-2"></i> Add To Cart
                                     </button>
-                                    <button type="button" class="btn btn-primary btn-hover w-100">
+                                    <button id="btn-buy-now" type="button" class="btn btn-primary btn-hover w-100">
                                         <i class="bi bi-basket2 me-2"></i> Buy Now
                                     </button>
                                     <!-- <button class="btn btn-soft-danger custom-toggle btn-hover" data-bs-toggle="button"
