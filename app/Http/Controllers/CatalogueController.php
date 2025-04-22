@@ -7,13 +7,19 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Carbon;
 
 class CatalogueController extends Controller
 {
     public function index(Request $request) {
+        $today = Carbon::today();
         $categories = Category::where('is_active', true)->get();
         $products = Product::with('category', 'mainImage')
             ->where('is_active', true)
+            ->whereDoesntHave('deactivateDates', function ($query) use ($today) {
+                $query->whereDate('start_date', '<=', $today)
+                      ->whereDate('end_date', '>=', $today);
+            })
             ->orderBy('name', 'asc')
             ->get();
         $productsArray = $products->map(function ($product) {
