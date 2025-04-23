@@ -68,9 +68,16 @@ document.addEventListener('DOMContentLoaded', function () {
             if (totalitemQty > maxItems) {
                 itemQtyInputswarning.style.display = 'block';
                 itemQtyInputs.forEach(input => input.classList.add('is-invalid'));
+                addToCartBtn.disabled = true;
+                buyNowBtn.disabled = true;
             } else {
                 itemQtyInputswarning.style.display = 'none';
                 itemQtyInputs.forEach(input => input.classList.remove('is-invalid'));
+
+                if (hamperStock > 0) {
+                    addToCartBtn.disabled = false;
+                    buyNowBtn.disabled = false;
+                }
             }
         }
 
@@ -152,4 +159,59 @@ document.addEventListener('DOMContentLoaded', function () {
             updateTotalPrice();
         }
     });
+
+    // Add to cart
+    function addToCart() {
+        const payload = {
+            quantity: parseInt(quantityInput.value),
+            is_hampers: isHampers
+        };
+
+        if (isHampers) {
+            // Collect hamper items
+            const hamperItems = {};
+            document.querySelectorAll('.hamper-qty').forEach(input => {
+                const itemIdMatch = input.getAttribute('name').match(/hamper_items\[(\d+)\]/);
+                if (itemIdMatch) {
+                    const itemId = itemIdMatch[1];
+                    const qty = parseInt(input.value) || 0;
+                    if (qty > 0) hamperItems[itemId] = qty;
+                }
+            });
+            if (Object.keys(hamperItems).length === 0) {
+                alert('Please select at least one hamper item.');
+                return;
+            }
+
+            payload.hamper_stock = hamperStock;
+            payload.hamper_items = hamperItems;
+        } else {
+            const variantInput = document.querySelector('input[name="variant"]:checked');
+            if (!variantInput) {
+                alert('Please select a variant.');
+                return;
+            }
+
+            payload.variant_id = variantInput.dataset.variantId;
+        }
+
+        fetch('/add-to-cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message || 'Something went wrong');
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Error occurred.');
+        });
+    }
+
+    addToCartBtn.addEventListener('click', () => addToCart());
 });

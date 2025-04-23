@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Category;
-use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductVariant;
 
 class CatalogueController extends Controller
 {
@@ -48,5 +49,73 @@ class CatalogueController extends Controller
             ->first();
 
         return view('product-detail', compact('product'));
+    }
+
+    public function addToCart(Request $request)
+    {
+        if ($request->is_hampers) {
+            $validated = $request->validate([
+                'hamper_stock' => 'required|integer|min:1',
+                'hamper_items' => 'required|array',
+                'quantity' => 'required|integer|min:1'
+            ]);
+
+            $hamperStock = $validated['hamper_stock'];
+            $hamperItems = $validated['hamper_items'];
+            $quantity = $validated['quantity'];
+
+            if ($hamperStock < $quantity) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Only {$hamperStock} hampers available.",
+                ]);
+            }
+
+            foreach ($hamperItems as $itemId => $qty) {
+                $item = ProductVariant::with('product')->find($itemId);
+                if (!$item || $item->stock < $qty) {
+                    $displayName = $item->name
+                        ? "{$item->product->name} - {$item->name}"
+                        : $item->product->name;
+
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Item '{$displayName}' does not have enough stock.",
+                    ]);
+                }
+            }
+
+            // Add hamper to cart (session/DB logic)
+            // Example:
+            // Cart::addHampers(auth()->id(), $product->id, $hamperItems);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Hampers successfully added to cart!',
+            ]);
+        } else {
+            $validated = $request->validate([
+                'variant_id' => 'required|exists:product_variants,id',
+                'quantity' => 'required|integer|min:1'
+            ]);
+
+            $variant = ProductVariant::find($validated['variant_id']);
+
+            if ($variant->stock < $validated['quantity']) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Only {$variant->stock} items available for this variant.",
+                ]);
+            }
+
+            // Logic to add to cart here (session or DB)
+            // Example:
+            // Cart::add(...)
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Product successfully added to cart!',
+            ]);
+        }
     }
 }

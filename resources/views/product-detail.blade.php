@@ -4,6 +4,7 @@
 @endsection
 @section('css')
     <!-- extra css -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ URL::asset('build/libs/swiper/swiper-bundle.min.css') }}" rel="stylesheet" type="text/css">
 
     <style>
