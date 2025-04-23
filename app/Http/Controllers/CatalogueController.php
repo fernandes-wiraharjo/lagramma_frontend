@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Services\CartService;
 
 class CatalogueController extends Controller
 {
@@ -51,10 +52,11 @@ class CatalogueController extends Controller
         return view('product-detail', compact('product'));
     }
 
-    public function addToCart(Request $request)
-    {
-        if ($request->is_hampers) {
+    public function addToCart(Request $request, CartService $cartService) {
+       if ($request->is_hampers) {
             $validated = $request->validate([
+                'product_id' => 'required|exists:products,id',
+                'variant_id' => 'required|exists:product_variants,id',
                 'hamper_stock' => 'required|integer|min:1',
                 'hamper_items' => 'required|array',
                 'quantity' => 'required|integer|min:1'
@@ -71,30 +73,31 @@ class CatalogueController extends Controller
                 ]);
             }
 
-            foreach ($hamperItems as $itemId => $qty) {
+            $items = [];
+            foreach ($hamperItems as $itemId => $itemQty) {
                 $item = ProductVariant::with('product')->find($itemId);
-                if (!$item || $item->stock < $qty) {
-                    $displayName = $item->name
-                        ? "{$item->product->name} - {$item->name}"
-                        : $item->product->name;
+                $displayName = $item->name
+                    ? "{$item->product->name} - {$item->name}"
+                    : $item->product->name;
 
+                if (!$item || $item->stock < ($itemQty * $quantity)) {
                     return response()->json([
                         'success' => false,
                         'message' => "Item '{$displayName}' does not have enough stock.",
                     ]);
                 }
+
+                $items[] = [
+                    'product_id' => $item->product->id,
+                    'product_name' => $item->product->name,
+                    'id' => $itemId, //variant id
+                    'name' => $displayName, //variant name
+                    'quantity' => (int) $itemQty,
+                ];
             }
-
-            // Add hamper to cart (session/DB logic)
-            // Example:
-            // Cart::addHampers(auth()->id(), $product->id, $hamperItems);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Hampers successfully added to cart!',
-            ]);
         } else {
             $validated = $request->validate([
+                'product_id' => 'required|exists:products,id',
                 'variant_id' => 'required|exists:product_variants,id',
                 'quantity' => 'required|integer|min:1'
             ]);
@@ -107,15 +110,25 @@ class CatalogueController extends Controller
                     'message' => "Only {$variant->stock} items available for this variant.",
                 ]);
             }
-
-            // Logic to add to cart here (session or DB)
-            // Example:
-            // Cart::add(...)
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Product successfully added to cart!',
-            ]);
         }
+
+        //logic add to cart
+        $cartService->addItem([
+            'product_id' => $request->product_id,
+            'product_variant_id' => $request->variant_id,
+            'product_name' => $request->product_name,
+            'product_variant_name' => $request->variant_name,
+            'type' => $request->type, // 'hampers' or 'product'
+            'image' => $request->main_image,
+            'quantity' => $request->quantity,
+            'price' => $request->price,
+            'modifiers' => $request->modifiers ?? [],
+            'items' => $items ?? [] // only for hampers
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Product successfully added to cart!',
+        ]);
     }
 }

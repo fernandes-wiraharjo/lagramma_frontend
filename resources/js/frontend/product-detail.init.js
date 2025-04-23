@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', function () {
     //get product info and init variable
     const productInfo = document.getElementById('product-info');
     const productCategory = productInfo?.dataset.category || '';
+    const productId = productInfo?.dataset.productId || '';
+    const productName = productInfo?.dataset.productName || '';
+    const productMainImage = productInfo?.dataset.mainImage || '';
     const isHampers = productCategory === 'hampers';
     let basePrice = 0;
     let hamperStock = 0;
@@ -164,10 +167,17 @@ document.addEventListener('DOMContentLoaded', function () {
     function addToCart() {
         const payload = {
             quantity: parseInt(quantityInput.value),
-            is_hampers: isHampers
+            is_hampers: isHampers,
+            product_id: productId,
+            product_name: productName,
+            type: isHampers ? "hampers" : "product",
+            main_image: productMainImage
         };
 
         if (isHampers) {
+            const hamperVariantId = productInfo.dataset.hampersVariantId;
+            const hamperVariantName = productInfo.dataset.hampersVariantName;
+
             // Collect hamper items
             const hamperItems = {};
             document.querySelectorAll('.hamper-qty').forEach(input => {
@@ -185,6 +195,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             payload.hamper_stock = hamperStock;
             payload.hamper_items = hamperItems;
+            payload.variant_id = hamperVariantId;
+            payload.variant_name = hamperVariantName;
+            payload.price = basePrice;
         } else {
             const variantInput = document.querySelector('input[name="variant"]:checked');
             if (!variantInput) {
@@ -192,7 +205,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
+            const selectedModifiers = [];
+            document.querySelectorAll('input[name="modifier_option[]"]:checked').forEach(el => {
+                selectedModifiers.push({
+                    modifier_id: el.dataset.modifierId,              // add this as hidden input or data attribute
+                    modifier_name: el.dataset.modifierName,          // add this too
+                    modifier_option_id: el.id.replace('modifier-option-', ''),
+                    modifier_option_name: el.dataset.optionName,
+                    price: el.value
+                });
+            });
+
             payload.variant_id = variantInput.dataset.variantId;
+            payload.variant_name = variantInput.dataset.variantName;
+            payload.price = variantInput.value;
+            payload.modifiers = selectedModifiers;
         }
 
         fetch('/add-to-cart', {
@@ -206,6 +233,9 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(res => res.json())
         .then(data => {
             alert(data.message || 'Something went wrong');
+            if (data.success) {
+                location.reload();
+            }
         })
         .catch(err => {
             console.error(err);

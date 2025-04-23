@@ -367,9 +367,16 @@
                 <i class="bx bx-search fs-22"></i>
             </button> -->
             <div class="topbar-head-dropdown ms-1 header-item">
+                @php
+                    $cart = session('shopping_cart', []);
+                    $cartCount = count($cart);
+                    $subtotal = collect($cart)->sum('total_price');
+                @endphp
                 <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" aria-controls="ecommerceCart">
                     <i class="ph-shopping-cart fs-18"></i>
-                    <span class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">4</span>
+                    @if ($cartCount > 0)
+                        <span class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">4</span>
+                    @endif
                 </button>
             </div>
 
@@ -415,13 +422,17 @@
 <!--cart -->
 <div class="offcanvas offcanvas-end product-list" tabindex="-1" id="ecommerceCart" aria-labelledby="ecommerceCartLabel">
     <div class="offcanvas-header border-bottom">
-        <h5 class="offcanvas-title" id="ecommerceCartLabel">My Cart <span class="badge bg-danger align-middle ms-1 cartitem-badge">4</span></h5>
+        <h5 class="offcanvas-title" id="ecommerceCartLabel">My Cart
+            @if ($cartCount > 0)
+                <span class="badge bg-danger align-middle ms-1 cartitem-badge">4</span>
+            @endif
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body px-0">
         <div data-simplebar  class="h-100">
             <ul class="list-group list-group-flush cartlist">
-                <li class="list-group-item product">
+                <!-- <li class="list-group-item product">
                     <div class="d-flex gap-3">
                         <div class="flex-shrink-0">
                             <div class="avatar-md" style="height: 100%;">
@@ -450,97 +461,74 @@
                             <div class="fw-medium mb-0 fs-16">$<span class="product-line-price">48.00</span></div>
                         </div>
                     </div>
-                </li>
-                <li class="list-group-item product">
-                    <div class="d-flex gap-3">
-                        <div class="flex-shrink-0">
-                            <div class="avatar-md" style="height: 100%;">
-                                <div class="avatar-title bg-info-subtle rounded-3">
-                                    <img src="{{ URL::asset('build/images/products/img-1.png') }}" alt="" class="avatar-sm">
+                </li> -->
+                @foreach ($cart as $key => $item)
+                    <li class="list-group-item product">
+                        <div class="d-flex gap-3">
+                            <div class="flex-shrink-0">
+                                <div class="avatar-md" style="height: 100%;">
+                                    <div class="avatar-title bg-warning-subtle rounded-3">
+                                        <img src="{{ $item['image'] }}" alt="{{ $item['product_name'] }}" class="avatar-sm">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="flex-grow-1">
-                            <a href="#!">
-                                <h5 class="fs-15">Rockerz Ear Bluetooth Hea...</h5>
-                            </a>
-                            <div class="d-flex mb-3 gap-2">
-                                <div class="text-muted fw-medium mb-0">$<span class="product-price">160.00</span></div>
-                                <div class="vr"></div>
-                                <span class="text-success fw-medium">In Stock</span>
-                            </div>
-                            <div class="input-step">
-                                <button type="button" class="minus">–</button>
-                                <input type="number" class="product-quantity" value="1" min="0" max="100" readonly>
-                                <button type="button" class="plus">+</button>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0 d-flex flex-column justify-content-between align-items-end">
-                            <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn" data-bs-toggle="modal" data-bs-target="#removeItemModal"><i class="ri-close-fill fs-16"></i></button>
-                            <div class="fw-medium mb-0 fs-16">$<span class="product-line-price">160.00</span></div>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item product">
-                    <div class="d-flex gap-3">
-                        <div class="flex-shrink-0">
-                            <div class="avatar-md" style="height: 100%;">
-                                <div class="avatar-title bg-danger-subtle rounded-3">
-                                    <img src="{{ URL::asset('build/images/products/img-6.png') }}" alt="" class="avatar-sm">
+
+                            <div class="flex-grow-1">
+                                <a href="#!">
+                                    <h5 class="fs-15">
+                                        {{ $item['product_name'] }}{{ !empty($item['product_variant_name']) ? ' - ' . $item['product_variant_name'] : '' }}
+                                    </h5>
+                                </a>
+                                <div class="d-flex mb-3 gap-2">
+                                    <div class="text-muted fw-medium mb-0">Rp<span class="product-price">{{ number_format($item['price'], 0, ',', '.') }}</span></div>
+                                    <div class="vr"></div>
+                                </div>
+
+                                {{-- Show Modifiers if available --}}
+                                @if (!empty($item['modifiers']))
+                                <div class="mt-2">
+                                    <h6 class="fs-13 fw-semibold text-muted mb-1">Topping:</h6>
+                                    <ul class="mb-2 ps-3">
+                                        @foreach ($item['modifiers'] as $modifier)
+                                            <li>
+                                                {{ $modifier['modifier_name'] }}: {{ $modifier['modifier_option_name'] }}
+                                                <span class="text-muted">(+Rp {{ number_format($modifier['price'], 0, ',', '.') }})</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
+
+                                {{-- For Hampers: Show item details --}}
+                                @if ($item['type'] === 'hampers' && !empty($item['items']))
+                                <div class="mt-2">
+                                    <h6 class="fs-13 fw-semibold text-muted mb-1">Items:</h6>
+                                    <ul class="mb-2 ps-3">
+                                        @foreach ($item['items'] as $subItem)
+                                            <li>
+                                                {{ $subItem['name'] }} x {{ $subItem['quantity'] }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
+
+                                <div class="input-step">
+                                    <button type="button" class="minus" data-key="{{ $key }}">–</button>
+                                    <input type="number" class="product-quantity" value="{{ $item['quantity'] }}" min="1" max="100" readonly>
+                                    <button type="button" class="plus" data-key="{{ $key }}">+</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="flex-grow-1">
-                            <a href="#!">
-                                <h5 class="fs-15">Monte Carlo Sweaters</h5>
-                            </a>
-                            <div class="d-flex mb-3 gap-2">
-                                <div class="text-muted fw-medium mb-0">$ <span class="product-price">244.99</span></div>
-                                <div class="vr"></div>
-                                <span class="text-success fw-medium">In Stock</span>
-                            </div>
-                            <div class="input-step">
-                                <button type="button" class="minus">–</button>
-                                <input type="number" class="product-quantity" value="3" min="0" max="100" readonly>
-                                <button type="button" class="plus">+</button>
+
+                            <div class="flex-shrink-0 d-flex flex-column justify-content-between align-items-end">
+                                <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn" data-key="{{ $key }}">
+                                    <i class="ri-close-fill fs-16"></i>
+                                </button>
+                                <div class="fw-medium mb-0 fs-16">Rp<span class="product-line-price">{{ number_format($item['total_price'], 0, ',', '.') }}</span></div>
                             </div>
                         </div>
-                        <div class="flex-shrink-0 d-flex flex-column justify-content-between align-items-end">
-                            <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn" data-bs-toggle="modal" data-bs-target="#removeItemModal"><i class="ri-close-fill fs-16"></i></button>
-                            <div class="fw-medium mb-0 fs-16">$<span class="product-line-price">734.97</span></div>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item product">
-                    <div class="d-flex gap-3">
-                        <div class="flex-shrink-0">
-                            <div class="avatar-md" style="height: 100%;">
-                                <div class="avatar-title bg-primary-subtle rounded-3">
-                                    <img src="{{ URL::asset('build/images/products/img-8.png') }}" alt="" class="avatar-sm">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-grow-1">
-                            <a href="#!">
-                                <h5 class="fs-15">Men's Running Shoes Act...</h5>
-                            </a>
-                            <div class="d-flex mb-3 gap-2">
-                                <div class="text-muted fw-medium mb-0">$<span class="product-price">120.30</span></div>
-                                <div class="vr"></div>
-                                <span class="text-success fw-medium">In Stock</span>
-                            </div>
-                            <div class="input-step">
-                                <button type="button" class="minus">–</button>
-                                <input type="number" class="product-quantity" value="2" min="0" max="100" readonly>
-                                <button type="button" class="plus">+</button>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0 d-flex flex-column justify-content-between align-items-end">
-                            <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn" data-bs-toggle="modal" data-bs-target="#removeItemModal"><i class="ri-close-fill fs-16"></i></button>
-                            <div class="fw-medium mb-0 fs-16">$<span class="product-line-price">240.60</span></div>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                @endforeach
             </ul>
 
             <div class="table-responsive mx-2 border-top border-top-dashed">
@@ -548,20 +536,20 @@
                     <tbody>
                         <tr>
                             <td>Sub Total :</td>
-                            <td class="text-end cart-subtotal">$1183.57</td>
+                            <td class="text-end cart-lg-subtotal">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>Discount <span class="text-muted">(Toner15)</span>:</td>
                             <td class="text-end cart-discount">- $177.54</td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td>Shipping Charge :</td>
-                            <td class="text-end cart-shipping">$65.00</td>
+                            <td class="text-end cart-shipping">-</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>Estimated Tax (12.5%) : </td>
                             <td class="text-end cart-tax">$147.95</td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -571,7 +559,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h6 class="m-0 fs-16 text-muted">Total:</h6>
             <div class="px-2">
-                <h6 class="m-0 fs-16 cart-total">$1218.98</h6>
+                <h6 class="m-0 fs-16 cart-total">-</h6>
             </div>
         </div>
         <div class="row g-2">

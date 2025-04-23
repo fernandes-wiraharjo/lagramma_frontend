@@ -136,11 +136,18 @@
 
                 {{-- Hidden inputs or data attributes for JS --}}
                 <div id="product-info" hidden
+                    data-product-id="{{ $product->id }}"
+                    data-product-name="{{ $product->name }}"
                     data-category="{{ strtolower($product->category->name) }}"
+                    data-main-image="{{ $product->mainImage?->image_path
+                        ? asset(config('app.backend_url') . '/storage/' . $product->mainImage->image_path)
+                        : asset('images/no_image.jpg') }}"
                     @if(strtolower($product->category->name) === 'hampers' && $product->variants->first())
                         data-base-price="{{ $product->variants->first()->price }}"
                         data-stock="{{ $product->variants->first()->stock }}"
                         data-max-items="{{ $product->hamperSetting->max_items }}"
+                        data-hampers-variant-id="{{ $product->variants->first()->id }}"
+                        data-hampers-variant-name="{{ $product->variants->first()->name }}"
                     @endif>
                 </div>
 
@@ -236,7 +243,7 @@
                                                 @endphp
                                                 <li>
                                                     <input type="radio" name="variant" id="{{ $inputId }}" value="{{ $price }}"
-                                                        data-variant-id="{{ $variant->id }}" {{ $isOutOfStock ? 'disabled' : '' }}
+                                                        data-variant-id="{{ $variant->id }}" data-variant-name="{{ $variant->name }}" {{ $isOutOfStock ? 'disabled' : '' }}
                                                     >
                                                     <label class="variant-label btn btn-soft-primary text-uppercase p-0
                                                      px-3 py-1 fs-12 d-flex align-items-center justify-content-center
@@ -262,6 +269,7 @@
                                                 <li>
                                                     <input type="checkbox" name="modifier_option[]" id="modifier-option-{{ $option->id }}"
                                                         value="{{ $option->price }}" data-option-name="{{ $option->name }}"
+                                                        data-modifier-id="{{ $productModifier->modifier->id }}" data-modifier-name="{{ $productModifier->modifier->name }}"
                                                     >
                                                     <label
                                                         class="btn btn-outline-primary text-capitalize px-3 py-1 fs-12 d-flex align-items-center justify-content-center rounded-pill"

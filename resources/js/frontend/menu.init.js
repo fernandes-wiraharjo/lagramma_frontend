@@ -217,26 +217,26 @@ function isCustomDropdown() {
         })
 
         function recalculateCart(elm) {
-            var subtotal = 0;
+            // var subtotal = 0;
 
-            Array.from(elm.getElementsByClassName("product")).forEach(function (item) {
-                Array.from(item.getElementsByClassName('product-line-price')).forEach(function (e) {
-                    subtotal += parseFloat(e.innerHTML);
-                });
-            });
+            // Array.from(elm.getElementsByClassName("product")).forEach(function (item) {
+            //     Array.from(item.getElementsByClassName('product-line-price')).forEach(function (e) {
+            //         subtotal += parseFloat(e.innerHTML);
+            //     });
+            // });
 
-            /* Calculate totals */
-            var tax = subtotal * taxRate;
-            var discount = subtotal * discountRate;
+            // /* Calculate totals */
+            // var tax = subtotal * taxRate;
+            // var discount = subtotal * discountRate;
 
-            var shipping = (subtotal > 0 ? shippingRate : 0);
-            var total = subtotal + tax + shipping - discount;
+            // var shipping = (subtotal > 0 ? shippingRate : 0);
+            // var total = subtotal + tax + shipping - discount;
 
-            elm.querySelector(".cart-subtotal").innerHTML = currencySign + subtotal.toFixed(2);
-            elm.querySelector(".cart-tax").innerHTML = currencySign + tax.toFixed(2);
-            elm.querySelector(".cart-shipping").innerHTML = currencySign + shipping.toFixed(2);
-            elm.querySelector(".cart-total").innerHTML = currencySign + total.toFixed(2);
-            elm.querySelector(".cart-discount").innerHTML = "-" + currencySign + discount.toFixed(2);
+            // elm.querySelector(".cart-subtotal").innerHTML = currencySign + subtotal.toFixed(2);
+            // elm.querySelector(".cart-tax").innerHTML = currencySign + tax.toFixed(2);
+            // elm.querySelector(".cart-shipping").innerHTML = currencySign + shipping.toFixed(2);
+            // elm.querySelector(".cart-total").innerHTML = currencySign + total.toFixed(2);
+            // elm.querySelector(".cart-discount").innerHTML = "-" + currencySign + discount.toFixed(2);
         }
 
         function updateQuantity(quantityInput) {
