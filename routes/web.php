@@ -26,6 +26,8 @@ Auth::routes();
 Route::get('/', [CatalogueController::class, 'index']);
 Route::get('/product-detail/{id}', [CatalogueController::class, 'getByID']);
 Route::post('/add-to-cart', [CatalogueController::class, 'addToCart']);
+Route::post('/cart/update-quantity', [CatalogueController::class, 'updateCartQuantity']);
+Route::post('/cart/remove', [CatalogueController::class, 'removeCartItem']);
 
 Route::middleware(['auth'])->group(function () {
     // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');

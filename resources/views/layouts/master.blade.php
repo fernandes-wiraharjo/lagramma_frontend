@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="La gramma store" name="description">
     <meta content="Fernandes Wiraharjo" name="author">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('build/images/favicon.ico') }}">
 
@@ -131,6 +132,103 @@
             })
             .catch(err => console.error('Error during logout:', err));
         }
+
+        function numberFormat(value) {
+            return value.toLocaleString('id-ID');
+        }
+
+        // -- CART SECTION
+        function updateCartSubTotal(subtotal) {
+            const subTotalElement = document.querySelector('.cart-lg-subtotal');
+            if (subTotalElement) {
+                subTotalElement.textContent = 'Rp' + numberFormat(subtotal);
+            }
+        }
+
+        // Handle plus button
+        document.querySelectorAll('.cart-header-plus').forEach(button => {
+            button.addEventListener('click', function () {
+                const key = this.dataset.key;
+                const qtyInput = document.querySelector(`.product-quantity[data-key="${key}"]`);
+                let qty = parseInt(qtyInput.value);
+
+                if (qty < 100) {
+                    qty++;
+                    qtyInput.value = qty;
+                    updateCartQuantity(key, qty, 1);
+                }
+            });
+        });
+
+        // Handle minus button
+        document.querySelectorAll('.cart-header-minus').forEach(button => {
+            button.addEventListener('click', function () {
+                const key = this.dataset.key;
+                const qtyInput = document.querySelector(`.product-quantity[data-key="${key}"]`);
+                let qty = parseInt(qtyInput.value);
+
+                if (qty > 1) {
+                    qty--;
+                    qtyInput.value = qty;
+                    updateCartQuantity(key, qty, -1);
+                }
+            });
+        });
+
+        // Handle remove item button
+        document.querySelectorAll('.remove-item-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const key = this.dataset.key;
+                removeCartItem(key);
+            });
+        });
+
+        function updateCartQuantity(key, qty, change) {
+            const linePriceSpan = document.querySelector(`.product-line-price[data-key="${key}"]`);
+            const pricePerItem = parseInt(linePriceSpan.dataset.price); // store base price in data-price
+
+            if (qty < 1 || qty > 100) return;
+
+            fetch(`/cart/update-quantity`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ key: key, change: change })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    linePriceSpan.textContent = numberFormat(pricePerItem * qty);
+                    updateCartSubTotal(data.subtotal);
+                } else {
+                    alert(data.message || 'Something went wrong. Page will be reloaded for data consistency');
+                    location.reload();
+                }
+            });
+        }
+
+        function removeCartItem(key) {
+            fetch(`/cart/remove`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ key: key })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Product successfully removed from cart!');
+                    location.reload();
+                } else {
+                    alert(data.message || 'Failed to remove item.');
+                }
+            });
+        }
+        // END OF CART SECTION --
     </script>
 </body>
 

@@ -375,7 +375,7 @@
                 <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" aria-controls="ecommerceCart">
                     <i class="ph-shopping-cart fs-18"></i>
                     @if ($cartCount > 0)
-                        <span class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">4</span>
+                        <span class="position-absolute topbar-badge lg-cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $cartCount }}</span>
                     @endif
                 </button>
             </div>
@@ -424,7 +424,7 @@
     <div class="offcanvas-header border-bottom">
         <h5 class="offcanvas-title" id="ecommerceCartLabel">My Cart
             @if ($cartCount > 0)
-                <span class="badge bg-danger align-middle ms-1 cartitem-badge">4</span>
+                <span class="badge bg-danger align-middle ms-1 lg-cartitem-badge">{{ $cartCount }}</span>
             @endif
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -514,9 +514,9 @@
                                 @endif
 
                                 <div class="input-step">
-                                    <button type="button" class="minus" data-key="{{ $key }}">–</button>
-                                    <input type="number" class="product-quantity" value="{{ $item['quantity'] }}" min="1" max="100" readonly>
-                                    <button type="button" class="plus" data-key="{{ $key }}">+</button>
+                                    <button type="button" class="cart-header-minus" data-key="{{ $key }}">–</button>
+                                    <input type="number" class="product-quantity" data-key="{{ $key }}" value="{{ $item['quantity'] }}" min="1" max="100" readonly>
+                                    <button type="button" class="cart-header-plus" data-key="{{ $key }}">+</button>
                                 </div>
                             </div>
 
@@ -524,7 +524,12 @@
                                 <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn" data-key="{{ $key }}">
                                     <i class="ri-close-fill fs-16"></i>
                                 </button>
-                                <div class="fw-medium mb-0 fs-16">Rp<span class="product-line-price">{{ number_format($item['total_price'], 0, ',', '.') }}</span></div>
+                                <div class="fw-medium mb-0 fs-16">
+                                    Rp<span class="product-line-price" data-key="{{ $key }}"
+                                        data-price="{{ $item['price'] }}">
+                                        {{ number_format($item['total_price'], 0, ',', '.') }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </li>

@@ -131,4 +131,33 @@ class CatalogueController extends Controller
             'message' => 'Product successfully added to cart!',
         ]);
     }
+
+    public function updateCartQuantity(Request $request, CartService $cartService)
+    {
+        try {
+            $key = $request->key;
+            $change = (int) $request->change;
+
+            $cartService->updateItemQuantity($key, $change);
+
+            $cart = session('shopping_cart', []);
+            $subtotal = collect($cart)->sum('total_price');
+            return response()->json(['success' => true, 'subtotal' => $subtotal]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to update cart quantity. ' . $e->getMessage() . '. Page will be reloaded for data consistency']);
+        }
+    }
+
+    public function removeCartItem(Request $request, CartService $cartService)
+    {
+        try {
+            $key = $request->key;
+            $cartService->removeItem($key);
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to remove cart item. ' . $e->getMessage()]);
+        }
+    }
+
 }

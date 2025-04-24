@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class CartService
 {
@@ -44,16 +45,17 @@ class CartService
         $this->saveCart($cart);
     }
 
-    public function updateItemQuantity($key, $quantity)
+    public function updateItemQuantity($key, $change)
     {
         $cart = $this->getCart();
 
         if (isset($cart[$key])) {
-            if ($quantity < 1) {
+            $cart[$key]['quantity'] += $change;
+
+            if ($cart[$key]['quantity'] < 1) {
                 unset($cart[$key]);
             } else {
-                $cart[$key]['quantity'] = $quantity;
-                $cart[$key]['total_price'] = $quantity * ($cart[$key]['price'] + collect($cart[$key]['modifiers'])->sum('price'));
+                $cart[$key]['total_price'] = $cart[$key]['quantity'] * ($cart[$key]['price'] + collect($cart[$key]['modifiers'])->sum('price'));
             }
         }
 
