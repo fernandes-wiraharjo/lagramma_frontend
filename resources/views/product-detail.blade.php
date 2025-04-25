@@ -115,6 +115,9 @@
                         <div class="col-lg-12">
                             <div class="mt-3">
                                 <div class="hstack gap-2">
+                                    <a href="/" class="btn btn-danger btn-hover w-100">
+                                        Back To Shopping
+                                    </a>
                                     <button id="btn-add-to-cart" type="button" class="btn btn-success btn-hover w-100">
                                         <i class="bi bi-cart2 me-2"></i> Add To Cart
                                     </button>
