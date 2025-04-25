@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Services\CartService;
+use Illuminate\Support\Facades\Session;
 
 class CatalogueController extends Controller
 {
@@ -160,4 +161,18 @@ class CatalogueController extends Controller
         }
     }
 
+    public function viewCart(Request $request) {
+        return view('lagramma-cart');
+    }
+
+    public function clearCart(CartService $cartService)
+    {
+        try {
+            $cartService->clearCart();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to clear cart. ' . $e->getMessage()]);
+        }
+    }
 }

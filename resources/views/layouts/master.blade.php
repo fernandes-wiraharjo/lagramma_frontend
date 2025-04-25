@@ -63,6 +63,7 @@
                         <i class="bi bi-box-arrow-right text-muted fs-15 me-1"></i> Logout
                     </a>
                 `;
+                document.getElementById('footer-view-my-order').classList.remove('d-none');
             } else {
                 console.log('Guest mode');
 
@@ -73,6 +74,8 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="${backendUrl}/login"><i class="bi bi-box-arrow-in-right text-muted fs-15 me-1"></i> Login</a>
                 `;
+                document.getElementById('footer-view-my-order').classList.add('d-none');
+
             }
         }).catch(err => {
             console.error('Error fetching user:', err);
@@ -139,22 +142,26 @@
 
         // -- CART SECTION
         function updateCartSubTotal(subtotal) {
-            const subTotalElement = document.querySelector('.cart-lg-subtotal');
-            if (subTotalElement) {
-                subTotalElement.textContent = 'Rp' + numberFormat(subtotal);
-            }
+            const subTotalElements = document.querySelectorAll('.cart-lg-subtotal');
+            subTotalElements.forEach(input => {
+                input.textContent = 'Rp' + numberFormat(subtotal);
+            });
         }
 
         // Handle plus button
         document.querySelectorAll('.cart-header-plus').forEach(button => {
             button.addEventListener('click', function () {
                 const key = this.dataset.key;
-                const qtyInput = document.querySelector(`.product-quantity[data-key="${key}"]`);
-                let qty = parseInt(qtyInput.value);
+                const qtyInputs = document.querySelectorAll(`.product-quantity[data-key="${key}"]`);
+                let qty = parseInt(qtyInputs[0].value);
 
                 if (qty < 100) {
                     qty++;
-                    qtyInput.value = qty;
+                    if (qty > 100) return;
+                    // Update all inputs with the same data-key
+                    qtyInputs.forEach(input => {
+                        input.value = qty;
+                    });
                     updateCartQuantity(key, qty, 1);
                 }
             });
@@ -164,12 +171,16 @@
         document.querySelectorAll('.cart-header-minus').forEach(button => {
             button.addEventListener('click', function () {
                 const key = this.dataset.key;
-                const qtyInput = document.querySelector(`.product-quantity[data-key="${key}"]`);
-                let qty = parseInt(qtyInput.value);
+                const qtyInputs = document.querySelectorAll(`.product-quantity[data-key="${key}"]`);
+                let qty = parseInt(qtyInputs[0].value);
 
                 if (qty > 1) {
                     qty--;
-                    qtyInput.value = qty;
+                    if (qty < 1) return;
+                    // Update all inputs with the same data-key
+                    qtyInputs.forEach(input => {
+                        input.value = qty;
+                    });
                     updateCartQuantity(key, qty, -1);
                 }
             });
@@ -183,11 +194,15 @@
             });
         });
 
-        function updateCartQuantity(key, qty, change) {
-            const linePriceSpan = document.querySelector(`.product-line-price[data-key="${key}"]`);
-            const pricePerItem = parseInt(linePriceSpan.dataset.price); // store base price in data-price
+        document.querySelectorAll('.clear-cart-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                clearCartItem();
+            });
+        });
 
-            if (qty < 1 || qty > 100) return;
+        function updateCartQuantity(key, qty, change) {
+            const linePriceSpans = document.querySelectorAll(`.product-line-price[data-key="${key}"]`);
+            const pricePerItem = parseInt(linePriceSpans[0].dataset.price); // store base price in data-price
 
             fetch(`/cart/update-quantity`, {
                 method: 'POST',
@@ -200,7 +215,10 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    linePriceSpan.textContent = numberFormat(pricePerItem * qty);
+                    linePriceSpans.forEach(input => {
+                        input.textContent = numberFormat(pricePerItem * qty);
+                    });
+                    // linePriceSpan.textContent = numberFormat(pricePerItem * qty);
                     updateCartSubTotal(data.subtotal);
                 } else {
                     alert(data.message || 'Something went wrong. Page will be reloaded for data consistency');
@@ -225,6 +243,26 @@
                     location.reload();
                 } else {
                     alert(data.message || 'Failed to remove item.');
+                }
+            });
+        }
+
+        function clearCartItem(key) {
+            fetch(`/cart/remove-all`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ key: key })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('All product successfully removed from cart!');
+                    location.reload();
+                } else {
+                    alert(data.message || 'Failed to clear cart.');
                 }
             });
         }

@@ -52,9 +52,9 @@
                             <h5 class="footer-title">My Account</h5>
                             <ul class="list-unstyled footer-link mt-3">
                                 <!-- <li><a href="#!">Sign In</a></li> -->
-                                <li><a href="#!">View Cart</a></li>
+                                <li><a href="{{ route('view-cart') }}">View Cart</a></li>
                                 <!-- <li><a href="#!">My Wishlist</a></li> -->
-                                <li><a href="#!">View My Order</a></li>
+                                <li><a href="#!" id="footer-view-my-order" class="d-none">View My Order</a></li>
                                 <li><a href="#!">Help</a></li>
                             </ul>
                         </div>
