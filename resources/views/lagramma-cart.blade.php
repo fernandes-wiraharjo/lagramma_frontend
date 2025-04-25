@@ -255,7 +255,7 @@
                         <div class="hstack gap-2 justify-content-end">
                             <a href="/" class="btn btn-hover btn-danger">Continue Shopping</a>
                             <!-- <button type="button" class="btn btn-hover btn-danger">Continue Shopping</button> -->
-                            <button type="button" class="btn btn-hover btn-success">Check Out <i
+                            <button type="button" id="lg-checkout-btn" class="btn btn-hover btn-success">Check Out <i
                                 class="ri-logout-box-r-line align-bottom ms-1"></i></button>
                         </div>
                     </div>
@@ -268,6 +268,8 @@
     </section>
 @endsection
 @section('scripts')
+    <!-- page js     -->
+    <script src="{{ URL::asset('build/js/frontend/lagramma-cart.init.js') }}"></script>
     <!-- landing-index js -->
     <script src="{{ URL::asset('build/js/frontend/menu.init.js') }}"></script>
 @endsection
