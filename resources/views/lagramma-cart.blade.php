@@ -256,7 +256,7 @@
                             <a href="/" class="btn btn-hover btn-danger">Continue Shopping</a>
                             <!-- <button type="button" class="btn btn-hover btn-danger">Continue Shopping</button> -->
                             <button type="button" class="btn btn-hover btn-success">Check Out <i
-                                    class="ri-logout-box-r-line align-bottom ms-1"></i></button>
+                                class="ri-logout-box-r-line align-bottom ms-1"></i></button>
                         </div>
                     </div>
                     <!-- end stickey -->
