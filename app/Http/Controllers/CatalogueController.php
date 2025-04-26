@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Services\CartService;
+use App\Services\BuyNowService;
 use Illuminate\Support\Facades\Session;
 
 class CatalogueController extends Controller
@@ -216,7 +217,103 @@ class CatalogueController extends Controller
         ]);
     }
 
-    public function viewCheckout() {
-        return view('lagramma-checkout');
+    public function buyNow(Request $request, BuyNowService $buyNowService) {
+        if ($request->is_hampers) {
+            $validated = $request->validate([
+                'product_id' => 'required|exists:products,id',
+                'variant_id' => 'required|exists:product_variants,id',
+                'hamper_stock' => 'required|integer|min:1',
+                'hamper_items' => 'required|array',
+                'quantity' => 'required|integer|min:1'
+            ]);
+
+            $hamperStock = $validated['hamper_stock'];
+            $hamperItems = $validated['hamper_items'];
+            $quantity = $validated['quantity'];
+
+            if ($hamperStock < $quantity) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Only {$hamperStock} hampers available.",
+                ]);
+            }
+
+            $items = [];
+            foreach ($hamperItems as $itemId => $itemQty) {
+                $item = ProductVariant::with('product')->find($itemId);
+                $displayName = $item->name
+                    ? "{$item->product->name} - {$item->name}"
+                    : $item->product->name;
+
+                if (!$item || $item->stock < ($itemQty * $quantity)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Item '{$displayName}' does not have enough stock.",
+                    ]);
+                }
+
+                $items[] = [
+                    'product_id' => $item->product->id,
+                    'product_name' => $item->product->name,
+                    'id' => $itemId, //variant id
+                    'name' => $displayName, //variant name
+                    'quantity' => (int) $itemQty,
+                ];
+            }
+        } else {
+            $validated = $request->validate([
+                'product_id' => 'required|exists:products,id',
+                'variant_id' => 'required|exists:product_variants,id',
+                'quantity' => 'required|integer|min:1'
+            ]);
+
+            $variant = ProductVariant::find($validated['variant_id']);
+
+            if ($variant->stock < $validated['quantity']) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Only {$variant->stock} items available for this variant.",
+                ]);
+            }
+        }
+
+        //logic add to cart
+        $buyNowService->addItem([
+            'product_id' => $request->product_id,
+            'product_variant_id' => $request->variant_id,
+            'product_name' => $request->product_name,
+            'product_variant_name' => $request->variant_name,
+            'type' => $request->type, // 'hampers' or 'product'
+            'image' => $request->main_image,
+            'quantity' => $request->quantity,
+            'price' => $request->price,
+            'modifiers' => $request->modifiers ?? [],
+            'items' => $items ?? [] // only for hampers
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Proceed to checkout!',
+        ]);
+    }
+
+    public function viewCheckout(Request $request) {
+        if (!Auth::check()) {
+            return redirect()->route('index');
+        }
+
+        $source = $request->query('source');
+        if ($source === 'buy_now' && session()->has('buy_now')) {
+            $checkoutData = session('buy_now');
+            $checkoutSource = 'buy_now';
+        } else {
+            $checkoutData = session('shopping_cart');
+            $checkoutSource = 'cart';
+        }
+
+        return view('lagramma-checkout', [
+            'checkoutData' => $checkoutData,
+            'checkoutSource' => $checkoutSource,
+        ]);
     }
 }

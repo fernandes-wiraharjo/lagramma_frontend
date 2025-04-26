@@ -129,6 +129,8 @@
                             <i class="bi bi-box-arrow-in-right text-muted fs-15 me-1"></i> Login
                         </a>
                     `;
+
+                    location.reload();
                 } else {
                     console.error('Logout failed:', res.status);
                 }
@@ -202,7 +204,7 @@
 
         function updateCartQuantity(key, qty, change) {
             const linePriceSpans = document.querySelectorAll(`.product-line-price[data-key="${key}"]`);
-            const pricePerItem = parseInt(linePriceSpans[0].dataset.price); // store base price in data-price
+            const pricePerItem = parseInt(linePriceSpans[0].dataset.price); // store item base price + modifiers price (if selected) in data-price
 
             fetch(`/cart/update-quantity`, {
                 method: 'POST',
@@ -267,6 +269,37 @@
             });
         }
         // END OF CART SECTION --
+
+        document.getElementById('lg-continue-to-co-btn').addEventListener('click', function () {
+            if (!isLoggedIn) {
+                alert('Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.');
+                const currentUrl = window.location.href;
+                const backendLoginUrl = `${backendUrl}/login?redirect=${encodeURIComponent(currentUrl)}`;
+                window.location.href = backendLoginUrl;
+                return;
+            }
+
+            fetch('/cart/validate-stock', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.redirect_url;
+                } else {
+                    alert(data.message); // or use SweetAlert/toast
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Error validating stock.');
+            });
+        });
     </script>
 
     <!-- scripts -->

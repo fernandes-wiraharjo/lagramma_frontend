@@ -6,6 +6,10 @@
     <!-- extra css -->
 @endsection
 @section('content')
+    @php
+        $items = $checkoutData ?? [];
+        $subtotal = collect($items)->sum('total_price');
+    @endphp
     <section class="page-wrapper bg-primary">
         <div class="container">
             <div class="row">
@@ -30,17 +34,6 @@
     <section class="section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="alert alert-danger alert-modern alert-dismissible fade show" role="alert">
-                        <i class="bi bi-box-arrow-in-right icons"></i>Returning customer?<a href="auth-signin-basic"
-                            class="link-danger"><strong> Click here to login</strong>.</a>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
-                <!--end col-->
-            </div>
-            <!--end row-->
-            <div class="row">
                 <div class="col-xl-8">
                     <div class="card">
                         <div class="card-body">
@@ -50,12 +43,12 @@
                                         <tr>
                                             <th scope="col">Product</th>
                                             <th scope="col">Rate</th>
-                                            <th scope="col">Order ID</th>
+                                            <th scope="col">Qty</th>
                                             <th scope="col">Price</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <!-- <tr>
                                             <td class="text-start">
                                                 <div class="d-flex align-items-center gap-2">
                                                     <div class="avatar-sm flex-shrink-0">
@@ -77,65 +70,63 @@
                                                 02
                                             </td>
                                             <td class="text-end">$48.00</td>
-                                        </tr>
+                                        </tr> -->
+                                        @foreach ($items as $key => $item)
                                         <tr>
                                             <td class="text-start">
                                                 <div class="d-flex align-items-center gap-2">
                                                     <div class="avatar-sm flex-shrink-0">
-                                                        <div class="avatar-title bg-dark-subtle rounded-3">
-                                                            <img src="{{ URL::asset('build/images/products/img-16.png') }}" alt=""
+                                                        <div class="avatar-title bg-success-subtle rounded-3">
+                                                            <img src="{{ $item['image'] ?? URL::asset('build/images/products/default.png') }}" alt=""
                                                                 class="avatar-xs">
                                                         </div>
                                                     </div>
                                                     <div class="flex-grow-1">
-                                                        <h6>Rockerz Ear Bluetooth Smart Watch</h6>
-                                                        <p class="text-muted mb-0">32.5mm (1.28 Inch) TFT Color Touch
-                                                            Display</p>
+                                                        <h6>{{ $item['product_name'] }}{{ !empty($item['product_variant_name']) ? ' - ' . $item['product_variant_name'] : '' }}</h6>
+                                                        <p class="text-muted mb-0">
+                                                            {{-- Show Modifiers if available --}}
+                                                            @if (!empty($item['modifiers']))
+                                                            <div class="mt-2">
+                                                                <h6 class="fs-13 fw-semibold text-muted mb-1">Topping:</h6>
+                                                                <ul class="mb-2 ps-3">
+                                                                    @foreach ($item['modifiers'] as $modifier)
+                                                                        <li>
+                                                                            {{ $modifier['modifier_name'] }}: {{ $modifier['modifier_option_name'] }}
+                                                                            <span class="text-muted">(+Rp {{ number_format($modifier['price'], 0, ',', '.') }})</span>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                            @endif
+
+                                                            {{-- For Hampers: Show item details --}}
+                                                            @if ($item['type'] === 'hampers' && !empty($item['items']))
+                                                            <div class="mt-2">
+                                                                <h6 class="fs-13 fw-semibold text-muted mb-1">Items:</h6>
+                                                                <ul class="mb-2 ps-3">
+                                                                    @foreach ($item['items'] as $subItem)
+                                                                        <li>
+                                                                            {{ $subItem['name'] }} x {{ $subItem['quantity'] }}
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                            @endif
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>$160.00</td>
-                                            <td>01</td>
-                                            <td class="text-end">$160.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-start">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <div class="avatar-title bg-warning-subtle rounded-3">
-                                                            <img src="{{ URL::asset('build/images/products/img-6.png') }}" alt=""
-                                                                class="avatar-xs">
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6>Monte Carlo Sweaters</h6>
-                                                        <p class="text-muted mb-0">Graphic Print Men & Women Fashion</p>
-                                                    </div>
-                                                </div>
+                                            <td>
+                                                Rp{{ number_format($item['price'], 0, ',', '.') }}
                                             </td>
-                                            <td>$244.99</td>
-                                            <td>03</td>
-                                            <td class="text-end">$734.97</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-start">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <div class="avatar-title bg-secondary-subtle rounded-3">
-                                                            <img src="{{ URL::asset('build/images/products/img-8.png') }}" alt=""
-                                                                class="avatar-xs">
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6>World's most expensive t shirt</h6>
-                                                        <p class="text-muted mb-0">Graphic Print Men & Women Fashion</p>
-                                                    </div>
-                                                </div>
+                                            <td>
+                                                {{ $item['quantity'] ?? 0 }}
                                             </td>
-                                            <td>$120.30</td>
-                                            <td>02</td>
-                                            <td class="text-end">$240.60</td>
+                                            <td class="text-end">
+                                                Rp{{ number_format($item['total_price'], 0, ',', '.') }}
+                                            </td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -204,83 +195,10 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="mt-4 pt-2">
-                        <div class="d-flex align-items-center mb-4">
-                            <div class="flex-grow-1">
-                                <h5 class="mb-0">Billing Address</h5>
-                            </div>
-                            <div class="flex-shrink-0">
-                                <a href="address" class="badge bg-secondary-subtle text-secondary link-secondary">
-                                    Add Address
-                                </a>
-                            </div>
-                        </div>
-                        <div class="row gy-3">
-                            <div class="col-lg-6 col-12">
-                                <div class="form-check card-radio">
-                                    <input id="shippingAddress03" name="shippingAddress" type="radio"
-                                        class="form-check-input" checked="">
-                                    <label class="form-check-label" for="shippingAddress03">
-                                        <span class="fs-14 mb-2 d-block fw-semibold">Witney Blessington</span>
-                                        <span class="text-muted fw-normal text-wrap mb-1 d-block">144 Cavendish Avenue,
-                                            Indianapolis, IN 46251</span>
-                                        <span class="text-muted fw-normal d-block">Mo. 012-345-6789</span>
-                                    </label>
-                                </div>
-                                <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
-                                    <div>
-                                        <a href="address" class="d-block text-body p-1 px-2"><i
-                                                class="ri-pencil-fill text-muted align-bottom me-1"></i> Edit</a>
-                                    </div>
-                                    <div>
-                                        <a href="#removeAddressModal" class="d-block text-body p-1 px-2"
-                                            data-bs-toggle="modal"><i
-                                                class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div class="form-check card-radio">
-                                    <input id="shippingAddress04" name="shippingAddress" type="radio"
-                                        class="form-check-input">
-                                    <label class="form-check-label" for="shippingAddress04">
-                                        <span class="fs-14 mb-2 d-block fw-semibold">Edwin Adenike</span>
-                                        <span class="text-muted fw-normal text-wrap mb-1 d-block">2971 Westheimer Road,
-                                            Santa Ana, IL 80214</span>
-                                        <span class="text-muted fw-normal d-block">Mo. 012-345-6789</span>
-                                    </label>
-                                </div>
-                                <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
-                                    <div>
-                                        <a href="address" class="d-block text-body p-1 px-2"><i
-                                                class="ri-pencil-fill text-muted align-bottom me-1"></i> Edit</a>
-                                    </div>
-                                    <div>
-                                        <a href="#removeAddressModal" class="d-block text-body p-1 px-2"
-                                            data-bs-toggle="modal"><i
-                                                class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <!-- end col -->
                 <div class="col-lg-4">
                     <div class="sticky-side-div">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <h6 class="mb-3 fs-14">Have a <span class="fw-semibold">promo</span> code ?</h6>
-                                </div>
-                                <div class="hstack gap-3 px-3 mx-n3">
-                                    <input class="form-control me-auto" type="text" placeholder="Enter coupon code"
-                                        value="Toner15" aria-label="Add Promo Code here...">
-                                    <button type="button" class="btn btn-success w-xs">Apply</button>
-                                </div>
-                            </div>
-                        </div>
                         <div class="card overflow-hidden">
                             <div class="card-header border-bottom-dashed">
                                 <h5 class="card-title mb-0 fs-15">Order Summary</h5>
@@ -291,24 +209,16 @@
                                         <tbody>
                                             <tr>
                                                 <td>Sub Total :</td>
-                                                <td class="text-end cart-subtotal">$510.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Discount <span class="text-muted">(Toner15)</span>:</td>
-                                                <td class="text-end cart-discount">$18.00</td>
+                                                <td class="text-end cart-subtotal">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Shipping Charge :</td>
-                                                <td class="text-end cart-shipping">$2.4</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Estimated Tax (12.5%) : </td>
-                                                <td class="text-end cart-tax">$1.6</td>
+                                                <td class="text-end cart-shipping">-</td>
                                             </tr>
                                             <tr class="table-active">
-                                                <th>Total (USD) :</th>
+                                                <th>Total (Rp) :</th>
                                                 <td class="text-end">
-                                                    <span class="fw-semibold cart-total">$630.25</span>
+                                                    <span class="fw-semibold cart-total">-</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -318,9 +228,9 @@
                             </div>
                         </div>
                         <div class="hstack gap-2 justify-content-between justify-content-end">
-                            <a href="shop-cart" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
+                            <a href="view-cart" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
                                     class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
-                            <a href="payment" class="btn btn-hover btn-primary w-100">Continue Payment</a>
+                            <a href="payment" class="btn btn-hover btn-primary w-100">Create Order</a>
                         </div>
 
                     </div>
@@ -332,98 +242,6 @@
         </div>
         <!--end container-->
     </section>
-
-    <section class="section bg-light bg-opacity-25"
-        style="background-image: url('build/images/ecommerce/bg-effect.png');background-position: center; background-size: cover;">
-        <div class="container">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-6">
-                    <div>
-                        <p class="fs-15 text-uppercase fw-medium"><span class="fw-semibold text-danger">25% Up to</span>
-                            off all Products</p>
-                        <h1 class="lh-base text-capitalize mb-3">Stay home & get your daily needs from our shop</h1>
-                        <p class="fs-15 mb-4 pb-2">Start You'r Daily Shopping with <a href="#!"
-                                class="link-info fw-medium">Toner</a></p>
-                        <form action="#!">
-                            <div class="position-relative ecommerce-subscript">
-                                <input type="email" class="form-control rounded-pill" placeholder="Enter your email">
-                                <button type="submit" class="btn btn-primary btn-hover rounded-pill">Subscript
-                                    Now</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <!--end col-->
-                <div class="col-lg-4">
-                    <div class="mt-4 mt-lg-0">
-                        <img src="{{ URL::asset('build/images/ecommerce/subscribe.png') }}" alt="" class="img-fluid">
-                    </div>
-                </div>
-                <!--end col-->
-            </div>
-            <!--end row-->
-        </div>
-        <!--end conatiner-->
-    </section>
-
-    <section class="section py-5">
-        <div class="container">
-            <div class="row gy-4 gy-lg-0">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('build/images/ecommerce/fast-delivery.png') }}" alt="" class="avatar-sm">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="fs-15">Fast &amp; Secure Delivery</h5>
-                            <p class="text-muted mb-0">Tell about your service.</p>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-                <div class="col-lg-3 col-sm-6">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('build/images/ecommerce/returns.png') }}" alt="" class="avatar-sm">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="fs-15">2 Days Return Policy</h5>
-                            <p class="text-muted mb-0">No question ask.</p>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-                <div class="col-lg-3 col-sm-6">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('build/images/ecommerce/guarantee-certificate.png') }}" alt=""
-                                class="avatar-sm">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="fs-15">Money Back Guarantee</h5>
-                            <p class="text-muted mb-0">Within 5 business days</p>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-                <div class="col-lg-3 col-sm-6">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="flex-shrink-0">
-                            <img src="{{ URL::asset('build/images/ecommerce/24-hours-support.png') }}" alt="" class="avatar-sm">
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="fs-15">24 X 7 Service</h5>
-                            <p class="text-muted mb-0">Online service for customer</p>
-                        </div>
-                    </div>
-                </div>
-                <!--end col-->
-            </div>
-            <!--end row-->
-        </div>
-        <!--end container-->
-    </section>
-
 
     <!-- removeAddressModal -->
     <div id="removeAddressModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">

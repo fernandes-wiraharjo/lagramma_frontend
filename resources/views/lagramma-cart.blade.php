@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center d-flex align-items-center justify-content-between">
-                        <h4 class="text-white mb-0">Shop</h4>
+                        <h4 class="text-white mb-0">Cart</h4>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb breadcrumb-light justify-content-center mb-0 fs-15">
                                 <!-- <li class="breadcrumb-item"><a href="#!">Shop</a></li> -->
@@ -188,7 +188,7 @@
                                     <div class="d-flex align-items-center gap-2 text-muted">
                                         <div>Total :</div>
                                         <h5 class="fs-14 mb-0">Rp<span class="product-line-price"
-                                            data-key="{{ $key }}" data-price="{{ $item['price'] }}">
+                                            data-key="{{ $key }}" data-price="{{ ($item['price'] ?? 0) + (!empty($item['modifiers']) ? array_sum(array_column($item['modifiers'], 'price')) : 0) }}">
                                             {{ number_format($item['total_price'], 0, ',', '.') }}
                                             </span>
                                         </h5>

@@ -526,7 +526,7 @@
                                 </button>
                                 <div class="fw-medium mb-0 fs-16">
                                     Rp<span class="product-line-price" data-key="{{ $key }}"
-                                        data-price="{{ $item['price'] }}">
+                                        data-price="{{ ($item['price'] ?? 0) + (!empty($item['modifiers']) ? array_sum(array_column($item['modifiers'], 'price')) : 0) }}">
                                         {{ number_format($item['total_price'], 0, ',', '.') }}
                                     </span>
                                 </div>
@@ -573,7 +573,8 @@
                 <!-- <button type="button" class="btn btn-light w-100" id="reset-layout">View Cart</button> -->
             </div>
             <div class="col-6">
-                <a href="#!" target="_blank" class="btn btn-info w-100">Continue to Checkout</a>
+                <button type="button" id="lg-continue-to-co-btn" class="btn btn-info w-100">Continue to Checkout</button>
+                <!-- <a href="#!" target="_blank" class="btn btn-info w-100">Continue to Checkout</a> -->
             </div>
         </div>
     </div>

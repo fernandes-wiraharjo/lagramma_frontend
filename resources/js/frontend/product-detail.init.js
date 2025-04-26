@@ -243,5 +243,94 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Buy now
+    function buyNow() {
+        if (!isLoggedIn) {
+            alert('Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.');
+            const currentUrl = window.location.href;
+            const backendLoginUrl = `${backendUrl}/login?redirect=${encodeURIComponent(currentUrl)}`;
+            window.location.href = backendLoginUrl;
+            return;
+        }
+
+        const payload = {
+            quantity: parseInt(quantityInput.value),
+            is_hampers: isHampers,
+            product_id: productId,
+            product_name: productName,
+            type: isHampers ? "hampers" : "product",
+            main_image: productMainImage
+        };
+
+        if (isHampers) {
+            const hamperVariantId = productInfo.dataset.hampersVariantId;
+            const hamperVariantName = productInfo.dataset.hampersVariantName;
+
+            // Collect hamper items
+            const hamperItems = {};
+            document.querySelectorAll('.hamper-qty').forEach(input => {
+                const itemIdMatch = input.getAttribute('name').match(/hamper_items\[(\d+)\]/);
+                if (itemIdMatch) {
+                    const itemId = itemIdMatch[1];
+                    const qty = parseInt(input.value) || 0;
+                    if (qty > 0) hamperItems[itemId] = qty;
+                }
+            });
+            if (Object.keys(hamperItems).length === 0) {
+                alert('Please select at least one hamper item.');
+                return;
+            }
+
+            payload.hamper_stock = hamperStock;
+            payload.hamper_items = hamperItems;
+            payload.variant_id = hamperVariantId;
+            payload.variant_name = hamperVariantName;
+            payload.price = basePrice;
+        } else {
+            const variantInput = document.querySelector('input[name="variant"]:checked');
+            if (!variantInput) {
+                alert('Please select a variant.');
+                return;
+            }
+
+            const selectedModifiers = [];
+            document.querySelectorAll('input[name="modifier_option[]"]:checked').forEach(el => {
+                selectedModifiers.push({
+                    modifier_id: el.dataset.modifierId,              // add this as hidden input or data attribute
+                    modifier_name: el.dataset.modifierName,          // add this too
+                    modifier_option_id: el.id.replace('modifier-option-', ''),
+                    modifier_option_name: el.dataset.optionName,
+                    price: el.value
+                });
+            });
+
+            payload.variant_id = variantInput.dataset.variantId;
+            payload.variant_name = variantInput.dataset.variantName;
+            payload.price = variantInput.value;
+            payload.modifiers = selectedModifiers;
+        }
+
+        fetch('/buy-now', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message || 'Something went wrong');
+            if (data.success) {
+                window.location.href = '/checkout?source=buy_now';
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Error occurred.');
+        });
+    }
+
     addToCartBtn.addEventListener('click', () => addToCart());
+    buyNowBtn.addEventListener('click', () => buyNow());
 });

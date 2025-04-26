@@ -23,7 +23,7 @@ Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang'
 
 Auth::routes();
 
-Route::get('/', [CatalogueController::class, 'index']);
+Route::get('/', [CatalogueController::class, 'index'])->name('index');
 Route::get('/product-detail/{id}', [CatalogueController::class, 'getByID']);
 Route::get('/view-cart', [CatalogueController::class, 'viewCart'])->name('view-cart');
 Route::post('/add-to-cart', [CatalogueController::class, 'addToCart']);
@@ -31,6 +31,7 @@ Route::post('/cart/update-quantity', [CatalogueController::class, 'updateCartQua
 Route::post('/cart/remove', [CatalogueController::class, 'removeCartItem']);
 Route::post('/cart/remove-all', [CatalogueController::class, 'clearCart']);
 Route::post('/cart/validate-stock', [CatalogueController::class, 'validateCartBeforeCheckout'])->name('cart.validate-stock');
+Route::post('/buy-now', [CatalogueController::class, 'buyNow']);
 Route::get('/checkout', [CatalogueController::class, 'viewCheckout'])->name('checkout.page');
 
 Route::middleware(['auth'])->group(function () {
