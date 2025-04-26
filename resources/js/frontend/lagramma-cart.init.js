@@ -1,4 +1,12 @@
 document.getElementById('lg-checkout-btn').addEventListener('click', function () {
+    if (!isLoggedIn) {
+        alert('Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.');
+        const currentUrl = window.location.href;
+        const backendLoginUrl = `${backendUrl}/login?redirect=${encodeURIComponent(currentUrl)}`;
+        window.location.href = backendLoginUrl;
+        return;
+    }
+
     fetch('/cart/validate-stock', {
         method: 'POST',
         headers: {

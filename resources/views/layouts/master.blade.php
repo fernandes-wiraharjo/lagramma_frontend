@@ -26,11 +26,11 @@
 
     <!-- footer -->
     @include('layouts.footer')
-    <!-- scripts -->
-    @include('layouts.vendor-scripts')
 
+    <!-- layout master scripts -->
     <script>
         const backendUrl = @json(config('app.backend_url'));
+        const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
 
         //get user session
         fetch(`${backendUrl}/api/user`, {
@@ -268,6 +268,9 @@
         }
         // END OF CART SECTION --
     </script>
+
+    <!-- scripts -->
+    @include('layouts.vendor-scripts')
 </body>
 
 </html>

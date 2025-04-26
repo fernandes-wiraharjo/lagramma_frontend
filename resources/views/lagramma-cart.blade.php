@@ -268,7 +268,7 @@
     </section>
 @endsection
 @section('scripts')
-    <!-- page js     -->
+    <!-- page js -->
     <script src="{{ URL::asset('build/js/frontend/lagramma-cart.init.js') }}"></script>
     <!-- landing-index js -->
     <script src="{{ URL::asset('build/js/frontend/menu.init.js') }}"></script>
