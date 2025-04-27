@@ -316,4 +316,44 @@ class CatalogueController extends Controller
             'checkoutSource' => $checkoutSource,
         ]);
     }
+
+    public function createOrder(Request $request)
+    {
+        $cart = session('shopping_cart', []);
+
+        foreach ($cart as $item) {
+            $variant = ProductVariant::find($item['product_variant_id']);
+            $productName = $item['product_variant_name']
+                ? "{$item['product_name']} - {$item['product_variant_name']}"
+                : $item['product_name'];
+
+            if (!$variant || $variant->stock < $item['quantity']) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Product '{$productName}' only has {$variant->stock} left.",
+                ]);
+            }
+
+            // Hampers (has multiple items inside)
+            if ($item['type'] === 'hampers') {
+                foreach ($item['items'] as $hamperItem) {
+                    $variant = ProductVariant::find($hamperItem['id']);
+                    $neededQty = $hamperItem['quantity'] * $item['quantity'];
+
+                    if (!$variant || $variant->stock < $neededQty) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => "Item '{$hamperItem['name']}' in '{$productName}' only has {$variant->stock} left.",
+                        ]);
+                    }
+                }
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Stock is sufficient for all items.',
+            'redirect_url' => route('checkout.page') // or any route
+        ]);
+    }
 }

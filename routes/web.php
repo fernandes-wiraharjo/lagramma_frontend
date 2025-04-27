@@ -33,6 +33,7 @@ Route::post('/cart/remove-all', [CatalogueController::class, 'clearCart']);
 Route::post('/cart/validate-stock', [CatalogueController::class, 'validateCartBeforeCheckout'])->name('cart.validate-stock');
 Route::post('/buy-now', [CatalogueController::class, 'buyNow']);
 Route::get('/checkout', [CatalogueController::class, 'viewCheckout'])->name('checkout.page');
+Route::post('/checkout', [CatalogueController::class, 'createOrder'])->name('create-order');
 
 Route::middleware(['auth'])->group(function () {
     // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
