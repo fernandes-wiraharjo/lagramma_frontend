@@ -4,6 +4,11 @@
 @endsection
 @section('css')
     <!-- extra css -->
+     <style>
+        .spinner-border {
+            margin-left: 10px;
+        }
+     </style>
 @endsection
 @section('content')
     @php
@@ -231,7 +236,10 @@
                             <a href="view-cart" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
                                     class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
                             <!-- <a href="payment" class="btn btn-hover btn-primary w-100">Create Order</a> -->
-                            <button id="create-order-btn" class="btn btn-hover btn-primary w-100">Create Order</button>
+                            <button id="create-order-btn" class="btn btn-hover btn-primary w-100">
+                                <span id="btn-text">Create Order</span>
+                                <span id="loading-spinner" class="d-none spinner-border spinner-border-sm text-light" role="status"></span>
+                            </button>
                         </div>
 
                     </div>
@@ -272,6 +280,11 @@
     </div><!-- /.modal -->
 @endsection
 @section('scripts')
+    <script>
+        const checkoutSource = "{{ $checkoutSource }}";
+    </script>
+    <!-- page js -->
+    <script src="{{ URL::asset('build/js/frontend/lagramma-checkout.init.js') }}"></script>
     <!-- form wizard init -->
     <script src="{{ URL::asset('build/js/pages/form-wizard.init.js') }}"></script>
     <!-- landing-index js -->

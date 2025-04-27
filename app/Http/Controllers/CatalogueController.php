@@ -9,9 +9,13 @@ use Illuminate\Support\Carbon;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Models\Order;
+use App\Models\OrderModifier;
+use App\Models\OrderHampersItem;
 use App\Services\CartService;
 use App\Services\BuyNowService;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class CatalogueController extends Controller
 {
@@ -93,7 +97,7 @@ class CatalogueController extends Controller
                     'product_id' => $item->product->id,
                     'product_name' => $item->product->name,
                     'id' => $itemId, //variant id
-                    'name' => $displayName, //variant name
+                    'name' => $item->name, //variant name
                     'quantity' => (int) $itemQty,
                 ];
             }
@@ -256,7 +260,7 @@ class CatalogueController extends Controller
                     'product_id' => $item->product->id,
                     'product_name' => $item->product->name,
                     'id' => $itemId, //variant id
-                    'name' => $displayName, //variant name
+                    'name' => $item->name, //variant name
                     'quantity' => (int) $itemQty,
                 ];
             }
@@ -317,43 +321,165 @@ class CatalogueController extends Controller
         ]);
     }
 
+    public function generateInvoiceNumber()
+    {
+        return 'INV-' . date('YmdHis') . '-' . strtoupper(uniqid());
+    }
+
     public function createOrder(Request $request)
     {
-        $cart = session('shopping_cart', []);
+        $source = $request->input('source');
 
-        foreach ($cart as $item) {
-            $variant = ProductVariant::find($item['product_variant_id']);
-            $productName = $item['product_variant_name']
-                ? "{$item['product_name']} - {$item['product_variant_name']}"
-                : $item['product_name'];
+        if ($source === 'buy_now' && session()->has('buy_now')) {
+            $checkoutItems = session('buy_now');
+        } elseif ($source === 'cart' && session()->has('shopping_cart')) {
+            $checkoutItems = session('shopping_cart');
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No items available to create order.'
+            ]);
+        }
 
-            if (!$variant || $variant->stock < $item['quantity']) {
-                return response()->json([
-                    'success' => false,
-                    'message' => "Product '{$productName}' only has {$variant->stock} left.",
-                ]);
+        DB::beginTransaction();
+        try {
+            // Step 1: Collect all needed quantities
+            $totalVariantsNeeded = [];
+
+            foreach ($checkoutItems as $item) {
+                $key = $item['product_variant_id'];
+                if (!isset($totalVariantsNeeded[$key])) {
+                    $totalVariantsNeeded[$key] = 0;
+                }
+                $totalVariantsNeeded[$key] += $item['quantity'];
+
+                if ($item['type'] === 'hampers') {
+                    foreach ($item['items'] as $hamperItem) {
+                        $key = $hamperItem['id'];
+                        $neededQty = $hamperItem['quantity'] * $item['quantity'];
+
+                        if (!isset($totalVariantsNeeded[$key])) {
+                            $totalVariantsNeeded[$key] = 0;
+                        }
+                        $totalVariantsNeeded[$key] += $neededQty;
+                    }
+                }
             }
 
-            // Hampers (has multiple items inside)
-            if ($item['type'] === 'hampers') {
-                foreach ($item['items'] as $hamperItem) {
-                    $variant = ProductVariant::find($hamperItem['id']);
-                    $neededQty = $hamperItem['quantity'] * $item['quantity'];
+            // Step 2: Validate total stock
+            foreach ($totalVariantsNeeded as $variantId => $neededQty) {
+                $variant = ProductVariant::with('product')->find($variantId);
+                $productName = $variant->name
+                    ? "{$variant->product->name} - {$variant->name}"
+                    : $variant->product->name;
+                if (!$variant || $variant->stock < $neededQty) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Product '{$productName}' only has {$variant->stock} left.",
+                    ]);
+                }
+            }
 
-                    if (!$variant || $variant->stock < $neededQty) {
-                        return response()->json([
-                            'success' => false,
-                            'message' => "Item '{$hamperItem['name']}' in '{$productName}' only has {$variant->stock} left.",
+            // Step 3: Create order for each item
+            foreach ($checkoutItems as $item) {
+                // Initialize base price and modifiers total
+                $baseTotalPrice = $item['price'] * $item['quantity'];
+                $modifiersTotalPrice = 0;
+
+                // If modifiers exist, calculate their total price
+                if (isset($item['modifiers']) && is_array($item['modifiers']) && count($item['modifiers']) > 0) {
+                    foreach ($item['modifiers'] as $modifier) {
+                        // Assuming each modifier has a 'price' and the quantity can be set
+                        $modifiersTotalPrice += $modifier['price'] * $item['quantity'];
+                    }
+                }
+
+                // Final total price: base price + modifiers price
+                $totalPrice = $baseTotalPrice + $modifiersTotalPrice;
+
+                $order = Order::create([
+                    'user_id' => auth()->id(),
+                    'invoice_number' => $this->generateInvoiceNumber(),
+                    'product_id' => $item['product_id'],
+                    'product_variant_id' => $item['product_variant_id'],
+                    'type' => $item['type'],
+                    'product_name' => $item['product_name'],
+                    'product_variant_name' => $item['product_variant_name'] ?? '',
+                    'quantity' => $item['quantity'],
+                    'status' => 'pending',
+                    'price' => $item['price'],
+                    'total_price' => $totalPrice,
+                    'created_by' => auth()->id(),
+                    'updated_at' => null
+                ]);
+
+                // Reduce stock after order creation
+                $variant = ProductVariant::find($item['product_variant_id']);
+                if ($variant) {
+                    $variant->stock -= $item['quantity'];
+                    $variant->updated_by = auth()->id();
+                    $variant->save();
+                }
+
+                // If hampers
+                if ($item['type'] === 'hampers') {
+                    foreach ($item['items'] as $hamperItem) {
+                        OrderHampersItem::create([
+                            'order_id' => $order->id,
+                            'product_id' => $hamperItem['product_id'],
+                            'product_variant_id' => $hamperItem['id'],
+                            'product_name' => $hamperItem['product_name'],
+                            'product_variant_name' => $hamperItem['name'] ?? '',
+                            'quantity' => $hamperItem['quantity'] * $item['quantity'],
+                            'created_by' => auth()->id(),
+                            'updated_at' => null
+                        ]);
+
+                        // Reduce stock for hampers' items
+                        $hamperVariant = ProductVariant::find($hamperItem['id']);
+                        if ($hamperVariant) {
+                            $hamperVariant->stock -= $hamperItem['quantity'] * $item['quantity'];
+                            $hamperVariant->updated_by = auth()->id();
+                            $hamperVariant->save();
+                        }
+                    }
+                }
+
+                // If modifiers exist
+                if (isset($item['modifiers']) && is_array($item['modifiers']) && count($item['modifiers']) > 0) {
+                    foreach ($item['modifiers'] as $modifier) {
+                        OrderModifier::create([
+                            'order_id' => $order->id,
+                            'modifier_id' => $modifier['modifier_id'],
+                            'modifier_option_id' => $modifier['modifier_option_id'],
+                            'modifier_name' => $modifier['modifier_name'],
+                            'modifier_option_name' => $modifier['modifier_option_name'],
+                            'created_by' => auth()->id(),
+                            'updated_at' => null
                         ]);
                     }
                 }
             }
-        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Stock is sufficient for all items.',
-            'redirect_url' => route('checkout.page') // or any route
-        ]);
+            // Step 4: Clear session
+            if ($source === 'buy_now') {
+                session()->forget('buy_now');
+            } else {
+                session()->forget('shopping_cart');
+            }
+
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'message' => 'Order created successfully',
+                'redirect_url' => route('index') // or any route
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create order. ' . $e->getMessage()
+            ]);
+        }
     }
 }
