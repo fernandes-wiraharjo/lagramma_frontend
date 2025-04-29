@@ -152,7 +152,7 @@
                                         <ul class="mb-2 ps-3">
                                             @foreach ($item['items'] as $subItem)
                                                 <li>
-                                                    {{ $subItem['name'] }} x {{ $subItem['quantity'] }}
+                                                    {{ $subItem['product_name'] }}{{ !empty($subItem['name']) ? ' - ' . $subItem['name'] : '' }} x {{ $subItem['quantity'] }}
                                                 </li>
                                             @endforeach
                                         </ul>

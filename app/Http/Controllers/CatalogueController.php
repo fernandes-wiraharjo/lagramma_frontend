@@ -10,12 +10,14 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\OrderModifier;
 use App\Models\OrderHampersItem;
 use App\Services\CartService;
 use App\Services\BuyNowService;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class CatalogueController extends Controller
 {
@@ -326,6 +328,40 @@ class CatalogueController extends Controller
         return 'INV-' . date('YmdHis') . '-' . strtoupper(uniqid());
     }
 
+    public function mokaStockAdjustment($payload)
+    {
+        $baseUrl = env('MOKA_API_URL');
+        $outletId = env('MOKA_OUTLET_ID');
+        $token = getMokaToken();
+
+        $response = Http::withToken($token)
+            ->post($baseUrl . '/v1/outlets/' . $outletId . '/adjustment/items', $payload);
+
+        if ($response->successful()) {
+            Log::info('Adjust MOKA Item successfully.');
+            return true;
+        } else {
+            $status = $response->status();
+
+            // If token expired, refresh it and retry
+            if ($status === 401) {
+                $newToken = refreshMokaToken();
+                if ($newToken) {
+                    Log::info('Token refreshed. Retrying Adjust MOKA Item...');
+                    return $this->mokaStockAdjustment($payload); // Retry
+                }
+            } else {
+                Log::error('Adjust MOKA Item API failed', [
+                    'status' => $status,
+                    'body' => $response->body(),
+                    'payload' => $payload
+                ]);
+                insertApiErrorLog('Adjust MOKA Item', "{$baseUrl}/v1/outlets/outlet_id/adjustment/items", 'POST', null, null, json_encode($payload), $status, $response->body());
+                return false;
+            }
+        }
+    }
+
     public function createOrder(Request $request)
     {
         $source = $request->input('source');
@@ -345,6 +381,9 @@ class CatalogueController extends Controller
         try {
             // Step 1: Collect all needed quantities
             $totalVariantsNeeded = [];
+            $mokaDetails = [];
+            $subtotal = collect($checkoutItems)->sum('total_price');
+            $orderQuantity = collect($checkoutItems)->sum('quantity');
 
             foreach ($checkoutItems as $item) {
                 $key = $item['product_variant_id'];
@@ -378,9 +417,28 @@ class CatalogueController extends Controller
                         'message' => "Product '{$productName}' only has {$variant->stock} left.",
                     ]);
                 }
+
+                //prepare moka data
+                if ($variant->track_stock == 1) {
+                    $mokaDetails[$variantId] = [
+                        'variant' => $variant,
+                        'qty' => $neededQty
+                    ];
+                }
             }
 
-            // Step 3: Create order for each item
+            // Step 3: Create order
+            $order = Order::create([
+                'user_id' => auth()->id(),
+                'invoice_number' => $this->generateInvoiceNumber(),
+                'order_quantity' => $orderQuantity,
+                'status' => 'pending',
+                'order_price' => $subtotal,
+                'created_by' => auth()->id(),
+                'updated_at' => null
+            ]);
+
+            // Step 3.1: Create order detail, hampers, modifiers
             foreach ($checkoutItems as $item) {
                 // Initialize base price and modifiers total
                 $baseTotalPrice = $item['price'] * $item['quantity'];
@@ -397,16 +455,14 @@ class CatalogueController extends Controller
                 // Final total price: base price + modifiers price
                 $totalPrice = $baseTotalPrice + $modifiersTotalPrice;
 
-                $order = Order::create([
-                    'user_id' => auth()->id(),
-                    'invoice_number' => $this->generateInvoiceNumber(),
+                $orderDetail = OrderDetail::create([
+                    'order_id' => $order->id,
                     'product_id' => $item['product_id'],
                     'product_variant_id' => $item['product_variant_id'],
                     'type' => $item['type'],
                     'product_name' => $item['product_name'],
                     'product_variant_name' => $item['product_variant_name'] ?? '',
                     'quantity' => $item['quantity'],
-                    'status' => 'pending',
                     'price' => $item['price'],
                     'total_price' => $totalPrice,
                     'created_by' => auth()->id(),
@@ -425,7 +481,7 @@ class CatalogueController extends Controller
                 if ($item['type'] === 'hampers') {
                     foreach ($item['items'] as $hamperItem) {
                         OrderHampersItem::create([
-                            'order_id' => $order->id,
+                            'order_detail_id' => $orderDetail->id,
                             'product_id' => $hamperItem['product_id'],
                             'product_variant_id' => $hamperItem['id'],
                             'product_name' => $hamperItem['product_name'],
@@ -449,7 +505,7 @@ class CatalogueController extends Controller
                 if (isset($item['modifiers']) && is_array($item['modifiers']) && count($item['modifiers']) > 0) {
                     foreach ($item['modifiers'] as $modifier) {
                         OrderModifier::create([
-                            'order_id' => $order->id,
+                            'order_detail_id' => $orderDetail->id,
                             'modifier_id' => $modifier['modifier_id'],
                             'modifier_option_id' => $modifier['modifier_option_id'],
                             'modifier_name' => $modifier['modifier_name'],
@@ -459,6 +515,56 @@ class CatalogueController extends Controller
                         ]);
                     }
                 }
+            }
+
+            //update MOKA stock
+            $historyDetails = [];
+            foreach ($mokaDetails as $entry) {
+                $variant = $entry['variant'];
+                $orderedQty = $entry['qty'];
+
+                $remainingStock = $variant->stock - $orderedQty;
+                if ($remainingStock < 0) {
+                    DB::rollBack();
+                    $productName = $variant->name
+                        ? "{$variant->product->name} - {$variant->name}"
+                        : $variant->product->name;
+
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Product '{$productName}' only has {$variant->stock} left.",
+                    ]);
+                }
+
+                $historyDetails[] = [
+                    'item_id' => $variant->product->moka_id_product,
+                    'item_variant_id' => $variant->moka_id_product_variant,
+                    'actual_stock' => $remainingStock
+                ];
+            }
+
+            if (count($historyDetails) > 0) {
+                $payload = [
+                    'adjustment' => [
+                        'note' => "ecomm:{$order->id}:{$order->invoice_number}",
+                        'history_details' => $historyDetails
+                    ]
+                ];
+
+                $result = $this->mokaStockAdjustment($payload);
+                if (!$result) {
+                    DB::rollBack();
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Terjadi kesalahan saat proses integrasi stock. Harap hubungi admin.",
+                    ]);
+                }
+            } else {
+                DB::rollBack();
+                return response()->json([
+                    'success' => false,
+                    'message' => "Terjadi kesalahan saat proses integrasi stock",
+                ]);
             }
 
             // Step 4: Clear session
