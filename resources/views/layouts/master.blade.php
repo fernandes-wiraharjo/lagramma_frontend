@@ -55,10 +55,10 @@
                 // Authenticated user
                 document.getElementById('userDropdownContent').innerHTML = `
                     <h6 class="dropdown-header">Welcome ${user.name}!</h6>
-                    <a class="dropdown-item" href="account"><i class="bi bi-person-circle text-muted fs-15 me-1"></i> Profile</a>
+                    <a class="dropdown-item" href="${backendUrl}/my-account"><i class="bi bi-person-circle text-muted fs-15 me-1"></i> Profile</a>
                     <a class="dropdown-item" href="order-history"><i class="bi bi-cart4 text-muted fs-15 me-1"></i> Order History</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="account"><i class="mdi mdi-cog-outline text-muted fs-15 me-1"></i> Settings</a>
+                    <a class="dropdown-item" href="${backendUrl}/account-setting"><i class="mdi mdi-cog-outline text-muted fs-15 me-1"></i> Settings</a>
                     <a href="#" onclick="logoutStore()" class="dropdown-item">
                         <i class="bi bi-box-arrow-right text-muted fs-15 me-1"></i> Logout
                     </a>
