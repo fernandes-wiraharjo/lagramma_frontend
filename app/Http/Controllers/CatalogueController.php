@@ -120,6 +120,11 @@ class CatalogueController extends Controller
             }
         }
 
+        $weight = $request->weight * $request->quantity;
+        $length = $request->length * $request->quantity;
+        $width = $request->width * $request->quantity;
+        $height = $request->height * $request->quantity;
+
         //logic add to cart
         $cartService->addItem([
             'product_id' => $request->product_id,
@@ -131,6 +136,10 @@ class CatalogueController extends Controller
             'quantity' => $request->quantity,
             'price' => $request->price,
             'modifiers' => $request->modifiers ?? [],
+            'weight' => $weight,
+            'length' => $length,
+            'width' => $width,
+            'height' => $height,
             'items' => $items ?? [] // only for hampers
         ]);
 
@@ -283,6 +292,11 @@ class CatalogueController extends Controller
             }
         }
 
+        $weight = $request->weight * $request->quantity;
+        $length = $request->length * $request->quantity;
+        $width = $request->width * $request->quantity;
+        $height = $request->height * $request->quantity;
+
         //logic add to cart
         $buyNowService->addItem([
             'product_id' => $request->product_id,
@@ -294,6 +308,10 @@ class CatalogueController extends Controller
             'quantity' => $request->quantity,
             'price' => $request->price,
             'modifiers' => $request->modifiers ?? [],
+            'weight' => $weight,
+            'length' => $length,
+            'width' => $width,
+            'height' => $height,
             'items' => $items ?? [] // only for hampers
         ]);
 

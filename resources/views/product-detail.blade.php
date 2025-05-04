@@ -144,6 +144,10 @@
                     data-main-image="{{ $product->mainImage?->image_path
                         ? asset(config('app.backend_url') . '/storage/' . $product->mainImage->image_path)
                         : asset('images/no_image.jpg') }}"
+                    data-weight="{{ $product->weight }}"
+                    data-width="{{ $product->width }}"
+                    data-height="{{ $product->height }}"
+                    data-length="{{ $product->length }}"
                     @if(strtolower($product->category->name) === 'hampers' && $product->variants->first())
                         data-base-price="{{ $product->variants->first()->price }}"
                         data-stock="{{ $product->variants->first()->stock }}"

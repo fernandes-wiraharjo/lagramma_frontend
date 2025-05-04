@@ -14,6 +14,8 @@
     @php
         $items = $checkoutData ?? [];
         $subtotal = collect($items)->sum('total_price');
+        $totalWeight = collect($items)->sum('weight');
+        $hasAddress = auth()->user()->addresses->count() > 0;
     @endphp
     <section class="page-wrapper bg-primary">
         <div class="container">
@@ -144,60 +146,51 @@
                                 <h5 class="mb-0">Shipping Address</h5>
                             </div>
                             <div class="flex-shrink-0">
-                                <a href="address" class="badge bg-secondary-subtle text-secondary link-secondary">
-                                    Add Address
+                                <a href="javascript:location.reload()" class="badge bg-primary-subtle text-primary link-primary">
+                                    Reload
+                                </a>
+                                <a href="{{ config('app.backend_url') }}/account-setting" target="_blank"
+                                    rel="noopener noreferrer" class="badge bg-secondary-subtle text-secondary link-secondary">
+                                    Manage Address
                                 </a>
                             </div>
                         </div>
                         <div class="row gy-3">
-                            <div class="col-lg-6 col-12">
-                                <div class="form-check card-radio">
-                                    <input id="shippingAddress01" name="shippingAddress" type="radio"
-                                        class="form-check-input" checked="">
-                                    <label class="form-check-label" for="shippingAddress01">
-                                        <span class="mb-3 text-uppercase fw-semibold d-block">Home Address</span>
-                                        <span class="fs-14 mb-2 d-block fw-semibold">Witney Blessington</span>
-                                        <span class="text-muted fw-normal text-wrap mb-1 d-block">144 Cavendish Avenue,
-                                            Indianapolis, IN 46251</span>
-                                        <span class="text-muted fw-normal d-block">Mo. 012-345-6789</span>
-                                    </label>
-                                </div>
-                                <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
-                                    <div>
-                                        <a href="address" class="d-block text-body p-1 px-2"><i
-                                                class="ri-pencil-fill text-muted align-bottom me-1"></i> Edit</a>
-                                    </div>
-                                    <div>
-                                        <a href="#removeAddressModal" class="d-block text-body p-1 px-2"
-                                            data-bs-toggle="modal"><i
-                                                class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove</a>
+                            @forelse(auth()->user()->addresses as $address)
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-check card-radio">
+                                        <input id="shippingAddress{{ $address->id }}"
+                                            name="shippingAddress"
+                                            type="radio"
+                                            class="form-check-input"
+                                            value="{{ $address->id }}"
+                                            data-address='@json($address)'
+                                        >
+                                        <label class="form-check-label" for="shippingAddress{{ $address->id }}">
+                                            <span class="fs-14 mb-2 d-block fw-semibold">{{ $address->label ?? 'Address' }}</span>
+                                            <span class="text-muted fw-normal text-wrap mb-1 d-block">{{ $address->address }}</span>
+                                            <span class="mt-3 text-muted fw-normal d-block text-wrap">{{ $address->region_label }}</span>
+                                        </label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div class="form-check card-radio">
-                                    <input id="shippingAddress02" name="shippingAddress" type="radio"
-                                        class="form-check-input">
-                                    <label class="form-check-label" for="shippingAddress02">
-                                        <span class="mb-3 text-uppercase fw-semibold d-block">Office Address</span>
-                                        <span class="fs-14 mb-2 d-block fw-semibold">Edwin Adenike</span>
-                                        <span class="text-muted fw-normal text-wrap mb-1 d-block">2971 Westheimer Road,
-                                            Santa Ana, IL 80214</span>
-                                        <span class="text-muted fw-normal d-block">Mo. 012-345-6789</span>
-                                    </label>
-                                </div>
-                                <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
-                                    <div>
-                                        <a href="address" class="d-block text-body p-1 px-2"><i
-                                                class="ri-pencil-fill text-muted align-bottom me-1"></i> Edit</a>
-                                    </div>
-                                    <div>
-                                        <a href="#removeAddressModal" class="d-block text-body p-1 px-2"
-                                            data-bs-toggle="modal"><i
-                                                class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove</a>
+                            @empty
+                                <div class="col-12">
+                                    <div class="alert alert-warning mb-0">
+                                        <strong>No shipping address found.</strong><br>
+                                        Please <a href="{{ config('app.backend_url') }}/account-setting" target="_blank"
+                                            rel="noopener noreferrer" class="link-secondary text-decoration-underline">
+                                                manage your address
+                                            </a> and click
+                                            <a href="javascript:location.reload()" class="link-secondary text-decoration-underline">
+                                                reload
+                                            </a> to proceed checkout.
                                     </div>
                                 </div>
-                            </div>
+                            @endforelse
+                        </div>
+                        <div class="mt-3" id="shippingOptionWrapper">
+                            <label for="shippingOption">Shipping Option</label>
+                            <select id="shippingOption" class="form-select"></select>
                         </div>
                     </div>
                 </div>
@@ -218,12 +211,12 @@
                                             </tr>
                                             <tr>
                                                 <td>Shipping Charge :</td>
-                                                <td class="text-end cart-shipping">-</td>
+                                                <td class="text-end cart-shipping" id="shippingCost">-</td>
                                             </tr>
                                             <tr class="table-active">
                                                 <th>Total (Rp) :</th>
                                                 <td class="text-end">
-                                                    <span class="fw-semibold cart-total">-</span>
+                                                    <span class="fw-semibold cart-total" id="grandTotal">-</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -236,7 +229,7 @@
                             <a href="view-cart" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
                                     class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
                             <!-- <a href="payment" class="btn btn-hover btn-primary w-100">Create Order</a> -->
-                            <button id="create-order-btn" class="btn btn-hover btn-primary w-100">
+                            <button id="create-order-btn" class="btn btn-hover btn-primary w-100" disabled>
                                 <span id="btn-text">Create Order</span>
                                 <span id="loading-spinner" class="d-none spinner-border spinner-border-sm text-light" role="status"></span>
                             </button>
@@ -251,37 +244,15 @@
         </div>
         <!--end container-->
     </section>
-
-    <!-- removeAddressModal -->
-    <div id="removeAddressModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        id="close-modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mt-2 text-center">
-                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
-                            colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                        <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                            <h4>Are you sure ?</h4>
-                            <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Address ?</p>
-                        </div>
-                    </div>
-                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                        <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn w-sm btn-danger">Yes, Delete It!</button>
-                    </div>
-                </div>
-
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 @endsection
 @section('scripts')
     <script>
         const checkoutSource = "{{ $checkoutSource }}";
+        const hasAddress = @json($hasAddress);
+        const subtotal = @json($subtotal);
+        const totalWeight = @json($totalWeight);
+        let shippingCost = 0;
+        let grandTotal = 0;
     </script>
     <!-- page js -->
     <script src="{{ URL::asset('build/js/frontend/lagramma-checkout.init.js') }}"></script>

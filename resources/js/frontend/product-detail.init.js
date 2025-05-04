@@ -43,6 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const productId = productInfo?.dataset.productId || '';
     const productName = productInfo?.dataset.productName || '';
     const productMainImage = productInfo?.dataset.mainImage || '';
+    const productWeight = productInfo?.dataset.weight || 0;
+    const productLength = productInfo?.dataset.length || 0;
+    const productWidth = productInfo?.dataset.width || 0;
+    const productHeight = productInfo?.dataset.height || 0;
     const isHampers = productCategory === 'hampers';
     let basePrice = 0;
     let hamperStock = 0;
@@ -171,7 +175,11 @@ document.addEventListener('DOMContentLoaded', function () {
             product_id: productId,
             product_name: productName,
             type: isHampers ? "hampers" : "product",
-            main_image: productMainImage
+            main_image: productMainImage,
+            weight: productWeight,
+            length: productLength,
+            width: productWidth,
+            height: productHeight
         };
 
         if (isHampers) {
@@ -259,7 +267,11 @@ document.addEventListener('DOMContentLoaded', function () {
             product_id: productId,
             product_name: productName,
             type: isHampers ? "hampers" : "product",
-            main_image: productMainImage
+            main_image: productMainImage,
+            weight: productWeight,
+            length: productLength,
+            width: productWidth,
+            height: productHeight
         };
 
         if (isHampers) {

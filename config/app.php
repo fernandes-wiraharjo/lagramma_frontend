@@ -214,6 +214,10 @@ return [
     ])->toArray(),
 
     'phone' => env('PHONE', '0819-5268-4970'),
-    'backend_url' => env('BACKEND_URL', 'http://localhost:3000')
+    'backend_url' => env('BACKEND_URL', 'http://localhost:3000'),
+    'komerce_api_url' => env('KOMERCE_API_URL'),
+    'komerce_api_key' => env('KOMERCE_API_KEY'),
+    'shipper_region_id' => env('SHIPPER_REGION_ID'),
+    'shipper_lat_lng' => env('SHIPPER_LAT_LNG'),
 
 ];

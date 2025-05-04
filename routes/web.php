@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CatalogueController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\TonerController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,7 @@ Route::post('/cart/validate-stock', [CatalogueController::class, 'validateCartBe
 Route::post('/buy-now', [CatalogueController::class, 'buyNow']);
 Route::get('/checkout', [CatalogueController::class, 'viewCheckout'])->name('checkout.page');
 Route::post('/checkout', [CatalogueController::class, 'createOrder'])->name('create-order');
+Route::post('/calculate-shipping', [CheckoutController::class, 'calculateShipping']);
 
 Route::middleware(['auth'])->group(function () {
     // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
