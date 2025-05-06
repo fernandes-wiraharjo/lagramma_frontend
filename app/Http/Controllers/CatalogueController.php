@@ -120,10 +120,7 @@ class CatalogueController extends Controller
             }
         }
 
-        $weight = $request->weight * $request->quantity;
-        $length = $request->length * $request->quantity;
-        $width = $request->width * $request->quantity;
-        $height = $request->height * $request->quantity;
+        $totalWeight = $request->weight * $request->quantity;
 
         //logic add to cart
         $cartService->addItem([
@@ -136,10 +133,11 @@ class CatalogueController extends Controller
             'quantity' => $request->quantity,
             'price' => $request->price,
             'modifiers' => $request->modifiers ?? [],
-            'weight' => $weight,
-            'length' => $length,
-            'width' => $width,
-            'height' => $height,
+            'weight' => $request->weight,
+            'total_weight' => $totalWeight,
+            'length' => $request->length,
+            'width' => $request->width,
+            'height' => $request->height,
             'items' => $items ?? [] // only for hampers
         ]);
 
@@ -292,10 +290,7 @@ class CatalogueController extends Controller
             }
         }
 
-        $weight = $request->weight * $request->quantity;
-        $length = $request->length * $request->quantity;
-        $width = $request->width * $request->quantity;
-        $height = $request->height * $request->quantity;
+        $totalWeight = $request->weight * $request->quantity;
 
         //logic add to cart
         $buyNowService->addItem([
@@ -308,10 +303,11 @@ class CatalogueController extends Controller
             'quantity' => $request->quantity,
             'price' => $request->price,
             'modifiers' => $request->modifiers ?? [],
-            'weight' => $weight,
-            'length' => $length,
-            'width' => $width,
-            'height' => $height,
+            'weight' => $request->weight,
+            'total_weight' => $totalWeight,
+            'length' => $request->length,
+            'width' => $request->width,
+            'height' => $request->height,
             'items' => $items ?? [] // only for hampers
         ]);
 
@@ -397,6 +393,15 @@ class CatalogueController extends Controller
 
         DB::beginTransaction();
         try {
+            // Init variables
+            $user = auth()->user();
+            $sendToOther = $request->input('is_send_to_other', false);
+            $stoPicName = $sendToOther ? $request->input('sto_pic_name') : '';
+            $stoPicPhone = $sendToOther ? $request->input('sto_pic_phone') : '';
+            $stoReceiverName = $sendToOther ? $request->input('sto_receiver_name') : '';
+            $stoReceiverPhone = $sendToOther ? $request->input('sto_receiver_phone') : '';
+            $stoNote = $sendToOther ? $request->input('sto_note') : '';
+
             // Step 1: Collect all needed quantities
             $totalVariantsNeeded = [];
             $mokaDetails = [];
@@ -535,7 +540,7 @@ class CatalogueController extends Controller
                 }
             }
 
-            //update MOKA stock
+            //Step 4: update MOKA stock
             $historyDetails = [];
             foreach ($mokaDetails as $entry) {
                 $variant = $entry['variant'];
@@ -585,7 +590,47 @@ class CatalogueController extends Controller
                 ]);
             }
 
-            // Step 4: Clear session
+            //Step 5: Store order delivery
+            $komercePayload = [
+                "order_date" => now()->format('Y-m-d H:i:s'),
+                "brand_name" => env('SHIPPER_BRAND_NAME'),
+                "shipper_name" => env('SHIPPER_NAME'),
+                "shipper_phone" => env('SHIPPER_PHONE'),
+                "shipper_destination_id" => env('SHIPPER_REGION_ID'),
+                "shipper_address" => env('SHIPPER_ADDRESS'),
+                "origin_pin_point" => env('SHIPPER_LAT_LNG'),
+                "shipper_email" => env('SHIPPER_EMAIL'),
+                "receiver_name" => $user->name,
+                "receiver_phone" => normalizePhone($user->phone),
+                "receiver_destination_id" => $request->input('receiver_destination_id'),
+                "receiver_address" => $request->input('receiver_address'),
+                "destination_pin_point" => $request->input('destination_pin_point'),
+                "shipping" => $request->input('shipping'), //sampai sini
+                "shipping_type" => $request->input('shipping_type'),
+                "payment_method" => "BANK TRANSFER",
+                "shipping_cost" => $request->input('shipping_cost'),
+                "shipping_cashback" => 2500,
+                "service_fee" => 0,
+                "additional_cost" => 0,
+                "grand_total" => $request->input('grand_total'),
+                "cod_value" => $request->input('grand_total'),
+                "insurance_value" => 0,
+                "order_details" => [
+                    [
+                        "product_name" => "Amako",
+                        "product_variant_name" => "",
+                        "product_price" => 190000,
+                        "product_width" => 1,
+                        "product_height" => 1,
+                        "product_weight" => $request->input('product_weight', 1000),
+                        "product_length" => 1,
+                        "qty" => 1,
+                        "subtotal" => 190000
+                    ]
+                ]
+            ];
+
+            // Step 6: Clear session
             if ($source === 'buy_now') {
                 session()->forget('buy_now');
             } else {

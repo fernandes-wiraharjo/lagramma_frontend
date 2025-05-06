@@ -14,7 +14,7 @@
     @php
         $items = $checkoutData ?? [];
         $subtotal = collect($items)->sum('total_price');
-        $totalWeight = collect($items)->sum('weight');
+        $totalWeight = collect($items)->sum('total_weight');
         $hasAddress = auth()->user()->addresses->count() > 0;
     @endphp
     <section class="page-wrapper bg-primary">
@@ -191,6 +191,38 @@
                         <div class="mt-3" id="shippingOptionWrapper">
                             <label for="shippingOption">Shipping Option</label>
                             <select id="shippingOption" class="form-select"></select>
+                        </div>
+                        <div class="mt-3" id="sendToOtherContainer">
+                            <label>
+                                <input type="checkbox" id="cbSendToOther"> Send to other ?
+                            </label>
+                        </div>
+                        <!-- Conditional sender/receiver fields -->
+                        <div id="sto_fields">
+                            <div class="form-group">
+                                <label for="sto_pic_name">Sender PIC Name</label>
+                                <input type="text" id="sto_pic_name" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sto_pic_phone">Sender PIC Phone</label>
+                                <input type="text" id="sto_pic_phone" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sto_receiver_name">Receiver Name</label>
+                                <input type="text" id="sto_receiver_name" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sto_receiver_phone">Receiver Phone</label>
+                                <input type="text" id="sto_receiver_phone" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sto_note">Note</label>
+                                <textarea id="sto_note" class="form-control"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>

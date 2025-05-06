@@ -1,9 +1,13 @@
+let shippingOptions = [];
+
 document.addEventListener('DOMContentLoaded', function () {
     const checkoutBtn = document.getElementById('create-order-btn');
     const radioButtons = document.querySelectorAll('input[name="shippingAddress"]');
     const shippingOptionWrapper = document.getElementById('shippingOptionWrapper');
     const shippingSelect = document.getElementById('shippingOption');
-    let shippingOptions = [];
+    const sendToOtherContainer = document.getElementById('sendToOtherContainer');
+    const cbSendToOther = document.getElementById('cbSendToOther');
+    const stoFields = document.getElementById('sto_fields');
 
     //get shipping cost
     async function fetchShippingCost(address) {
@@ -66,12 +70,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (selected) {
             shippingOptionWrapper.classList.remove('d-none');
+            sendToOtherContainer.classList.remove('d-none');
             const address = JSON.parse(selected.dataset.address);
             fetchShippingCost(address);
         } else {
             shippingOptionWrapper.classList.add('d-none');
+            sendToOtherContainer.classList.add('d-none');
+            cbSendToOther.checked = false;
+            stoFields.classList.add('d-none');
         }
     }
+
+    // Show/hide sto fields based on checkbox
+    cbSendToOther.addEventListener('change', function () {
+        if (this.checked) {
+            stoFields.classList.remove('d-none');
+        } else {
+            stoFields.classList.add('d-none');
+        }
+    });
 
     // Handle change of shipping option
     shippingSelect.addEventListener('change', function () {
@@ -100,6 +117,22 @@ document.getElementById('create-order-btn').addEventListener('click', function (
     const buttonText = document.getElementById('btn-text');
     const loadingSpinner = document.getElementById('loading-spinner');
 
+    // Selected shipping option
+    const selectedShippingIndex = document.getElementById('shippingOption').value;
+    const selectedShipping = shippingOptions[selectedShippingIndex];
+
+    // Selected address
+    const selectedAddress = document.querySelector('input[name="shippingAddress"]:checked');
+    const address = JSON.parse(selectedAddress.dataset.address);
+
+    // STO (Send to Other) Fields
+    const sendToOtherChecked = document.getElementById('cbSendToOther').checked;
+    const stoPicName = sendToOtherChecked ? document.getElementById('sto_pic_name').value : '';
+    const stoPicPhone = sendToOtherChecked ? document.getElementById('sto_pic_phone').value : '';
+    const stoReceiverName = sendToOtherChecked ? document.getElementById('sto_receiver_name').value : '';
+    const stoReceiverPhone = sendToOtherChecked ? document.getElementById('sto_receiver_phone').value : '';
+    const stoNote = sendToOtherChecked ? document.getElementById('sto_note').value : '';
+
     // Disable the button and show loading spinner
     createOrderButton.disabled = true;
     buttonText.classList.add('d-none');
@@ -113,7 +146,23 @@ document.getElementById('create-order-btn').addEventListener('click', function (
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            source: checkoutSource  // <-- send 'buy_now' or 'cart'
+            source: checkoutSource,  // <-- send 'buy_now' or 'cart'
+            receiver_address_id: address.id,
+            receiver_destination_id: address.region_id,
+            receiver_address: address.address,
+            destination_pin_point: `${address.latitude},${address.longitude}`,
+            shipping: selectedShipping.shipping_name,
+            shipping_type: selectedShipping.service_name,
+            shipping_cost: selectedShipping.shipping_cost,
+            shipping_cashback: selectedShipping.shipping_cashback,
+            service_fee: selectedShipping.service_fee,
+            grand_total: grandTotal,
+            is_send_to_other: sendToOtherChecked,
+            sto_pic_name: stoPicName,
+            sto_pic_phone: stoPicPhone,
+            sto_receiver_name: stoReceiverName,
+            sto_receiver_phone: stoReceiverPhone,
+            sto_note: stoNote
         })
     })
     .then(res => res.json())
