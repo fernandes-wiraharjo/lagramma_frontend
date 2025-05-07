@@ -673,6 +673,7 @@ class CatalogueController extends Controller
                 'sto_receiver_name' => $stoReceiverName,
                 'sto_receiver_phone' => $stoReceiverPhone,
                 'sto_note' => $stoNote,
+                'status' => 'submitted',
                 'created_by' => $user->id,
                 'updated_at' => null,
             ]);
