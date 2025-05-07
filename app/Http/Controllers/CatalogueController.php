@@ -13,6 +13,8 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderModifier;
 use App\Models\OrderHampersItem;
+use App\Models\OrderDelivery;
+use App\Models\OrderDeliveryDetail;
 use App\Services\CartService;
 use App\Services\BuyNowService;
 use Illuminate\Support\Facades\Session;
@@ -426,6 +428,20 @@ class CatalogueController extends Controller
                         $totalVariantsNeeded[$key] += $neededQty;
                     }
                 }
+
+                //store to order details for raja ongkir store order
+                $productPrice = $item['price'] + collect($item['modifiers'])->sum('price');
+                $orderDetails[] = [
+                    "product_name" => $item['product_name'],
+                    "product_variant_name" => $item['product_variant_name'] ?? '',
+                    "product_price" => $productPrice,
+                    "product_width" => intval($item['width']) ?? 1,
+                    "product_height" => intval($item['height']) ?? 1,
+                    "product_weight" => isset($item['weight']) ? $item['weight'] * 1000 : 1000,
+                    "product_length" => intval($item['length']) ?? 1,
+                    "qty" => intval($item['quantity']),
+                    "subtotal" => $productPrice * $item['quantity']
+                ];
             }
 
             // Step 2: Validate total stock
@@ -596,39 +612,83 @@ class CatalogueController extends Controller
                 "brand_name" => env('SHIPPER_BRAND_NAME'),
                 "shipper_name" => env('SHIPPER_NAME'),
                 "shipper_phone" => env('SHIPPER_PHONE'),
-                "shipper_destination_id" => env('SHIPPER_REGION_ID'),
+                "shipper_destination_id" => intval(env('SHIPPER_REGION_ID')),
                 "shipper_address" => env('SHIPPER_ADDRESS'),
                 "origin_pin_point" => env('SHIPPER_LAT_LNG'),
                 "shipper_email" => env('SHIPPER_EMAIL'),
                 "receiver_name" => $user->name,
                 "receiver_phone" => normalizePhone($user->phone),
-                "receiver_destination_id" => $request->input('receiver_destination_id'),
+                "receiver_destination_id" => intval($request->input('receiver_destination_id')),
                 "receiver_address" => $request->input('receiver_address'),
                 "destination_pin_point" => $request->input('destination_pin_point'),
-                "shipping" => $request->input('shipping'), //sampai sini
+                "shipping" => $request->input('shipping'),
                 "shipping_type" => $request->input('shipping_type'),
                 "payment_method" => "BANK TRANSFER",
                 "shipping_cost" => $request->input('shipping_cost'),
-                "shipping_cashback" => 2500,
-                "service_fee" => 0,
+                "shipping_cashback" => $request->input('shipping_cashback'),
+                "service_fee" => $request->input('service_fee'),
                 "additional_cost" => 0,
                 "grand_total" => $request->input('grand_total'),
                 "cod_value" => $request->input('grand_total'),
                 "insurance_value" => 0,
-                "order_details" => [
-                    [
-                        "product_name" => "Amako",
-                        "product_variant_name" => "",
-                        "product_price" => 190000,
-                        "product_width" => 1,
-                        "product_height" => 1,
-                        "product_weight" => $request->input('product_weight', 1000),
-                        "product_length" => 1,
-                        "qty" => 1,
-                        "subtotal" => 190000
-                    ]
-                ]
+                "order_details" => $orderDetails
             ];
+            $baseUrlKomerce = config('app.komerce_api_url');
+            $komerceApiKey = config('app.komerce_api_key');
+
+            // Send order to Komerce
+            $komerceResponse = Http::withHeaders([
+                'x-api-key' => $komerceApiKey
+            ])->post("{$baseUrlKomerce}/order/api/v1/orders/store", $komercePayload);
+
+            if (!$komerceResponse->successful() || $komerceResponse['meta']['code'] !== 201) {
+                // insertApiErrorLog('Raja Ongkir Store Order', "{$baseUrlKomerce}/order/api/v1/orders/store", 'POST',
+                //     null, null, json_encode($komercePayload), $komerceResponse['meta']['code'], $komerceResponse->body());
+                Log::error('Failed to create Komerce order', [
+                    'status' => $komerceResponse['meta']['code'],
+                    'message' => $komerceResponse['meta']['message'],
+                    'response' => $komerceResponse->body()
+                ]);
+                throw new \Exception('Failed to create Komerce order: ' . $komerceResponse['meta']['message']);
+            }
+
+            $komerceData = $komerceResponse['data'];
+
+            // Step 5.1: Save to order_deliveries
+            $orderDelivery = OrderDelivery::create([
+                'order_id' => $order->id,
+                'order_delivery_id' => $komerceData['order_id'],
+                'order_delivery_no' => $komerceData['order_no'],
+                'address_id' => $request->input('receiver_address_id'),
+                'date' => $komercePayload["order_date"],
+                'shipping_name' => $komercePayload["shipping"],
+                'shipping_type' => $komercePayload["shipping_type"],
+                'shipping_cost' => $komercePayload["shipping_cost"],
+                'shipping_cashback' => $komercePayload["shipping_cashback"],
+                'service_fee' => $komercePayload["service_fee"],
+                'grand_total' => $komercePayload["grand_total"],
+                'is_send_to_other' => $sendToOther,
+                'sto_pic_name' => $stoPicName,
+                'sto_pic_phone' => $stoPicPhone,
+                'sto_receiver_name' => $stoReceiverName,
+                'sto_receiver_phone' => $stoReceiverPhone,
+                'sto_note' => $stoNote,
+                'created_by' => $user->id,
+                'updated_at' => null,
+            ]);
+
+            // Step 5.2: Save to order_delivery_details
+            foreach ($orderDetails as $detail) {
+                OrderDeliveryDetail::create([
+                    'order_delivery_id' => $orderDelivery->id,
+                    'weight' => $detail['product_weight'], //gram
+                    'width' => $detail['product_width'],
+                    'height' => $detail['product_height'],
+                    'length' => $detail['product_length'],
+                    'created_by' => $user->id,
+                    'updated_at' => null,
+                ]);
+            }
 
             // Step 6: Clear session
             if ($source === 'buy_now') {

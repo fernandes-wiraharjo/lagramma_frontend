@@ -11,20 +11,27 @@ function getMokaToken()
 
 function insertApiErrorLog($name, $url, $method, $headers, $queryParams, $requestBody, $statusCode, $responseBody)
 {
-    DB::table('log_api_errors')->insert([
-        'name' => $name,
-        'url' => $url,
-        'method' => $method,
-        'header' => $headers,
-        'request_param' => $queryParams,
-        'request_body' => $requestBody,
-        'status_code' => $statusCode,
-        'response' => $responseBody,
-        'created_by' => null,
-        'updated_by' => null,
-        'created_at' => now(),
-        'updated_at' => now(),
-    ]);
+    try {
+        DB::table('log_api_errors')->insert([
+            'name' => "test",
+            'url' => "test",
+            'method' => "test",
+            'header' => "test",
+            'request_param' => "test",
+            'request_body' => "test",
+            'status_code' => "test",
+            'response' => "test",
+            'created_by' => null,
+            'updated_by' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    } catch (\Exception $e) {
+        Log::error('Failed to insert API error log', [
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ]);
+    }
 }
 
 function refreshMokaToken()
