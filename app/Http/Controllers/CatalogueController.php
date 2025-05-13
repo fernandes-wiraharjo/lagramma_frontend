@@ -55,9 +55,22 @@ class CatalogueController extends Controller
     }
 
     public function getByID($id) {
-        $product = Product::with('images', 'mainImage', 'variants', 'category', 'modifiers.modifier.options')
-            ->where('id', $id)
-            ->first();
+        $product = Product::with([
+            'images',
+            'mainImage',
+            'variants',
+            'category',
+            'modifiers.modifier' => function($query) {
+                $query->where('is_active', true); // Only active modifiers
+            },
+            'modifiers.modifier.options' => function($query) {
+                $query->where('is_active', true); // Only active modifier options
+            }
+        ])
+        ->where('id', $id)
+        ->first();
+
+        Log::info($product);
 
         return view('product-detail', compact('product'));
     }

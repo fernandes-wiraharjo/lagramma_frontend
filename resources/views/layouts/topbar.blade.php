@@ -487,7 +487,7 @@
                                 {{-- Show Modifiers if available --}}
                                 @if (!empty($item['modifiers']))
                                 <div class="mt-2">
-                                    <h6 class="fs-13 fw-semibold text-muted mb-1">Topping:</h6>
+                                    <!-- <h6 class="fs-13 fw-semibold text-muted mb-1">Topping:</h6> -->
                                     <ul class="mb-2 ps-3">
                                         @foreach ($item['modifiers'] as $modifier)
                                             <li>
