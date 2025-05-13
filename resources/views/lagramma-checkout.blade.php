@@ -99,7 +99,7 @@
                                                                     @foreach ($item['modifiers'] as $modifier)
                                                                         <li>
                                                                             {{ $modifier['modifier_name'] }}: {{ $modifier['modifier_option_name'] }}
-                                                                            <span class="text-muted">(+Rp {{ number_format($modifier['price'], 0, ',', '.') }})</span>
+                                                                            <span class="text-muted">(+IDR {{ number_format($modifier['price'], 0, ',', '.') }})</span>
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
@@ -124,13 +124,13 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                Rp{{ number_format($item['price'], 0, ',', '.') }}
+                                                IDR{{ number_format($item['price'], 0, ',', '.') }}
                                             </td>
                                             <td>
                                                 {{ $item['quantity'] ?? 0 }}
                                             </td>
                                             <td class="text-end">
-                                                Rp{{ number_format($item['total_price'], 0, ',', '.') }}
+                                                IDR{{ number_format($item['total_price'], 0, ',', '.') }}
                                             </td>
                                         </tr>
                                         @endforeach
@@ -239,14 +239,14 @@
                                         <tbody>
                                             <tr>
                                                 <td>Sub Total :</td>
-                                                <td class="text-end cart-subtotal">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
+                                                <td class="text-end cart-subtotal">IDR{{ number_format($subtotal, 0, ',', '.') }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Shipping Charge :</td>
                                                 <td class="text-end cart-shipping" id="shippingCost">-</td>
                                             </tr>
                                             <tr class="table-active">
-                                                <th>Total (Rp) :</th>
+                                                <th>Total (IDR) :</th>
                                                 <td class="text-end">
                                                     <span class="fw-semibold cart-total" id="grandTotal">-</span>
                                                 </td>

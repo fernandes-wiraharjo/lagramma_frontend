@@ -105,7 +105,7 @@ function loadProductList(datas, page) {
                     var afterDiscountElem = '<h5 class="text-secondary mb-0">$' + afterDiscount.toFixed(2) + ' <span class="text-muted fs-12"><del>$' + datas[i].price + '</del></span></h5>'
                 } else {
                     var discountElem = "";
-                    var afterDiscountElem = '<h5 class="text-secondary mb-0">Rp' + datas[i].price + '</h5>'
+                    var afterDiscountElem = '<h5 class="text-secondary mb-0">IDR' + datas[i].price + '</h5>'
                 }
 
                 if (document.getElementById("col-3-layout")) {

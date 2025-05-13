@@ -146,7 +146,7 @@
         function updateCartSubTotal(subtotal) {
             const subTotalElements = document.querySelectorAll('.cart-lg-subtotal');
             subTotalElements.forEach(input => {
-                input.textContent = 'Rp' + numberFormat(subtotal);
+                input.textContent = 'IDR' + numberFormat(subtotal);
             });
         }
 

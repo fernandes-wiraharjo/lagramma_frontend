@@ -138,7 +138,7 @@
                                             @foreach ($item['modifiers'] as $modifier)
                                                 <li>
                                                     {{ $modifier['modifier_name'] }}: {{ $modifier['modifier_option_name'] }}
-                                                    <span class="text-muted">(+Rp {{ number_format($modifier['price'], 0, ',', '.') }})</span>
+                                                    <span class="text-muted">(+IDR {{ number_format($modifier['price'], 0, ',', '.') }})</span>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -169,7 +169,7 @@
                                 <div class="col-sm-auto">
                                     <div class="text-lg-end">
                                         <p class="text-muted mb-1 fs-12">Item Price:</p>
-                                        <h5 class="fs-16">Rp<span class="product-price">{{ number_format($item['price'], 0, ',', '.') }}</span></h5>
+                                        <h5 class="fs-16">IDR<span class="product-price">{{ number_format($item['price'], 0, ',', '.') }}</span></h5>
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@
                                 <div class="col-sm-auto">
                                     <div class="d-flex align-items-center gap-2 text-muted">
                                         <div>Total :</div>
-                                        <h5 class="fs-14 mb-0">Rp<span class="product-line-price"
+                                        <h5 class="fs-14 mb-0">IDR<span class="product-line-price"
                                             data-key="{{ $key }}" data-price="{{ ($item['price'] ?? 0) + (!empty($item['modifiers']) ? array_sum(array_column($item['modifiers'], 'price')) : 0) }}">
                                             {{ number_format($item['total_price'], 0, ',', '.') }}
                                             </span>
@@ -226,7 +226,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>Sub Total :</td>
-                                                <td class="text-end cart-lg-subtotal">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
+                                                <td class="text-end cart-lg-subtotal">IDR{{ number_format($subtotal, 0, ',', '.') }}</td>
                                             </tr>
                                             <!-- <tr>
                                                 <td>Discount <span class="text-muted">(Toner15)</span>:</td>
@@ -241,7 +241,7 @@
                                                 <td class="text-end cart-tax"></td>
                                             </tr> -->
                                             <tr class="table-active">
-                                                <th>Total (Rp) :</th>
+                                                <th>Total (IDR) :</th>
                                                 <td class="text-end">
                                                     <span class="fw-semibold cart-total">-</span>
                                                 </td>

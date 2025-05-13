@@ -141,8 +141,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const modifierPrice = getSelectedModifierTotal();
         const total = (basePrice + modifierPrice) * quantity;
 
-        basePriceEl.innerHTML = `Rp ${formatRupiah(basePrice)}`;
-        totalPriceEl.textContent = `Total Harga: Rp ${formatRupiah(total)}`;
+        basePriceEl.innerHTML = `IDR ${formatRupiah(basePrice)}`;
+        totalPriceEl.textContent = `Total Harga: IDR ${formatRupiah(total)}`;
         totalPriceEl.classList.remove('d-none');
     }
 

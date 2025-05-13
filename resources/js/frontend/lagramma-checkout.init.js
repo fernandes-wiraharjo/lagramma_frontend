@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', function () {
         shippingCost = option.shipping_cost;
         grandTotal = shippingCost + subtotal;
 
-        document.getElementById('shippingCost').innerText = `Rp ${shippingCost.toLocaleString()}`;
-        document.getElementById('grandTotal').innerText = `Rp ${grandTotal.toLocaleString()}`;
+        document.getElementById('shippingCost').innerText = `IDR ${shippingCost.toLocaleString()}`;
+        document.getElementById('grandTotal').innerText = `IDR ${grandTotal.toLocaleString()}`;
     }
 
     //selected address event

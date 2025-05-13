@@ -168,7 +168,7 @@
                                     @endphp
 
                                     @if ($variant)
-                                        Rp {{ number_format($variant->price, 0, ',', '.') }}
+                                        IDR {{ number_format($variant->price, 0, ',', '.') }}
                                     @else
                                         Harga tidak tersedia
                                     @endif
@@ -176,7 +176,7 @@
                                     <p class="text-muted fs-14 fst-italic">Silakan pilih varian terlebih dahulu untuk melihat harga.</p>
                                 @endif
                             </h5>
-                            <p id="total-price" class="text-muted fs-14 fst-italic d-none">Total Harga: Rp 0</p>
+                            <p id="total-price" class="text-muted fs-14 fst-italic d-none">Total Harga: IDR 0</p>
                         <div class="d-flex align-items-center mb-4">
                             <h5 class="fs-15 mb-0">Quantity:</h5>
                             <div class="input-step ms-2">
@@ -281,7 +281,7 @@
                                                         class="btn btn-outline-primary text-capitalize px-3 py-1 fs-12 d-flex align-items-center justify-content-center rounded-pill"
                                                         for="modifier-option-{{ $option->id }}">
                                                         {{ $productModifier->modifier->name }} - {{ $option->name }} &nbsp
-                                                        <span class="text-muted"> (+Rp {{ number_format($option->price, 0, ',', '.') }})</span>
+                                                        <span class="text-muted"> (+IDR {{ number_format($option->price, 0, ',', '.') }})</span>
                                                     </label>
                                                 </li>
                                             @endforeach
