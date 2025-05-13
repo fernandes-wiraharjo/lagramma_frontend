@@ -24,13 +24,13 @@ use Illuminate\Support\Facades\Http;
 class CatalogueController extends Controller
 {
     public function index(Request $request) {
-        $today = Carbon::today();
+        // $today = Carbon::today();
         $categories = Category::where('is_active', true)->get();
         $products = Product::with('category', 'mainImage')
             ->where('is_active', true)
-            ->whereDoesntHave('deactivateDates', function ($query) use ($today) {
-                $query->whereDate('start_date', '<=', $today)
-                      ->whereDate('end_date', '>=', $today);
+            ->whereDoesntHave('deactivateDates', function ($query) {
+                $query->where('start_date', '<=', now())
+                      ->where('end_date', '>=', now());
             })
             ->orderBy('name', 'asc')
             ->get();
