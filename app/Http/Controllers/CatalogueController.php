@@ -227,11 +227,14 @@ class CatalogueController extends Controller
                 foreach ($item['items'] as $hamperItem) {
                     $variant = ProductVariant::find($hamperItem['id']);
                     $neededQty = $hamperItem['quantity'] * $item['quantity'];
+                    $itemName = $hamperItem['name']
+                        ? "{$hamperItem['product_name']} - {$hamperItem['name']}"
+                        : $hamperItem['product_name'];
 
                     if (!$variant || $variant->stock < $neededQty) {
                         return response()->json([
                             'success' => false,
-                            'message' => "Item '{$hamperItem['name']}' in '{$productName}' only has {$variant->stock} left.",
+                            'message' => "Item '{$itemName}' in '{$productName}' only has {$variant->stock} left.",
                         ]);
                     }
                 }

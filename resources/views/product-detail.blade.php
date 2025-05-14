@@ -196,29 +196,29 @@
                                         @endphp
 
                                         <div class="col-md-12">
-                                            <h6 class="fs-14 fw-medium text-muted mb-2">
+                                            <!-- <h6 class="fs-14 fw-medium text-muted mb-2">
                                                 Max Item's Qty: {{ $maxItems }}
-                                            </h6>
+                                            </h6> -->
 
                                             <table class="table table-sm table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>Item</th>
-                                                        <th>Qty</th>
+                                                        <th class="d-none">Qty</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach($allowedVariants as $variant)
                                                         <tr>
                                                             <td>{{ $variant->name ? $variant->product->name . ' - ' . $variant->name : $variant->product->name }}</td>
-                                                            <td style="width: 100px;">
+                                                            <td style="width: 100px; display:none;">
                                                                 <input
                                                                     type="number"
                                                                     name="hamper_items[{{ $variant->id }}]"
                                                                     class="form-control hamper-qty"
                                                                     min="0"
                                                                     max="{{ $maxItems }}"
-                                                                    value="0"
+                                                                    value="1"
                                                                 >
                                                             </td>
                                                         </tr>
@@ -226,9 +226,9 @@
                                                 </tbody>
                                             </table>
 
-                                            <small class="text-muted fst-italic" id="hamper-warning" style="display: none;">
+                                            <!-- <small class="text-muted fst-italic" id="hamper-warning" style="display: none;">
                                                 Total item's qty cannot exceed {{ $maxItems }}.
-                                            </small>
+                                            </small> -->
                                         </div>
                                     @elseif(strtolower($product->category->name) !== 'hampers' && $product->variants->count())
                                         <h6 class="fs-14 fw-medium text-muted">Variants:</h6>
