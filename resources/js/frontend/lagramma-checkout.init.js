@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //selected address event
     function selectedAddress() {
         const selected = document.querySelector('input[name="shippingAddress"]:checked');
-        const enabled = hasAddress && selected;
+        const enabled = hasAddress && selected && itemCount > 0;
         checkoutBtn.disabled = !enabled;
 
         if (selected) {

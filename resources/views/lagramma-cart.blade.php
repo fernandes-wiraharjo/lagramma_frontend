@@ -47,9 +47,11 @@
                     <div class="d-flex align-items-center mb-4">
                         <h5 class="mb-0 flex-grow-1 fw-medium">There are <span class="fw-bold">{{ $cartCount }}</span>
                             products in your cart</h5>
-                        <div class="flex-shrink-0">
-                            <a href="#!" class="text-decoration-underline link-secondary clear-cart-btn">Clear Cart</a>
-                        </div>
+                        @if($cartCount > 0)
+                            <div class="flex-shrink-0">
+                                <a href="#!" class="text-decoration-underline link-secondary clear-cart-btn">Clear Cart</a>
+                            </div>
+                        @endif
                     </div>
                     <!-- <div class="card product">
                         <div class="card-body p-4">
@@ -255,8 +257,9 @@
                         <div class="hstack gap-2 justify-content-end">
                             <a href="/" class="btn btn-hover btn-danger">Continue Shopping</a>
                             <!-- <button type="button" class="btn btn-hover btn-danger">Continue Shopping</button> -->
-                            <button type="button" id="lg-checkout-btn" class="btn btn-hover btn-success">Check Out <i
-                                class="ri-logout-box-r-line align-bottom ms-1"></i></button>
+                            <button type="button" id="lg-checkout-btn" class="btn btn-hover btn-success" @if($cartCount == 0) disabled @endif>
+                                Check Out <i class="ri-logout-box-r-line align-bottom ms-1"></i>
+                            </button>
                         </div>
                     </div>
                     <!-- end stickey -->

@@ -13,6 +13,7 @@
 @section('content')
     @php
         $items = $checkoutData ?? [];
+        $itemCount = count($items);
         $subtotal = collect($items)->sum('total_price');
         $totalWeight = collect($items)->sum('total_weight');
         $hasAddress = auth()->user()->addresses->count() > 0;
@@ -283,6 +284,7 @@
         const hasAddress = @json($hasAddress);
         const subtotal = @json($subtotal);
         const totalWeight = @json($totalWeight);
+        const itemCount = @json($itemCount);
         let shippingCost = 0;
         let grandTotal = 0;
     </script>

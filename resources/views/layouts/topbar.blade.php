@@ -573,7 +573,9 @@
                 <!-- <button type="button" class="btn btn-light w-100" id="reset-layout">View Cart</button> -->
             </div>
             <div class="col-6">
-                <button type="button" id="lg-continue-to-co-btn" class="btn btn-info w-100">Continue to Checkout</button>
+                <button type="button" id="lg-continue-to-co-btn" class="btn btn-info w-100" @if($cartCount == 0) disabled @endif>
+                    Continue to Checkout
+                </button>
                 <!-- <a href="#!" target="_blank" class="btn btn-info w-100">Continue to Checkout</a> -->
             </div>
         </div>
