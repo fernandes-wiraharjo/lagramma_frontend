@@ -174,8 +174,34 @@
                 <div class="col-lg-5 ms-auto">
                     <div class="ecommerce-product-widgets mt-4 mt-lg-0">
                         <div class="mb-4">
-                            <h4 class="lh-base mb-1">{{ $product->name }}</h4>
-                            <h5 class="fs-24 mb-4" id="base-price">
+                            <h4 class="lh-base mb-1">{{ $product->name }} -
+                                <span id="base-price-text">
+                                    @if(strtolower($product->category->name) === 'hampers')
+                                        @php
+                                            $variant = $product->variants->first();
+                                        @endphp
+
+                                        @if ($variant)
+                                            IDR {{ number_format($variant->price, 0, ',', '.') }}
+                                        @else
+                                            Harga tidak tersedia
+                                        @endif
+                                    @elseif($product->variants->count() === 1)
+                                        @php
+                                            $variant = $product->variants->first();
+                                        @endphp
+
+                                        @if ($variant)
+                                            IDR {{ number_format($variant->price, 0, ',', '.') }}
+                                        @else
+                                            Harga tidak tersedia
+                                        @endif
+                                    @else
+                                        <p class="text-muted fs-14 fst-italic">Silakan pilih varian terlebih dahulu untuk melihat harga.</p>
+                                    @endif
+                                </span>
+                            </h4>
+                            <h5 class="fs-24 mb-4 d-none" id="base-price">
                                 @if(strtolower($product->category->name) === 'hampers')
                                     @php
                                         $variant = $product->variants->first();
@@ -200,15 +226,6 @@
                                     <p class="text-muted fs-14 fst-italic">Silakan pilih varian terlebih dahulu untuk melihat harga.</p>
                                 @endif
                             </h5>
-                            <p id="total-price" class="text-muted fs-14 fst-italic d-none">Total Harga: IDR 0</p>
-                        <div class="d-flex align-items-center mb-4">
-                            <h5 class="fs-15 mb-0">Quantity:</h5>
-                            <div class="input-step ms-2">
-                                <button type="button" class="minus" id="btn-minus">–</button>
-                                <input type="number" class="product-quantity1" value="1" min="1"
-                                    max="100" readonly="">
-                                <button type="button" class="plus" id="btn-plus">+</button>
-                            </div>
                         </div>
                         <div class="row gy-3">
                             <div class="col-md-12">
@@ -294,18 +311,21 @@
                             </div>
                             @if (strtolower($product->category->name) !== 'hampers' && $product->modifiers->isNotEmpty())
                                 <div class="col-md-12">
-                                    <h6 class="fs-14 fw-medium text-muted">Modifiers: </h6>
-                                    <ul class="clothe-colors list-unstyled hstack gap-2 mb-0 flex-wrap ms-2">
+                                    <h6 class="fs-14 fw-medium text-muted d-none">Modifiers: </h6>
+                                    <!-- <ul class="clothe-colors list-unstyled hstack gap-2 mb-0 flex-wrap ms-2"> -->
+                                    <ul class="clothe-colors list-unstyled mb-0 ms-2">
                                         @foreach ($product->modifiers as $productModifier)
                                             @foreach ($productModifier->modifier->options ?? [] as $option)
-                                                <li>
+                                                <li class="mb-1"> <!-- Added margin for spacing -->
                                                     <input type="checkbox" name="modifier_option[]" id="modifier-option-{{ $option->id }}"
                                                         value="{{ $option->price }}" data-option-name="{{ $option->name }}"
                                                         data-modifier-id="{{ $productModifier->modifier->id }}" data-modifier-name="{{ $productModifier->modifier->name }}"
+                                                        data-group="modifier-{{ $productModifier->modifier->id }}"
+                                                        class="modifier-checkbox"
                                                     >
                                                     <label
-                                                        class="btn btn-outline-primary text-capitalize px-3 py-1 fs-12 d-flex align-items-center justify-content-center rounded-pill"
-                                                        for="modifier-option-{{ $option->id }}">
+                                                        class="btn btn-outline-primary text-capitalize px-3 py-1 fs-12 d-flex align-items-center justify-content-center rounded-pill d-block"
+                                                        for="modifier-option-{{ $option->id }}"> <!-- Added d-block for new line -->
                                                         {{ $productModifier->modifier->name }} - {{ $option->name }} &nbsp
                                                         <span class="text-muted"> (+IDR {{ number_format($option->price, 0, ',', '.') }})</span>
                                                     </label>
@@ -315,6 +335,16 @@
                                     </ul>
                                 </div>
                             @endif
+                        </div>
+                        <p id="total-price" class="text-dark fw-bold fs-7 fst-italic d-none mt-3">Total 0</p>
+                        <div class="d-flex align-items-center mt-3 mb-4">
+                            <h5 class="fs-15 mb-0">Quantity:</h5>
+                            <div class="input-step ms-2">
+                                <button type="button" class="minus" id="btn-minus">–</button>
+                                <input type="number" class="product-quantity1" value="1" min="1"
+                                    max="100" readonly="">
+                                <button type="button" class="plus" id="btn-plus">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>

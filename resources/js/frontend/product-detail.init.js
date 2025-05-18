@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const plusBtn = document.getElementById('btn-plus');
     const totalPriceEl = document.getElementById('total-price');
     const basePriceEl = document.getElementById('base-price');
+    const basePriceTextEl = document.getElementById('base-price-text');
     const addToCartBtn = document.getElementById('btn-add-to-cart');
     const buyNowBtn = document.getElementById('btn-buy-now');
 
@@ -112,16 +113,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
-            // Modifier checkbox selection
-            modifierInputs.forEach(input => {
-                input.addEventListener('change', function () {
-                    updateTotalPrice();
-                });
-            });
-
             addToCartBtn.disabled = true
             buyNowBtn.disabled = true
         }
+
+        // Modifier checkbox selection
+        modifierInputs.forEach(input => {
+            input.addEventListener('change', function () {
+                if (this.checked) {
+                    // Uncheck other checkboxes in the same group
+                    modifierInputs.forEach(cb => {
+                        if (cb !== this && cb.dataset.group === this.dataset.group) {
+                            cb.checked = false;
+                        }
+                    });
+                }
+
+                updateTotalPrice();
+            });
+        });
     }
 
     //general function
@@ -138,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (basePrice === 0) {
             if ((hamperStock <= 0 && isHampers) || (variantCount === 1 && firstVariantStock <= 0)) {
                 basePriceEl.innerHTML = '<span class="text-danger fs-14 fst-italic ms-2">(Out of Stock)</span>'
+                basePriceTextEl.innerHTML = '<span class="text-danger fs-14 fst-italic ms-2">(Out of Stock)</span>'
             }
             addToCartBtn.disabled = true;
             buyNowBtn.disabled = true;
@@ -149,10 +160,12 @@ document.addEventListener('DOMContentLoaded', function () {
         buyNowBtn.disabled = false;
 
         const modifierPrice = getSelectedModifierTotal();
+        const subTotal = basePrice + modifierPrice;
         const total = (basePrice + modifierPrice) * quantity;
 
         basePriceEl.innerHTML = `IDR ${formatRupiah(basePrice)}`;
-        totalPriceEl.textContent = `Total Harga: IDR ${formatRupiah(total)}`;
+        basePriceTextEl.innerHTML = `IDR ${formatRupiah(basePrice)}`;
+        totalPriceEl.textContent = subTotal == total ? `Total ${formatRupiah(subTotal)}` : `Total ${formatRupiah(subTotal)} = ${formatRupiah(total)}`;
         totalPriceEl.classList.remove('d-none');
     }
 
