@@ -41,6 +41,10 @@
 @section('content')
     <section class="section mt-5">
         <div class="container">
+            <a href="/" class="btn btn-danger btn-hover w-20 mb-3">
+                < Back To Shopping
+            </a>
+
             <div class="row gx-2">
                 <div class="col-lg-6">
                     <div class="row">
@@ -108,25 +112,6 @@
                                     </div>
                                     <div class="swiper-button-next bg-transparent"></div>
                                     <div class="swiper-button-prev bg-transparent"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end col-->
-                        <div class="col-lg-12">
-                            <div class="mt-3">
-                                <div class="hstack gap-2">
-                                    <a href="/" class="btn btn-danger btn-hover w-100">
-                                        Back To Shopping
-                                    </a>
-                                    <button id="btn-add-to-cart" type="button" class="btn btn-success btn-hover w-100">
-                                        <i class="bi bi-cart2 me-2"></i> Add To Cart
-                                    </button>
-                                    <button id="btn-buy-now" type="button" class="btn btn-primary btn-hover w-100">
-                                        <i class="bi bi-basket2 me-2"></i> Buy Now
-                                    </button>
-                                    <!-- <button class="btn btn-soft-danger custom-toggle btn-hover" data-bs-toggle="button"
-                                        aria-pressed="true"> <span class="icon-on"><i class="ri-heart-line"></i></span>
-                                        <span class="icon-off"><i class="ri-heart-fill"></i></span> </button> -->
                                 </div>
                             </div>
                         </div>
@@ -346,6 +331,22 @@
                                 <button type="button" class="plus" id="btn-plus">+</button>
                             </div>
                         </div>
+                        <div class="col-lg-12">
+                            <div class="mt-3">
+                                <div class="hstack gap-2">
+                                    <button id="btn-add-to-cart" type="button" class="btn btn-success btn-hover w-100">
+                                        <i class="bi bi-cart2 me-2"></i> Add To Cart
+                                    </button>
+                                    <button id="btn-buy-now" type="button" class="btn btn-primary btn-hover w-100">
+                                        <i class="bi bi-basket2 me-2"></i> Buy Now
+                                    </button>
+                                    <!-- <button class="btn btn-soft-danger custom-toggle btn-hover" data-bs-toggle="button"
+                                        aria-pressed="true"> <span class="icon-on"><i class="ri-heart-line"></i></span>
+                                        <span class="icon-off"><i class="ri-heart-fill"></i></span> </button> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!--end col-->
                     </div>
                 </div>
                 <!--end col-->

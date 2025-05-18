@@ -90,7 +90,12 @@
                                                         </div>
                                                     </div>
                                                     <div class="flex-grow-1">
-                                                        <h6>{{ $item['product_name'] }}{{ !empty($item['product_variant_name']) ? ' - ' . $item['product_variant_name'] : '' }}</h6>
+                                                        <h6>
+                                                            {{ $item['product_name'] }}{{ !empty($item['product_variant_name']) ? ' - ' . $item['product_variant_name'] : '' }}
+                                                            @if (!empty($item['modifiers']))
+                                                                <span class="text-muted">( IDR {{ number_format($item['price'], 0, ',', '.') }} )</span>
+                                                            @endif
+                                                        </h6>
                                                         <p class="text-muted mb-0">
                                                             {{-- Show Modifiers if available --}}
                                                             @if (!empty($item['modifiers']))
