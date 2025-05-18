@@ -130,7 +130,11 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                IDR{{ number_format($item['price'], 0, ',', '.') }}
+                                                @php
+                                                    $modifierPrice = !empty($item['modifiers']) ? $item['modifiers'][0]['price'] : 0;
+                                                    $rate = $item['price'] + $modifierPrice;
+                                                @endphp
+                                                IDR{{ number_format($rate, 0, ',', '.') }}
                                             </td>
                                             <td>
                                                 {{ $item['quantity'] ?? 0 }}
