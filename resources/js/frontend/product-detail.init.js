@@ -47,6 +47,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const productLength = productInfo?.dataset.length || 0;
     const productWidth = productInfo?.dataset.width || 0;
     const productHeight = productInfo?.dataset.height || 0;
+    const variantCount = parseInt(productInfo?.dataset.productVariantCount) || 0;
+    const firstVariantId = productInfo?.dataset.productFirstVariantId || '';
+    const firstVariantName = productInfo?.dataset.productFirstVariantName || '';
+    const firstVariantPrice = productInfo?.dataset.productFirstVariantPrice || 0;
+    const firstVariantStock = parseInt(productInfo?.dataset.productFirstVariantStock) || 0;
     const isHampers = productCategory === 'hampers';
     let basePrice = 0;
     let hamperStock = 0;
@@ -95,23 +100,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //js for non hampers
     if (!isHampers) {
-        // Variant selection
-        variantInputs.forEach(input => {
-            input.addEventListener('change', function () {
-                basePrice = parseInt(this.value) || 0;
-                updateTotalPrice();
+        if (variantCount === 1) {
+            basePrice =  firstVariantStock <= 0 ? 0 : parseInt(firstVariantPrice);
+            updateTotalPrice();
+        } else {
+            // Variant selection
+            variantInputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    basePrice = parseInt(this.value) || 0;
+                    updateTotalPrice();
+                });
             });
-        });
 
-        // Modifier checkbox selection
-        modifierInputs.forEach(input => {
-            input.addEventListener('change', function () {
-                updateTotalPrice();
+            // Modifier checkbox selection
+            modifierInputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    updateTotalPrice();
+                });
             });
-        });
 
-        addToCartBtn.disabled = true
-        buyNowBtn.disabled = true
+            addToCartBtn.disabled = true
+            buyNowBtn.disabled = true
+        }
     }
 
     //general function
@@ -126,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateTotalPrice() {
         if (basePrice === 0) {
-            if (hamperStock <= 0 && isHampers) {
+            if ((hamperStock <= 0 && isHampers) || (variantCount === 1 && firstVariantStock <= 0)) {
                 basePriceEl.innerHTML = '<span class="text-danger fs-14 fst-italic ms-2">(Out of Stock)</span>'
             }
             addToCartBtn.disabled = true;
@@ -208,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
             payload.price = basePrice;
         } else {
             const variantInput = document.querySelector('input[name="variant"]:checked');
-            if (!variantInput) {
+            if (!variantInput && variantCount > 1) {
                 alert('Please select a variant.');
                 return;
             }
@@ -224,9 +234,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
-            payload.variant_id = variantInput.dataset.variantId;
-            payload.variant_name = variantInput.dataset.variantName;
-            payload.price = variantInput.value;
+            payload.variant_id = variantCount === 1 ? firstVariantId : variantInput.dataset.variantId;
+            payload.variant_name = variantCount === 1 ? firstVariantName : variantInput.dataset.variantName;
+            payload.price = variantCount === 1 ? firstVariantPrice : variantInput.value;
             payload.modifiers = selectedModifiers;
         }
 
@@ -300,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function () {
             payload.price = basePrice;
         } else {
             const variantInput = document.querySelector('input[name="variant"]:checked');
-            if (!variantInput) {
+            if (!variantInput && variantCount > 1) {
                 alert('Please select a variant.');
                 return;
             }
@@ -316,9 +326,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             });
 
-            payload.variant_id = variantInput.dataset.variantId;
-            payload.variant_name = variantInput.dataset.variantName;
-            payload.price = variantInput.value;
+            payload.variant_id = variantCount === 1 ? firstVariantId : variantInput.dataset.variantId;
+            payload.variant_name = variantCount === 1 ? firstVariantName : variantInput.dataset.variantName;
+            payload.price = variantCount === 1 ? firstVariantPrice : variantInput.value;
             payload.modifiers = selectedModifiers;
         }
 

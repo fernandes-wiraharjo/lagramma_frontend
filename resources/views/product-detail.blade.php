@@ -148,13 +148,27 @@
                     data-width="{{ $product->width }}"
                     data-height="{{ $product->height }}"
                     data-length="{{ $product->length }}"
+                    data-product-variant-count="{{ $product->variants->count() }}"
+                    data-product-first-variant-id="{{ $product->variants->first()->id }}"
+                    data-product-first-variant-name="{{ $product->variants->first()->name }}"
+                    data-product-first-variant-stock="{{ $product->variants->first()->stock }}"
+                    @php
+                        if ($product->is_sales_type_price === 1) {
+                            $salesType = $product->variants->first()->salesTypes->firstWhere('salesType.name', 'Take Away');
+                            $firstVariantPrice = $salesType->price ?? 0;
+                        } else {
+                            $firstVariantPrice = $product->variants->first()->price ?? 0;
+                        }
+                    @endphp
+                    data-product-first-variant-price="{{ $firstVariantPrice }}"
                     @if(strtolower($product->category->name) === 'hampers' && $product->variants->first())
                         data-base-price="{{ $product->variants->first()->price }}"
                         data-stock="{{ $product->variants->first()->stock }}"
                         data-max-items="{{ $product->hamperSetting->max_items }}"
                         data-hampers-variant-id="{{ $product->variants->first()->id }}"
                         data-hampers-variant-name="{{ $product->variants->first()->name }}"
-                    @endif>
+                    @endif
+                >
                 </div>
 
                 <div class="col-lg-5 ms-auto">
@@ -163,6 +177,16 @@
                             <h4 class="lh-base mb-1">{{ $product->name }}</h4>
                             <h5 class="fs-24 mb-4" id="base-price">
                                 @if(strtolower($product->category->name) === 'hampers')
+                                    @php
+                                        $variant = $product->variants->first();
+                                    @endphp
+
+                                    @if ($variant)
+                                        IDR {{ number_format($variant->price, 0, ',', '.') }}
+                                    @else
+                                        Harga tidak tersedia
+                                    @endif
+                                @elseif($product->variants->count() === 1)
                                     @php
                                         $variant = $product->variants->first();
                                     @endphp
@@ -226,43 +250,45 @@
                                                 </tbody>
                                             </table>
 
-                                            <!-- <small class="text-muted fst-italic" id="hamper-warning" style="display: none;">
+                                            <small class="text-muted fst-italic" id="hamper-warning" style="display: none;">
                                                 Total item's qty cannot exceed {{ $maxItems }}.
-                                            </small> -->
+                                            </small>
                                         </div>
                                     @elseif(strtolower($product->category->name) !== 'hampers' && $product->variants->count())
-                                        <h6 class="fs-14 fw-medium text-muted">Variants:</h6>
-                                        <ul class="clothe-size list-unstyled hstack gap-2 mb-0 flex-wrap">
-                                            @foreach($product->variants as $index => $variant)
-                                                @php
-                                                    $inputId = 'product-variant-' . $variant->id;
-                                                    $variantName = $variant->name ?: $product->name;
+                                        <div class="{{ $product->variants->count() === 1 ? 'd-none' : '' }}">
+                                            <h6 class="fs-14 fw-medium text-muted">Variants:</h6>
+                                            <ul class="clothe-size list-unstyled hstack gap-2 mb-0 flex-wrap">
+                                                @foreach($product->variants as $index => $variant)
+                                                    @php
+                                                        $inputId = 'product-variant-' . $variant->id;
+                                                        $variantName = $variant->name ?: $product->name;
 
-                                                    if ($product->is_sales_type_price === 1) {
-                                                        $salesType = $variant->salesTypes->firstWhere('salesType.name', 'Take Away');
-                                                        $price = $salesType->price ?? 0;
-                                                    } else {
-                                                        $price = $variant->price ?? 0;
-                                                    }
+                                                        if ($product->is_sales_type_price === 1) {
+                                                            $salesType = $variant->salesTypes->firstWhere('salesType.name', 'Take Away');
+                                                            $price = $salesType->price ?? 0;
+                                                        } else {
+                                                            $price = $variant->price ?? 0;
+                                                        }
 
-                                                    $isOutOfStock = $variant->stock <= 0;
-                                                @endphp
-                                                <li>
-                                                    <input type="radio" name="variant" id="{{ $inputId }}" value="{{ $price }}"
-                                                        data-variant-id="{{ $variant->id }}" data-variant-name="{{ $variant->name }}" {{ $isOutOfStock ? 'disabled' : '' }}
-                                                    >
-                                                    <label class="variant-label btn btn-soft-primary text-uppercase p-0
-                                                     px-3 py-1 fs-12 d-flex align-items-center justify-content-center
-                                                     rounded-pill text-wrap text-center {{ $isOutOfStock ? 'disabled text-muted' : '' }}"
-                                                        for="{{ $inputId }}">
-                                                        {{ $variantName }}
-                                                        @if($isOutOfStock)
-                                                            <span class="ms-1">(Out of Stock)</span>
-                                                        @endif
-                                                    </label>
-                                                </li>
-                                            @endforeach
-                                        </ul>
+                                                        $isOutOfStock = $variant->stock <= 0;
+                                                    @endphp
+                                                    <li>
+                                                        <input type="radio" name="variant" id="{{ $inputId }}" value="{{ $price }}"
+                                                            data-variant-id="{{ $variant->id }}" data-variant-name="{{ $variant->name }}" {{ $isOutOfStock ? 'disabled' : '' }}
+                                                        >
+                                                        <label class="variant-label btn btn-soft-primary text-uppercase p-0
+                                                        px-3 py-1 fs-12 d-flex align-items-center justify-content-center
+                                                        rounded-pill text-wrap text-center {{ $isOutOfStock ? 'disabled text-muted' : '' }}"
+                                                            for="{{ $inputId }}">
+                                                            {{ $variantName }}
+                                                            @if($isOutOfStock)
+                                                                <span class="ms-1">(Out of Stock)</span>
+                                                            @endif
+                                                        </label>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
                                     @endif
                                 </div>
                             </div>
