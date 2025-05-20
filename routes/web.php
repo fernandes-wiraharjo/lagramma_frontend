@@ -36,6 +36,8 @@ Route::post('/buy-now', [CatalogueController::class, 'buyNow']);
 Route::get('/checkout', [CatalogueController::class, 'viewCheckout'])->name('checkout.page');
 Route::post('/checkout', [CatalogueController::class, 'createOrder'])->name('create-order');
 Route::post('/calculate-shipping', [CheckoutController::class, 'calculateShipping']);
+Route::get('/checkout-success/{invoiceNo}', [CheckoutController::class, 'viewSuccess'])->name('payment.success');
+Route::get('/checkout-failed/{invoiceNo}', [CheckoutController::class, 'viewFailed'])->name('payment.failed');
 
 Route::middleware(['auth'])->group(function () {
     // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');

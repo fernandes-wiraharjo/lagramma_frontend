@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Carbon;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariant;
@@ -15,11 +11,18 @@ use App\Models\OrderModifier;
 use App\Models\OrderHampersItem;
 use App\Models\OrderDelivery;
 use App\Models\OrderDeliveryDetail;
+use App\Models\OrderPayment;
 use App\Services\CartService;
 use App\Services\BuyNowService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Xendit\Xendit;
+use Xendit\Invoice;
 
 class CatalogueController extends Controller
 {
@@ -419,6 +422,8 @@ class CatalogueController extends Controller
             $stoReceiverName = $sendToOther ? $request->input('sto_receiver_name') : '';
             $stoReceiverPhone = $sendToOther ? $request->input('sto_receiver_phone') : '';
             $stoNote = $sendToOther ? $request->input('sto_note') : '';
+            $invoiceNo = $this->generateInvoiceNumber();
+            $grandTotal = $request->input('grand_total');
 
             // Step 1: Collect all needed quantities
             $totalVariantsNeeded = [];
@@ -485,7 +490,7 @@ class CatalogueController extends Controller
             // Step 3: Create order
             $order = Order::create([
                 'user_id' => auth()->id(),
-                'invoice_number' => $this->generateInvoiceNumber(),
+                'invoice_number' => $invoiceNo,
                 'order_quantity' => $orderQuantity,
                 'status' => 'pending',
                 'order_price' => $subtotal,
@@ -524,14 +529,6 @@ class CatalogueController extends Controller
                     'updated_at' => null
                 ]);
 
-                // Reduce stock after order creation
-                $variant = ProductVariant::find($item['product_variant_id']);
-                if ($variant) {
-                    $variant->stock -= $item['quantity'];
-                    $variant->updated_by = auth()->id();
-                    $variant->save();
-                }
-
                 // If hampers
                 if ($item['type'] === 'hampers') {
                     foreach ($item['items'] as $hamperItem) {
@@ -545,14 +542,6 @@ class CatalogueController extends Controller
                             'created_by' => auth()->id(),
                             'updated_at' => null
                         ]);
-
-                        // Reduce stock for hampers' items
-                        $hamperVariant = ProductVariant::find($hamperItem['id']);
-                        if ($hamperVariant) {
-                            $hamperVariant->stock -= $hamperItem['quantity'] * $item['quantity'];
-                            $hamperVariant->updated_by = auth()->id();
-                            $hamperVariant->save();
-                        }
                     }
                 }
 
@@ -572,142 +561,30 @@ class CatalogueController extends Controller
                 }
             }
 
-            //Step 4: update MOKA stock
-            $historyDetails = [];
-            foreach ($mokaDetails as $entry) {
-                $variant = $entry['variant'];
-                $orderedQty = $entry['qty'];
-
-                $remainingStock = $variant->stock - $orderedQty;
-                if ($remainingStock < 0) {
-                    DB::rollBack();
-                    $productName = $variant->name
-                        ? "{$variant->product->name} - {$variant->name}"
-                        : $variant->product->name;
-
-                    return response()->json([
-                        'success' => false,
-                        'message' => "Product '{$productName}' only has {$variant->stock} left.",
-                    ]);
-                }
-
-                $historyDetails[] = [
-                    'item_id' => $variant->product->moka_id_product,
-                    'item_variant_id' => $variant->moka_id_product_variant,
-                    'actual_stock' => $remainingStock
-                ];
-            }
-
-            if (count($historyDetails) > 0) {
-                $payload = [
-                    'adjustment' => [
-                        'note' => "ecomm:{$order->id}:{$order->invoice_number}",
-                        'history_details' => $historyDetails
-                    ]
-                ];
-
-                $result = $this->mokaStockAdjustment($payload);
-                if (!$result) {
-                    DB::rollBack();
-                    return response()->json([
-                        'success' => false,
-                        'message' => "Terjadi kesalahan saat proses integrasi stock. Harap hubungi admin.",
-                    ]);
-                }
-            } else {
-                DB::rollBack();
-                return response()->json([
-                    'success' => false,
-                    'message' => "Terjadi kesalahan saat proses integrasi stock",
-                ]);
-            }
-
-            //Step 5: Store order delivery
-            $komercePayload = [
-                "order_date" => now()->format('Y-m-d H:i:s'),
-                "brand_name" => env('SHIPPER_BRAND_NAME'),
-                "shipper_name" => env('SHIPPER_NAME'),
-                "shipper_phone" => env('SHIPPER_PHONE'),
-                "shipper_destination_id" => intval(env('SHIPPER_REGION_ID')),
-                "shipper_address" => env('SHIPPER_ADDRESS'),
-                "origin_pin_point" => env('SHIPPER_LAT_LNG'),
-                "shipper_email" => env('SHIPPER_EMAIL'),
-                "receiver_name" => $user->name,
-                "receiver_phone" => normalizePhone($user->phone),
-                "receiver_destination_id" => intval($request->input('receiver_destination_id')),
-                "receiver_address" => $request->input('receiver_address'),
-                "destination_pin_point" => $request->input('destination_pin_point'),
-                "shipping" => $request->input('shipping'),
-                "shipping_type" => $request->input('shipping_type'),
-                "payment_method" => "BANK TRANSFER",
-                "shipping_cost" => $request->input('shipping_cost'),
-                "shipping_cashback" => $request->input('shipping_cashback'),
-                "service_fee" => $request->input('service_fee'),
-                "additional_cost" => 0,
-                "grand_total" => $request->input('grand_total'),
-                "cod_value" => $request->input('grand_total'),
-                "insurance_value" => 0,
-                "order_details" => $orderDetails
-            ];
-            $baseUrlKomerce = config('app.komerce_api_url');
-            $komerceApiKey = config('app.komerce_api_key');
-
-            // Send order to Komerce
-            $komerceResponse = Http::withHeaders([
-                'x-api-key' => $komerceApiKey
-            ])->post("{$baseUrlKomerce}/order/api/v1/orders/store", $komercePayload);
-
-            if (!$komerceResponse->successful() || $komerceResponse['meta']['code'] !== 201) {
-                // insertApiErrorLog('Raja Ongkir Store Order', "{$baseUrlKomerce}/order/api/v1/orders/store", 'POST',
-                //     null, null, json_encode($komercePayload), $komerceResponse['meta']['code'], $komerceResponse->body());
-                Log::error('Failed to create Komerce order', [
-                    'status' => $komerceResponse['meta']['code'],
-                    'message' => $komerceResponse['meta']['message'],
-                    'response' => $komerceResponse->body()
-                ]);
-                throw new \Exception('Failed to create Komerce order: ' . $komerceResponse['meta']['message']);
-            }
-
-            $komerceData = $komerceResponse['data'];
-
-            // Step 5.1: Save to order_deliveries
-            $orderDelivery = OrderDelivery::create([
-                'order_id' => $order->id,
-                'order_delivery_id' => $komerceData['order_id'],
-                'order_delivery_no' => $komerceData['order_no'],
-                'address_id' => $request->input('receiver_address_id'),
-                'date' => $komercePayload["order_date"],
-                'shipping_name' => $komercePayload["shipping"],
-                'shipping_type' => $komercePayload["shipping_type"],
-                'shipping_cost' => $komercePayload["shipping_cost"],
-                'shipping_cashback' => $komercePayload["shipping_cashback"],
-                'service_fee' => $komercePayload["service_fee"],
-                'grand_total' => $komercePayload["grand_total"],
-                'is_send_to_other' => $sendToOther,
-                'sto_pic_name' => $stoPicName,
-                'sto_pic_phone' => $stoPicPhone,
-                'sto_receiver_name' => $stoReceiverName,
-                'sto_receiver_phone' => $stoReceiverPhone,
-                'sto_note' => $stoNote,
-                'status' => 'submitted',
-                'created_by' => $user->id,
-                'updated_at' => null,
+            // Step 4: Create Invoice
+            Xendit::setApiKey(config('services.xendit.secret'));
+            $invoice = Invoice::create([
+                'external_id' => $invoiceNo,
+                'amount' => $grandTotal,
+                'payer_email' => $user->email,
+                'description' => 'Invoice La Gramma ' . $invoiceNo,
+                'success_redirect_url' => route('payment.success', ['invoiceNo' => $invoiceNo]),
+                'failed_redirect_url' => route('payment.failed', ['invoiceNo' => $invoiceNo]),
             ]);
 
-            // Step 5.2: Save to order_delivery_details
-            foreach ($orderDetails as $detail) {
-                OrderDeliveryDetail::create([
-                    'order_delivery_id' => $orderDelivery->id,
-                    'weight' => $detail['product_weight'], //gram
-                    'width' => $detail['product_width'],
-                    'height' => $detail['product_height'],
-                    'length' => $detail['product_length'],
-                    'created_by' => $user->id,
-                    'updated_at' => null,
-                ]);
-            }
+            //  Step 4.1: Insert Order Payment
+            OrderPayment::create([
+                'order_id' => $order->id,
+                'vendor_invoice_id' => $invoice['id'],
+                'transaction_date' => now(),
+                'status' => 'PENDING',
+                'invoice_url' => $invoice['invoice_url'],
+                'expiry_date' => $invoice['expiry_date'],
+                'created_by' => $user->id,
+                'updated_at' => null
+            ]);
 
-            // Step 6: Clear session
+            // Step 5: Clear session
             if ($source === 'buy_now') {
                 session()->forget('buy_now');
             } else {
@@ -718,7 +595,7 @@ class CatalogueController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Order created successfully',
-                'redirect_url' => route('index') // or any route
+                'redirect_url' => $invoice['invoice_url'] // or any route
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -728,4 +605,342 @@ class CatalogueController extends Controller
             ]);
         }
     }
+
+    //create order - old
+    // public function createOrder(Request $request)
+    // {
+    //     $source = $request->input('source');
+
+    //     if ($source === 'buy_now' && session()->has('buy_now')) {
+    //         $checkoutItems = session('buy_now');
+    //     } elseif ($source === 'cart' && session()->has('shopping_cart')) {
+    //         $checkoutItems = session('shopping_cart');
+    //     } else {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'No items available to create order.'
+    //         ]);
+    //     }
+
+    //     DB::beginTransaction();
+    //     try {
+    //         // Init variables
+    //         $user = auth()->user();
+    //         $sendToOther = $request->input('is_send_to_other', false);
+    //         $stoPicName = $sendToOther ? $request->input('sto_pic_name') : '';
+    //         $stoPicPhone = $sendToOther ? $request->input('sto_pic_phone') : '';
+    //         $stoReceiverName = $sendToOther ? $request->input('sto_receiver_name') : '';
+    //         $stoReceiverPhone = $sendToOther ? $request->input('sto_receiver_phone') : '';
+    //         $stoNote = $sendToOther ? $request->input('sto_note') : '';
+    //         $invoiceNo = $this->generateInvoiceNumber();
+    //         $grandTotal = $request->input('grand_total');
+
+    //         // Step 1: Collect all needed quantities
+    //         $totalVariantsNeeded = [];
+    //         $mokaDetails = [];
+    //         $subtotal = collect($checkoutItems)->sum('total_price');
+    //         $orderQuantity = collect($checkoutItems)->sum('quantity');
+
+    //         foreach ($checkoutItems as $item) {
+    //             $key = $item['product_variant_id'];
+    //             if (!isset($totalVariantsNeeded[$key])) {
+    //                 $totalVariantsNeeded[$key] = 0;
+    //             }
+    //             $totalVariantsNeeded[$key] += $item['quantity'];
+
+    //             if ($item['type'] === 'hampers') {
+    //                 foreach ($item['items'] as $hamperItem) {
+    //                     $key = $hamperItem['id'];
+    //                     $neededQty = $hamperItem['quantity'] * $item['quantity'];
+
+    //                     if (!isset($totalVariantsNeeded[$key])) {
+    //                         $totalVariantsNeeded[$key] = 0;
+    //                     }
+    //                     $totalVariantsNeeded[$key] += $neededQty;
+    //                 }
+    //             }
+
+    //             //store to order details for raja ongkir store order
+    //             $productPrice = $item['price'] + collect($item['modifiers'])->sum('price');
+    //             $orderDetails[] = [
+    //                 "product_name" => $item['product_name'],
+    //                 "product_variant_name" => $item['product_variant_name'] ?? '',
+    //                 "product_price" => $productPrice,
+    //                 "product_width" => intval($item['width']) ?? 1,
+    //                 "product_height" => intval($item['height']) ?? 1,
+    //                 "product_weight" => isset($item['weight']) ? $item['weight'] * 1000 : 1000,
+    //                 "product_length" => intval($item['length']) ?? 1,
+    //                 "qty" => intval($item['quantity']),
+    //                 "subtotal" => $productPrice * $item['quantity']
+    //             ];
+    //         }
+
+    //         // Step 2: Validate total stock
+    //         foreach ($totalVariantsNeeded as $variantId => $neededQty) {
+    //             $variant = ProductVariant::with('product')->find($variantId);
+    //             $productName = $variant->name
+    //                 ? "{$variant->product->name} - {$variant->name}"
+    //                 : $variant->product->name;
+    //             if (!$variant || $variant->stock < $neededQty) {
+    //                 return response()->json([
+    //                     'success' => false,
+    //                     'message' => "Product '{$productName}' only has {$variant->stock} left.",
+    //                 ]);
+    //             }
+
+    //             //prepare moka data
+    //             if ($variant->track_stock == 1) {
+    //                 $mokaDetails[$variantId] = [
+    //                     'variant' => $variant,
+    //                     'qty' => $neededQty
+    //                 ];
+    //             }
+    //         }
+
+    //         // Step 3: Create order
+    //         $order = Order::create([
+    //             'user_id' => auth()->id(),
+    //             'invoice_number' => $invoiceNo,
+    //             'order_quantity' => $orderQuantity,
+    //             'status' => 'pending',
+    //             'order_price' => $subtotal,
+    //             'created_by' => auth()->id(),
+    //             'updated_at' => null
+    //         ]);
+
+    //         // Step 3.1: Create order detail, hampers, modifiers
+    //         foreach ($checkoutItems as $item) {
+    //             // Initialize base price and modifiers total
+    //             $baseTotalPrice = $item['price'] * $item['quantity'];
+    //             $modifiersTotalPrice = 0;
+
+    //             // If modifiers exist, calculate their total price
+    //             if (isset($item['modifiers']) && is_array($item['modifiers']) && count($item['modifiers']) > 0) {
+    //                 foreach ($item['modifiers'] as $modifier) {
+    //                     // Assuming each modifier has a 'price' and the quantity can be set
+    //                     $modifiersTotalPrice += $modifier['price'] * $item['quantity'];
+    //                 }
+    //             }
+
+    //             // Final total price: base price + modifiers price
+    //             $totalPrice = $baseTotalPrice + $modifiersTotalPrice;
+
+    //             $orderDetail = OrderDetail::create([
+    //                 'order_id' => $order->id,
+    //                 'product_id' => $item['product_id'],
+    //                 'product_variant_id' => $item['product_variant_id'],
+    //                 'type' => $item['type'],
+    //                 'product_name' => $item['product_name'],
+    //                 'product_variant_name' => $item['product_variant_name'] ?? '',
+    //                 'quantity' => $item['quantity'],
+    //                 'price' => $item['price'],
+    //                 'total_price' => $totalPrice,
+    //                 'created_by' => auth()->id(),
+    //                 'updated_at' => null
+    //             ]);
+
+    //             // Reduce stock after order creation
+    //             $variant = ProductVariant::find($item['product_variant_id']);
+    //             if ($variant) {
+    //                 $variant->stock -= $item['quantity'];
+    //                 $variant->updated_by = auth()->id();
+    //                 $variant->save();
+    //             }
+
+    //             // If hampers
+    //             if ($item['type'] === 'hampers') {
+    //                 foreach ($item['items'] as $hamperItem) {
+    //                     OrderHampersItem::create([
+    //                         'order_detail_id' => $orderDetail->id,
+    //                         'product_id' => $hamperItem['product_id'],
+    //                         'product_variant_id' => $hamperItem['id'],
+    //                         'product_name' => $hamperItem['product_name'],
+    //                         'product_variant_name' => $hamperItem['name'] ?? '',
+    //                         'quantity' => $hamperItem['quantity'] * $item['quantity'],
+    //                         'created_by' => auth()->id(),
+    //                         'updated_at' => null
+    //                     ]);
+
+    //                     // Reduce stock for hampers' items
+    //                     $hamperVariant = ProductVariant::find($hamperItem['id']);
+    //                     if ($hamperVariant) {
+    //                         $hamperVariant->stock -= $hamperItem['quantity'] * $item['quantity'];
+    //                         $hamperVariant->updated_by = auth()->id();
+    //                         $hamperVariant->save();
+    //                     }
+    //                 }
+    //             }
+
+    //             // If modifiers exist
+    //             if (isset($item['modifiers']) && is_array($item['modifiers']) && count($item['modifiers']) > 0) {
+    //                 foreach ($item['modifiers'] as $modifier) {
+    //                     OrderModifier::create([
+    //                         'order_detail_id' => $orderDetail->id,
+    //                         'modifier_id' => $modifier['modifier_id'],
+    //                         'modifier_option_id' => $modifier['modifier_option_id'],
+    //                         'modifier_name' => $modifier['modifier_name'],
+    //                         'modifier_option_name' => $modifier['modifier_option_name'],
+    //                         'created_by' => auth()->id(),
+    //                         'updated_at' => null
+    //                     ]);
+    //                 }
+    //             }
+    //         }
+
+    //         //Step 4: update MOKA stock
+    //         $historyDetails = [];
+    //         foreach ($mokaDetails as $entry) {
+    //             $variant = $entry['variant'];
+    //             $orderedQty = $entry['qty'];
+
+    //             $remainingStock = $variant->stock - $orderedQty;
+    //             if ($remainingStock < 0) {
+    //                 DB::rollBack();
+    //                 $productName = $variant->name
+    //                     ? "{$variant->product->name} - {$variant->name}"
+    //                     : $variant->product->name;
+
+    //                 return response()->json([
+    //                     'success' => false,
+    //                     'message' => "Product '{$productName}' only has {$variant->stock} left.",
+    //                 ]);
+    //             }
+
+    //             $historyDetails[] = [
+    //                 'item_id' => $variant->product->moka_id_product,
+    //                 'item_variant_id' => $variant->moka_id_product_variant,
+    //                 'actual_stock' => $remainingStock
+    //             ];
+    //         }
+
+    //         if (count($historyDetails) > 0) {
+    //             $payload = [
+    //                 'adjustment' => [
+    //                     'note' => "ecomm:{$order->id}:{$order->invoice_number}",
+    //                     'history_details' => $historyDetails
+    //                 ]
+    //             ];
+
+    //             $result = $this->mokaStockAdjustment($payload);
+    //             if (!$result) {
+    //                 DB::rollBack();
+    //                 return response()->json([
+    //                     'success' => false,
+    //                     'message' => "Terjadi kesalahan saat proses integrasi stock. Harap hubungi admin.",
+    //                 ]);
+    //             }
+    //         } else {
+    //             DB::rollBack();
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => "Terjadi kesalahan saat proses integrasi stock",
+    //             ]);
+    //         }
+
+    //         //Step 5: Store order delivery
+    //         $komercePayload = [
+    //             "order_date" => now()->format('Y-m-d H:i:s'),
+    //             "brand_name" => env('SHIPPER_BRAND_NAME'),
+    //             "shipper_name" => env('SHIPPER_NAME'),
+    //             "shipper_phone" => env('SHIPPER_PHONE'),
+    //             "shipper_destination_id" => intval(env('SHIPPER_REGION_ID')),
+    //             "shipper_address" => env('SHIPPER_ADDRESS'),
+    //             "origin_pin_point" => env('SHIPPER_LAT_LNG'),
+    //             "shipper_email" => env('SHIPPER_EMAIL'),
+    //             "receiver_name" => $user->name,
+    //             "receiver_phone" => normalizePhone($user->phone),
+    //             "receiver_destination_id" => intval($request->input('receiver_destination_id')),
+    //             "receiver_address" => $request->input('receiver_address'),
+    //             "destination_pin_point" => $request->input('destination_pin_point'),
+    //             "shipping" => $request->input('shipping'),
+    //             "shipping_type" => $request->input('shipping_type'),
+    //             "payment_method" => "BANK TRANSFER",
+    //             "shipping_cost" => $request->input('shipping_cost'),
+    //             "shipping_cashback" => $request->input('shipping_cashback'),
+    //             "service_fee" => $request->input('service_fee'),
+    //             "additional_cost" => 0,
+    //             "grand_total" => $grandTotal,
+    //             "cod_value" => $request->input('grand_total'),
+    //             "insurance_value" => 0,
+    //             "order_details" => $orderDetails
+    //         ];
+    //         $baseUrlKomerce = config('app.komerce_api_url');
+    //         $komerceApiKey = config('app.komerce_api_key');
+
+    //         // Send order to Komerce
+    //         $komerceResponse = Http::withHeaders([
+    //             'x-api-key' => $komerceApiKey
+    //         ])->post("{$baseUrlKomerce}/order/api/v1/orders/store", $komercePayload);
+
+    //         if (!$komerceResponse->successful() || $komerceResponse['meta']['code'] !== 201) {
+    //             // insertApiErrorLog('Raja Ongkir Store Order', "{$baseUrlKomerce}/order/api/v1/orders/store", 'POST',
+    //             //     null, null, json_encode($komercePayload), $komerceResponse['meta']['code'], $komerceResponse->body());
+    //             Log::error('Failed to create Komerce order', [
+    //                 'status' => $komerceResponse['meta']['code'],
+    //                 'message' => $komerceResponse['meta']['message'],
+    //                 'response' => $komerceResponse->body()
+    //             ]);
+    //             throw new \Exception('Failed to create Komerce order: ' . $komerceResponse['meta']['message']);
+    //         }
+
+    //         $komerceData = $komerceResponse['data'];
+
+    //         // Step 5.1: Save to order_deliveries
+    //         $orderDelivery = OrderDelivery::create([
+    //             'order_id' => $order->id,
+    //             'order_delivery_id' => $komerceData['order_id'],
+    //             'order_delivery_no' => $komerceData['order_no'],
+    //             'address_id' => $request->input('receiver_address_id'),
+    //             'date' => $komercePayload["order_date"],
+    //             'shipping_name' => $komercePayload["shipping"],
+    //             'shipping_type' => $komercePayload["shipping_type"],
+    //             'shipping_cost' => $komercePayload["shipping_cost"],
+    //             'shipping_cashback' => $komercePayload["shipping_cashback"],
+    //             'service_fee' => $komercePayload["service_fee"],
+    //             'grand_total' => $komercePayload["grand_total"],
+    //             'is_send_to_other' => $sendToOther,
+    //             'sto_pic_name' => $stoPicName,
+    //             'sto_pic_phone' => $stoPicPhone,
+    //             'sto_receiver_name' => $stoReceiverName,
+    //             'sto_receiver_phone' => $stoReceiverPhone,
+    //             'sto_note' => $stoNote,
+    //             'status' => 'submitted',
+    //             'created_by' => $user->id,
+    //             'updated_at' => null,
+    //         ]);
+
+    //         // Step 5.2: Save to order_delivery_details
+    //         foreach ($orderDetails as $detail) {
+    //             OrderDeliveryDetail::create([
+    //                 'order_delivery_id' => $orderDelivery->id,
+    //                 'weight' => $detail['product_weight'], //gram
+    //                 'width' => $detail['product_width'],
+    //                 'height' => $detail['product_height'],
+    //                 'length' => $detail['product_length'],
+    //                 'created_by' => $user->id,
+    //                 'updated_at' => null,
+    //             ]);
+    //         }
+
+    //         // Step 6: Clear session
+    //         if ($source === 'buy_now') {
+    //             session()->forget('buy_now');
+    //         } else {
+    //             session()->forget('shopping_cart');
+    //         }
+
+    //         DB::commit();
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'Order created successfully',
+    //             'redirect_url' => route('index') // or any route
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Failed to create order. ' . $e->getMessage()
+    //         ]);
+    //     }
+    // }
 }

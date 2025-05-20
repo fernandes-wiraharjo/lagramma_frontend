@@ -42,4 +42,23 @@ class CheckoutController extends Controller
 
         return $response->json();
     }
+
+    public function viewSuccess($invoiceNo) {
+        //got order from invoice no, join to order details, order details have product variantid,
+        //then got variant id to process below query, quantity got from order details table
+        $variant = ProductVariant::find($id);
+        if ($variant) {
+            $variant->stock -= $item['quantity'];
+            $variant->updated_by = auth()->id();
+            $variant->save();
+        }
+        //in order detail also has type as product and hampers, if hampers then get hampers item data in order hampers items table,
+        //then got variant id to process above query, quantity got from order hampers items table
+
+        return view('lagramma-co-success', compact('invoiceNo'));
+    }
+
+    public function viewFailed($invoiceNo) {
+        return view('lagramma-co-failed', compact('invoiceNo'));
+    }
 }

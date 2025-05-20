@@ -272,7 +272,7 @@
                                     class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
                             <!-- <a href="payment" class="btn btn-hover btn-primary w-100">Create Order</a> -->
                             <button id="create-order-btn" class="btn btn-hover btn-primary w-100" disabled>
-                                <span id="btn-text">Create Order</span>
+                                <span id="btn-text">Continue Payment</span>
                                 <span id="loading-spinner" class="d-none spinner-border spinner-border-sm text-light" role="status"></span>
                             </button>
                         </div>
