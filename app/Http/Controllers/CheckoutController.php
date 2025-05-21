@@ -13,6 +13,8 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderModifier;
 use App\Models\OrderHampersItem;
+use App\Models\OrderDelivery;
+use App\Models\OrderPayment;
 use App\Services\CartService;
 use App\Services\BuyNowService;
 use Illuminate\Support\Facades\Session;
@@ -21,6 +23,40 @@ use Illuminate\Support\Facades\Http;
 
 class CheckoutController extends Controller
 {
+    public function mokaStockAdjustment($payload)
+    {
+        $baseUrl = env('MOKA_API_URL');
+        $outletId = env('MOKA_OUTLET_ID');
+        $token = getMokaToken();
+
+        $response = Http::withToken($token)
+            ->post($baseUrl . '/v1/outlets/' . $outletId . '/adjustment/items', $payload);
+
+        if ($response->successful()) {
+            Log::info('Adjust MOKA Item successfully.');
+            return true;
+        } else {
+            $status = $response->status();
+
+            // If token expired, refresh it and retry
+            if ($status === 401) {
+                $newToken = refreshMokaToken();
+                if ($newToken) {
+                    Log::info('Token refreshed. Retrying Adjust MOKA Item...');
+                    return $this->mokaStockAdjustment($payload); // Retry
+                }
+            } else {
+                Log::error('Adjust MOKA Item API failed', [
+                    'status' => $status,
+                    'body' => $response->body(),
+                    'payload' => $payload
+                ]);
+                insertApiErrorLog('Adjust MOKA Item', "{$baseUrl}/v1/outlets/outlet_id/adjustment/items", 'POST', null, null, json_encode($payload), $status, $response->body());
+                return false;
+            }
+        }
+    }
+
     public function calculateShipping(Request $request)
     {
         $baseUrl = config('app.komerce_api_url');
@@ -44,21 +80,237 @@ class CheckoutController extends Controller
     }
 
     public function viewSuccess($invoiceNo) {
-        //got order from invoice no, join to order details, order details have product variantid,
-        //then got variant id to process below query, quantity got from order details table
-        $variant = ProductVariant::find($id);
-        if ($variant) {
-            $variant->stock -= $item['quantity'];
-            $variant->updated_by = auth()->id();
-            $variant->save();
+        DB::beginTransaction();
+        try {
+            $user = auth()->user();
+            $order = Order::with([
+                'details.product',
+                'delivery.address'  // eager load nested relation
+            ])->where('invoice_number', $invoiceNo)->first();
+            $orderDelivery = $order->delivery;
+            $totalVariantsNeeded = [];
+            $mokaDetails = [];
+
+            // Step 1: deduct local stock
+            foreach ($order->details as $item) {
+                // variant stock deduction
+                $variant = ProductVariant::find($item->product_variant_id);
+                if ($variant) {
+                    $variant->stock -= $item->quantity;
+                    $variant->updated_by = auth()->id();
+                    $variant->save();
+                }
+
+                //count needed qty for moka deduction
+                $key = $item->product_variant_id;
+                if (!isset($totalVariantsNeeded[$key])) {
+                    $totalVariantsNeeded[$key] = 0;
+                }
+                $totalVariantsNeeded[$key] += $item->quantity;
+
+                if ($item->type === 'hampers') {
+                    // Get hamper items and deduct their variant stock
+                    $hamperItems = OrderHampersItem::where('order_detail_id', $item->id)->get();
+                    foreach ($hamperItems as $hamperItem) {
+                        $variant = ProductVariant::find($hamperItem->product_variant_id);
+                        if ($variant) {
+                            // Multiply by hamper quantity
+                            $variant->stock -= $hamperItem->quantity;
+                            $variant->updated_by = auth()->id();
+                            $variant->save();
+                        }
+
+                        //count needed qty for moka deduction
+                        $key = $hamperItem->id;
+                        $neededQty = $hamperItem->quantity;
+
+                        if (!isset($totalVariantsNeeded[$key])) {
+                            $totalVariantsNeeded[$key] = 0;
+                        }
+                        $totalVariantsNeeded[$key] += $neededQty;
+                    }
+                }
+
+                // store to order details for raja ongkir store order
+                $productPrice = $item->price;
+                $roOrderDetails[] = [
+                    "product_name" => $item->product_name,
+                    "product_variant_name" => $item->product_variant_name ?? '',
+                    "product_price" => $productPrice,
+                    "product_width" => intval($item?->product->width) ?? 1,
+                    "product_height" => intval($item?->product->height) ?? 1,
+                    "product_weight" => isset($item?->product->weight) ? $item?->product->weight * 1000 : 1000,
+                    "product_length" => intval($item?->product->length) ?? 1,
+                    "qty" => intval($item->quantity),
+                    "subtotal" => $productPrice * $item->quantity
+                ];
+            }
+
+            // Step 2: update MOKA stock
+            // Step 2.1: Validate total stock
+            foreach ($totalVariantsNeeded as $variantId => $neededQty) {
+                $variant = ProductVariant::with('product')->find($variantId);
+                $productName = $variant->name
+                    ? "{$variant->product->name} - {$variant->name}"
+                    : $variant->product->name;
+                if (!$variant || $variant->stock < $neededQty) {
+                    DB::rollBack();
+                    Log::info('Error payment invoice no (view success): ' . $invoiceNo . '. Product ' . $productName . ' only has ' . $variant->stock . ' left.');
+                }
+
+                //prepare moka data
+                if ($variant->track_stock == 1) {
+                    $mokaDetails[$variantId] = [
+                        'variant' => $variant,
+                        'qty' => $neededQty
+                    ];
+                }
+            }
+
+            $historyDetails = [];
+            foreach ($mokaDetails as $entry) {
+                $variant = $entry['variant'];
+                $orderedQty = $entry['qty'];
+
+                $remainingStock = $variant->stock - $orderedQty;
+                if ($remainingStock < 0) {
+                    DB::rollBack();
+                    $productName = $variant->name
+                        ? "{$variant->product->name} - {$variant->name}"
+                        : $variant->product->name;
+
+                    Log::info('Error payment invoice no (view success): ' . $invoiceNo . '. Product ' . $productName . ' only has ' . $variant->stock . ' left.');
+                }
+
+                $historyDetails[] = [
+                    'item_id' => $variant->product->moka_id_product,
+                    'item_variant_id' => $variant->moka_id_product_variant,
+                    'actual_stock' => $remainingStock
+                ];
+            }
+
+            if (count($historyDetails) > 0) {
+                $payload = [
+                    'adjustment' => [
+                        'note' => "ecomm:{$order->id}:{$invoiceNo}",
+                        'history_details' => $historyDetails
+                    ]
+                ];
+
+                $result = $this->mokaStockAdjustment($payload);
+                if (!$result) {
+                    DB::rollBack();
+                    Log::info('Error payment invoice no (view success): ' . $invoiceNo . '. Terjadi kesalahan saat proses integrasi stock. Harap hubungi admin.' );
+                }
+            } else {
+                DB::rollBack();
+                Log::info('Error payment invoice no (view success): ' . $invoiceNo . '. Terjadi kesalahan saat proses integrasi stock. Tidak ada data yang dikirim ke moka.' );
+            }
+
+            // Step 5: Store order delivery to raja ongkir
+            $komercePayload = [
+                "order_date" => $orderDelivery?->date,
+                "brand_name" => env('SHIPPER_BRAND_NAME'),
+                "shipper_name" => env('SHIPPER_NAME'),
+                "shipper_phone" => env('SHIPPER_PHONE'),
+                "shipper_destination_id" => intval(env('SHIPPER_REGION_ID')),
+                "shipper_address" => env('SHIPPER_ADDRESS'),
+                "origin_pin_point" => env('SHIPPER_LAT_LNG'),
+                "shipper_email" => env('SHIPPER_EMAIL'),
+                "receiver_name" => $user->name,
+                "receiver_phone" => normalizePhone($user->phone),
+                "receiver_destination_id" => intval($orderDelivery?->address?->region_id),
+                "receiver_address" => $orderDelivery?->address?->address,
+                "destination_pin_point" => $orderDelivery?->address?->latitude . ',' . $orderDelivery?->address?->longitude,
+                "shipping" => $orderDelivery?->shipping_name,
+                "shipping_type" => $orderDelivery?->shipping_type,
+                "payment_method" => "BANK TRANSFER",
+                "shipping_cost" => $orderDelivery?->shipping_cost,
+                "shipping_cashback" => $orderDelivery?->shipping_cashback,
+                "service_fee" => $orderDelivery?->service_fee,
+                "additional_cost" => 0,
+                "grand_total" => $orderDelivery?->grand_total,
+                "cod_value" => $orderDelivery?->grand_total,
+                "insurance_value" => 0,
+                "order_details" => $roOrderDetails
+            ];
+            $baseUrlKomerce = config('app.komerce_api_url');
+            $komerceApiKey = config('app.komerce_api_key');
+
+            // Step 5.1: Send order to Komerce
+            $komerceResponse = Http::withHeaders([
+                'x-api-key' => $komerceApiKey
+            ])->post("{$baseUrlKomerce}/order/api/v1/orders/store", $komercePayload);
+
+            if (!$komerceResponse->successful() || $komerceResponse['meta']['code'] !== 201) {
+                Log::error('Error payment invoice no (view success): ' . $invoiceNo . ', Failed to create Komerce order', [
+                    'status' => $komerceResponse['meta']['code'],
+                    'message' => $komerceResponse['meta']['message'],
+                    'response' => $komerceResponse->body()
+                ]);
+                throw new \Exception('Failed to create Komerce order: ' . $komerceResponse['meta']['message']);
+            }
+            $komerceData = $komerceResponse['data'];
+
+            // Step 5.2: Update order delivery data and status
+            OrderDelivery::where('id', $orderDelivery->id)
+            ->update([
+                'order_delivery_id' => $komerceData['order_id'],
+                'order_delivery_no' => $komerceData['order_no'],
+                'status' => 'submitted',
+                'updated_by' => $user->id,
+            ]);
+
+            // Step 6: Update order status
+            Order::where('id', $order->id)
+            ->update([
+                'status' => 'pending',
+                'updated_by' => $user->id,
+            ]);
+
+            // Step 7: Update order payment status
+            OrderPayment::where('order_id', $order->id)
+            ->update([
+                'status' => 'PAID',
+                'updated_by' => $user->id,
+            ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::info('Error payment invoice no (view success): ' . $invoiceNo . ', ' . $e->getMessage());
         }
-        //in order detail also has type as product and hampers, if hampers then get hampers item data in order hampers items table,
-        //then got variant id to process above query, quantity got from order hampers items table
 
         return view('lagramma-co-success', compact('invoiceNo'));
     }
 
     public function viewFailed($invoiceNo) {
+        $user = auth()->user();
+
+        DB::beginTransaction();
+        try {
+            $order = Order::where('invoice_number', $invoiceNo)->first();
+
+            // Update order status
+            Order::where('id', $order->id)
+            ->update([
+                'status' => 'payment failed',
+                'updated_by' => $user->id,
+            ]);
+
+            // Update order payment status
+            OrderPayment::where('order_id', $order->id)
+            ->update([
+                'status' => 'FAILED',
+                'updated_by' => $user->id,
+            ]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::info('Error payment invoice no (view failed): ' . $invoiceNo . ', ' . $e->getMessage());
+        }
+
         return view('lagramma-co-failed', compact('invoiceNo'));
     }
 }

@@ -424,32 +424,10 @@ class CatalogueController extends Controller
             $stoNote = $sendToOther ? $request->input('sto_note') : '';
             $invoiceNo = $this->generateInvoiceNumber();
             $grandTotal = $request->input('grand_total');
-
-            // Step 1: Collect all needed quantities
-            $totalVariantsNeeded = [];
-            $mokaDetails = [];
             $subtotal = collect($checkoutItems)->sum('total_price');
             $orderQuantity = collect($checkoutItems)->sum('quantity');
 
             foreach ($checkoutItems as $item) {
-                $key = $item['product_variant_id'];
-                if (!isset($totalVariantsNeeded[$key])) {
-                    $totalVariantsNeeded[$key] = 0;
-                }
-                $totalVariantsNeeded[$key] += $item['quantity'];
-
-                if ($item['type'] === 'hampers') {
-                    foreach ($item['items'] as $hamperItem) {
-                        $key = $hamperItem['id'];
-                        $neededQty = $hamperItem['quantity'] * $item['quantity'];
-
-                        if (!isset($totalVariantsNeeded[$key])) {
-                            $totalVariantsNeeded[$key] = 0;
-                        }
-                        $totalVariantsNeeded[$key] += $neededQty;
-                    }
-                }
-
                 //store to order details for raja ongkir store order
                 $productPrice = $item['price'] + collect($item['modifiers'])->sum('price');
                 $orderDetails[] = [
@@ -465,34 +443,12 @@ class CatalogueController extends Controller
                 ];
             }
 
-            // Step 2: Validate total stock
-            foreach ($totalVariantsNeeded as $variantId => $neededQty) {
-                $variant = ProductVariant::with('product')->find($variantId);
-                $productName = $variant->name
-                    ? "{$variant->product->name} - {$variant->name}"
-                    : $variant->product->name;
-                if (!$variant || $variant->stock < $neededQty) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => "Product '{$productName}' only has {$variant->stock} left.",
-                    ]);
-                }
-
-                //prepare moka data
-                if ($variant->track_stock == 1) {
-                    $mokaDetails[$variantId] = [
-                        'variant' => $variant,
-                        'qty' => $neededQty
-                    ];
-                }
-            }
-
             // Step 3: Create order
             $order = Order::create([
                 'user_id' => auth()->id(),
                 'invoice_number' => $invoiceNo,
                 'order_quantity' => $orderQuantity,
-                'status' => 'pending',
+                'status' => 'waiting for payment',
                 'order_price' => $subtotal,
                 'created_by' => auth()->id(),
                 'updated_at' => null
@@ -584,7 +540,43 @@ class CatalogueController extends Controller
                 'updated_at' => null
             ]);
 
-            // Step 5: Clear session
+            // Step 5: Save order delivery and detail
+            // Step 5.1: Save to order_deliveries
+            $orderDelivery = OrderDelivery::create([
+                'order_id' => $order->id,
+                'address_id' => $request->input('receiver_address_id'),
+                'date' => now()->format('Y-m-d H:i:s'),
+                'shipping_name' => $request->input('shipping'),
+                'shipping_type' => $request->input('shipping_type'),
+                'shipping_cost' => $request->input('shipping_cost'),
+                'shipping_cashback' => $request->input('shipping_cashback'),
+                'service_fee' => $request->input('service_fee'),
+                'grand_total' => $grandTotal,
+                'is_send_to_other' => $sendToOther,
+                'sto_pic_name' => $stoPicName,
+                'sto_pic_phone' => $stoPicPhone,
+                'sto_receiver_name' => $stoReceiverName,
+                'sto_receiver_phone' => $stoReceiverPhone,
+                'sto_note' => $stoNote,
+                'status' => 'not submitted',
+                'created_by' => $user->id,
+                'updated_at' => null,
+            ]);
+
+            // Step 5.2: Save to order_delivery_details
+            foreach ($orderDetails as $detail) {
+                OrderDeliveryDetail::create([
+                    'order_delivery_id' => $orderDelivery->id,
+                    'weight' => $detail['product_weight'], //gram
+                    'width' => $detail['product_width'], //cm
+                    'height' => $detail['product_height'], //cm
+                    'length' => $detail['product_length'], //cm
+                    'created_by' => $user->id,
+                    'updated_at' => null,
+                ]);
+            }
+
+            // Step 6: Clear session
             if ($source === 'buy_now') {
                 session()->forget('buy_now');
             } else {
@@ -606,7 +598,7 @@ class CatalogueController extends Controller
         }
     }
 
-    //create order - old
+    // Create order - old
     // public function createOrder(Request $request)
     // {
     //     $source = $request->input('source');
