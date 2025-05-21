@@ -89,18 +89,11 @@ class CheckoutController extends Controller
             ])->where('invoice_number', $invoiceNo)->first();
             $orderDelivery = $order->delivery;
             $totalVariantsNeeded = [];
+            $roOrderDetails = [];
             $mokaDetails = [];
 
-            // Step 1: deduct local stock
+            // Step 1: Collect stock
             foreach ($order->details as $item) {
-                // variant stock deduction
-                $variant = ProductVariant::find($item->product_variant_id);
-                if ($variant) {
-                    $variant->stock -= $item->quantity;
-                    $variant->updated_by = auth()->id();
-                    $variant->save();
-                }
-
                 //count needed qty for moka deduction
                 $key = $item->product_variant_id;
                 if (!isset($totalVariantsNeeded[$key])) {
@@ -112,37 +105,27 @@ class CheckoutController extends Controller
                     // Get hamper items and deduct their variant stock
                     $hamperItems = OrderHampersItem::where('order_detail_id', $item->id)->get();
                     foreach ($hamperItems as $hamperItem) {
-                        $variant = ProductVariant::find($hamperItem->product_variant_id);
-                        if ($variant) {
-                            // Multiply by hamper quantity
-                            $variant->stock -= $hamperItem->quantity;
-                            $variant->updated_by = auth()->id();
-                            $variant->save();
-                        }
-
                         //count needed qty for moka deduction
                         $key = $hamperItem->id;
-                        $neededQty = $hamperItem->quantity;
-
                         if (!isset($totalVariantsNeeded[$key])) {
                             $totalVariantsNeeded[$key] = 0;
                         }
-                        $totalVariantsNeeded[$key] += $neededQty;
+                        $totalVariantsNeeded[$key] += $hamperItem->quantity;
                     }
                 }
 
                 // store to order details for raja ongkir store order
-                $productPrice = $item->price;
+                $productPrice = intval($item->price);
                 $roOrderDetails[] = [
                     "product_name" => $item->product_name,
                     "product_variant_name" => $item->product_variant_name ?? '',
                     "product_price" => $productPrice,
                     "product_width" => intval($item?->product->width) ?? 1,
                     "product_height" => intval($item?->product->height) ?? 1,
-                    "product_weight" => isset($item?->product->weight) ? $item?->product->weight * 1000 : 1000,
+                    "product_weight" => isset($item?->product->weight) ? intval($item?->product->weight) * 1000 : 1000,
                     "product_length" => intval($item?->product->length) ?? 1,
                     "qty" => intval($item->quantity),
-                    "subtotal" => $productPrice * $item->quantity
+                    "subtotal" => $productPrice * intval($item->quantity)
                 ];
             }
 
@@ -155,8 +138,16 @@ class CheckoutController extends Controller
                     : $variant->product->name;
                 if (!$variant || $variant->stock < $neededQty) {
                     DB::rollBack();
-                    Log::info('Error payment invoice no (view success): ' . $invoiceNo . '. Product ' . $productName . ' only has ' . $variant->stock . ' left.');
+                    Log::error('Error payment invoice no (view success) (1): ' . $invoiceNo . '. Product ' . $productName . ' only has ' . $variant->stock . ' left.');
                 }
+            }
+
+             // Deduct stock after validation passed
+            foreach ($totalVariantsNeeded as $variantId => $neededQty) {
+                $variant = ProductVariant::find($variantId);
+                $variant->stock -= $neededQty;
+                $variant->updated_by = $user->id;
+                $variant->save();
 
                 //prepare moka data
                 if ($variant->track_stock == 1) {
@@ -171,16 +162,7 @@ class CheckoutController extends Controller
             foreach ($mokaDetails as $entry) {
                 $variant = $entry['variant'];
                 $orderedQty = $entry['qty'];
-
-                $remainingStock = $variant->stock - $orderedQty;
-                if ($remainingStock < 0) {
-                    DB::rollBack();
-                    $productName = $variant->name
-                        ? "{$variant->product->name} - {$variant->name}"
-                        : $variant->product->name;
-
-                    Log::info('Error payment invoice no (view success): ' . $invoiceNo . '. Product ' . $productName . ' only has ' . $variant->stock . ' left.');
-                }
+                $remainingStock = $variant->stock;
 
                 $historyDetails[] = [
                     'item_id' => $variant->product->moka_id_product,
@@ -200,14 +182,14 @@ class CheckoutController extends Controller
                 $result = $this->mokaStockAdjustment($payload);
                 if (!$result) {
                     DB::rollBack();
-                    Log::info('Error payment invoice no (view success): ' . $invoiceNo . '. Terjadi kesalahan saat proses integrasi stock. Harap hubungi admin.' );
+                    Log::error('Error payment invoice no (view success) (2): ' . $invoiceNo . '. Terjadi kesalahan saat proses integrasi stock. Harap hubungi admin.' );
                 }
             } else {
                 DB::rollBack();
-                Log::info('Error payment invoice no (view success): ' . $invoiceNo . '. Terjadi kesalahan saat proses integrasi stock. Tidak ada data yang dikirim ke moka.' );
+                Log::error('Error payment invoice no (view success) (3): ' . $invoiceNo . '. Terjadi kesalahan saat proses integrasi stock. Tidak ada data yang dikirim ke moka.' );
             }
 
-            // Step 5: Store order delivery to raja ongkir
+            // Step 3: Store order delivery to raja ongkir
             $komercePayload = [
                 "order_date" => $orderDelivery?->date,
                 "brand_name" => env('SHIPPER_BRAND_NAME'),
@@ -225,25 +207,25 @@ class CheckoutController extends Controller
                 "shipping" => $orderDelivery?->shipping_name,
                 "shipping_type" => $orderDelivery?->shipping_type,
                 "payment_method" => "BANK TRANSFER",
-                "shipping_cost" => $orderDelivery?->shipping_cost,
-                "shipping_cashback" => $orderDelivery?->shipping_cashback,
-                "service_fee" => $orderDelivery?->service_fee,
+                "shipping_cost" => intval($orderDelivery?->shipping_cost),
+                "shipping_cashback" =>intval($orderDelivery?->shipping_cashback),
+                "service_fee" => intval($orderDelivery?->service_fee),
                 "additional_cost" => 0,
-                "grand_total" => $orderDelivery?->grand_total,
-                "cod_value" => $orderDelivery?->grand_total,
+                "grand_total" => intval($orderDelivery?->grand_total),
+                "cod_value" => intval($orderDelivery?->grand_total),
                 "insurance_value" => 0,
                 "order_details" => $roOrderDetails
             ];
             $baseUrlKomerce = config('app.komerce_api_url');
             $komerceApiKey = config('app.komerce_api_key');
 
-            // Step 5.1: Send order to Komerce
+            // Step 3.1: Send order to Komerce
             $komerceResponse = Http::withHeaders([
                 'x-api-key' => $komerceApiKey
             ])->post("{$baseUrlKomerce}/order/api/v1/orders/store", $komercePayload);
 
             if (!$komerceResponse->successful() || $komerceResponse['meta']['code'] !== 201) {
-                Log::error('Error payment invoice no (view success): ' . $invoiceNo . ', Failed to create Komerce order', [
+                Log::error('Error payment invoice no (view success) (4): ' . $invoiceNo . ', Failed to create Komerce order', [
                     'status' => $komerceResponse['meta']['code'],
                     'message' => $komerceResponse['meta']['message'],
                     'response' => $komerceResponse->body()
@@ -252,7 +234,7 @@ class CheckoutController extends Controller
             }
             $komerceData = $komerceResponse['data'];
 
-            // Step 5.2: Update order delivery data and status
+            // Step 3.2: Update order delivery data and status
             OrderDelivery::where('id', $orderDelivery->id)
             ->update([
                 'order_delivery_id' => $komerceData['order_id'],
@@ -261,14 +243,14 @@ class CheckoutController extends Controller
                 'updated_by' => $user->id,
             ]);
 
-            // Step 6: Update order status
+            // Step 4: Update order status
             Order::where('id', $order->id)
             ->update([
                 'status' => 'pending',
                 'updated_by' => $user->id,
             ]);
 
-            // Step 7: Update order payment status
+            // Step 5: Update order payment status
             OrderPayment::where('order_id', $order->id)
             ->update([
                 'status' => 'PAID',
@@ -278,7 +260,7 @@ class CheckoutController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::info('Error payment invoice no (view success): ' . $invoiceNo . ', ' . $e->getMessage());
+            Log::error('Error payment invoice no (view success) (catch): ' . $invoiceNo . ', ' . $e->getMessage());
         }
 
         return view('lagramma-co-success', compact('invoiceNo'));
@@ -308,7 +290,7 @@ class CheckoutController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::info('Error payment invoice no (view failed): ' . $invoiceNo . ', ' . $e->getMessage());
+            Log::error('Error payment invoice no (view failed): ' . $invoiceNo . ', ' . $e->getMessage());
         }
 
         return view('lagramma-co-failed', compact('invoiceNo'));

@@ -21,8 +21,10 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Xendit\Xendit;
-use Xendit\Invoice;
+use Xendit\Configuration;
+use Xendit\Invoice\InvoiceApi;
+use Xendit\Invoice\CreateInvoiceRequest;
+use Xendit\Exception\ApiException;
 
 class CatalogueController extends Controller
 {
@@ -73,7 +75,7 @@ class CatalogueController extends Controller
         ->where('id', $id)
         ->first();
 
-        Log::info($product);
+        // Log::info($product);
 
         return view('product-detail', compact('product'));
     }
@@ -430,17 +432,6 @@ class CatalogueController extends Controller
             foreach ($checkoutItems as $item) {
                 //store to order details for raja ongkir store order
                 $productPrice = $item['price'] + collect($item['modifiers'])->sum('price');
-                $orderDetails[] = [
-                    "product_name" => $item['product_name'],
-                    "product_variant_name" => $item['product_variant_name'] ?? '',
-                    "product_price" => $productPrice,
-                    "product_width" => intval($item['width']) ?? 1,
-                    "product_height" => intval($item['height']) ?? 1,
-                    "product_weight" => isset($item['weight']) ? $item['weight'] * 1000 : 1000,
-                    "product_length" => intval($item['length']) ?? 1,
-                    "qty" => intval($item['quantity']),
-                    "subtotal" => $productPrice * $item['quantity']
-                ];
             }
 
             // Step 3: Create order
@@ -449,7 +440,7 @@ class CatalogueController extends Controller
                 'invoice_number' => $invoiceNo,
                 'order_quantity' => $orderQuantity,
                 'status' => 'waiting for payment',
-                'order_price' => $subtotal,
+                'order_price' => $grandTotal,
                 'created_by' => auth()->id(),
                 'updated_at' => null
             ]);
@@ -518,8 +509,9 @@ class CatalogueController extends Controller
             }
 
             // Step 4: Create Invoice
-            Xendit::setApiKey(config('services.xendit.secret'));
-            $invoice = Invoice::create([
+            Configuration::setXenditKey(config('services.xendit.secret'));
+            $apiInstance = new InvoiceApi();
+            $create_invoice_request = new CreateInvoiceRequest([
                 'external_id' => $invoiceNo,
                 'amount' => $grandTotal,
                 'payer_email' => $user->email,
@@ -527,6 +519,7 @@ class CatalogueController extends Controller
                 'success_redirect_url' => route('payment.success', ['invoiceNo' => $invoiceNo]),
                 'failed_redirect_url' => route('payment.failed', ['invoiceNo' => $invoiceNo]),
             ]);
+           $invoice = $apiInstance->createInvoice($create_invoice_request);
 
             //  Step 4.1: Insert Order Payment
             OrderPayment::create([
@@ -535,7 +528,7 @@ class CatalogueController extends Controller
                 'transaction_date' => now(),
                 'status' => 'PENDING',
                 'invoice_url' => $invoice['invoice_url'],
-                'expiry_date' => $invoice['expiry_date'],
+                'expiry_date' => Carbon::parse($invoice['expiry_date'])->setTimezone('Asia/Jakarta'),
                 'created_by' => $user->id,
                 'updated_at' => null
             ]);
@@ -563,19 +556,6 @@ class CatalogueController extends Controller
                 'updated_at' => null,
             ]);
 
-            // Step 5.2: Save to order_delivery_details
-            foreach ($orderDetails as $detail) {
-                OrderDeliveryDetail::create([
-                    'order_delivery_id' => $orderDelivery->id,
-                    'weight' => $detail['product_weight'], //gram
-                    'width' => $detail['product_width'], //cm
-                    'height' => $detail['product_height'], //cm
-                    'length' => $detail['product_length'], //cm
-                    'created_by' => $user->id,
-                    'updated_at' => null,
-                ]);
-            }
-
             // Step 6: Clear session
             if ($source === 'buy_now') {
                 session()->forget('buy_now');
@@ -588,6 +568,12 @@ class CatalogueController extends Controller
                 'success' => true,
                 'message' => 'Order created successfully',
                 'redirect_url' => $invoice['invoice_url'] // or any route
+            ]);
+        } catch (ApiException $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create order. ' . $e->getMessage()
             ]);
         } catch (\Exception $e) {
             DB::rollBack();

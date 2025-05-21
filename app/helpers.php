@@ -13,14 +13,14 @@ function insertApiErrorLog($name, $url, $method, $headers, $queryParams, $reques
 {
     try {
         DB::table('log_api_errors')->insert([
-            'name' => "test",
-            'url' => "test",
-            'method' => "test",
-            'header' => "test",
-            'request_param' => "test",
-            'request_body' => "test",
-            'status_code' => "test",
-            'response' => "test",
+            'name' => $name,
+            'url' => $url,
+            'method' => $method,
+            'header' => $headers,
+            'request_param' => $queryParams,
+            'request_body' => $requestBody,
+            'status_code' => $statusCode,
+            'response' => $responseBody,
             'created_by' => null,
             'updated_by' => null,
             'created_at' => now(),
