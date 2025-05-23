@@ -540,7 +540,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="offer-bar flex-shrink-0">
+                <!-- <div class="offer-bar flex-shrink-0">
                     <div class="d-flex gap-3 flex-column">
                         <div class="card fs-13 border border-primary border-opacity-25">
                             <div class="card-header text-center bg-primary-subtle border-0">
@@ -576,7 +576,7 @@
                             style="background-image: url('build/images/ecommerce/offer-banner.jpg');background-size: cover;background-position: center;">
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <!--end conatiner-fluid-->
