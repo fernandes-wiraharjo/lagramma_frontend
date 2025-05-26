@@ -54,7 +54,7 @@
                                 <!-- <li><a href="#!">Sign In</a></li> -->
                                 <li><a href="{{ route('view-cart') }}">View Cart</a></li>
                                 <!-- <li><a href="#!">My Wishlist</a></li> -->
-                                <li><a href="#!" id="footer-view-my-order" class="d-none">View My Order</a></li>
+                                <li><a href="{{ config('app.backend_url') }}/orders" id="footer-view-my-order" class="d-none" target="_blank">View My Order</a></li>
                                 <li><a href="#!">Help</a></li>
                             </ul>
                         </div>
