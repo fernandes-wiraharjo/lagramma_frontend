@@ -43,7 +43,7 @@
                                     <!-- order.</p> -->
                                 <p class="text-muted mb-0">Invoice No: {{ $invoiceNo }}</p>
                                 <div class="mt-4 pt-2 hstack gap-2 justify-content-center">
-                                    <a href="#" class="btn btn-primary btn-hover">View Order</a>
+                                    <a href="{{ config('app.backend_url') }}/orders" class="btn btn-primary btn-hover">View Order</a>
                                     <a href="/" class="btn btn-soft-danger btn-hover">Back To Shopping</a>
                                 </div>
                             </div>
