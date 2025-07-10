@@ -22,7 +22,7 @@
                         LA GRAMMA
                     </a>
                 </li>
-                <li class="nav-item dropdown dropdown-hover">
+                <!-- <li class="nav-item dropdown dropdown-hover">
                     <a class="nav-link dropdown-toggle" data-key="t-demos" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ __('t-demos') }}
                     </a>
@@ -357,7 +357,7 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="contact-us" data-key="t-contact">{{ __('t-contact') }}</a>
-                </li>
+                </li> -->
             </ul>
         </div>
         <div class="bg-overlay navbar-overlay" data-bs-toggle="collapse"  data-bs-target="#navbarSupportedContent.show"></div>
