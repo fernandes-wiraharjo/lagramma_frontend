@@ -35,6 +35,8 @@ Route::post('/cart/validate-stock', [CatalogueController::class, 'validateCartBe
 Route::post('/buy-now', [CatalogueController::class, 'buyNow']);
 Route::get('/checkout', [CatalogueController::class, 'viewCheckout'])->name('checkout.page');
 Route::post('/checkout', [CatalogueController::class, 'createOrder'])->name('create-order');
+Route::get('/payment/confirmation/{invoiceNo}', [CheckoutController::class, 'showPaymentConfirmation'])->name('payment.confirmation');
+Route::post('/payment/confirmation/{invoiceNo}/upload', [CheckoutController::class, 'uploadPaymentProof'])->name('payment.confirmation.upload');
 Route::post('/calculate-shipping', [CheckoutController::class, 'calculateShipping']);
 Route::get('/checkout-success/{invoiceNo}', [CheckoutController::class, 'viewSuccess'])->name('payment.success');
 Route::get('/checkout-failed/{invoiceNo}', [CheckoutController::class, 'viewFailed'])->name('payment.failed');

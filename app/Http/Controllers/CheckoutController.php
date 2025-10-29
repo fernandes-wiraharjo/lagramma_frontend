@@ -295,4 +295,85 @@ class CheckoutController extends Controller
 
         return view('lagramma-co-failed', compact('invoiceNo'));
     }
+
+    // show payment confirmation page
+    public function showPaymentConfirmation($invoiceNo)
+    {
+        $order = Order::where('invoice_number', $invoiceNo)->with('payment', 'delivery')->firstOrFail();
+        $orderPayment = $order->payment;
+
+        // if no payment record, create placeholder (fallback)
+        // $orderPayment = $order->payment ?? OrderPayment::create([
+        //     'order_id' => $order->id,
+        //     'transaction_date' => now(),
+        //     'status' => 'PENDING',
+        //     'unique_code' => str_pad(random_int(0, 999), 3, '0', STR_PAD_LEFT),
+        //     'expiry_date' => now()->addDays(config('payments.expiry_days', 3)),
+        //     'created_by' => $order->user_id,
+        // ]);
+
+        // if unique_code not set (older orders), generate and save
+        // if (empty($orderPayment->unique_code)) {
+        //     $orderPayment->unique_code = str_pad(random_int(0, 999), 3, '0', STR_PAD_LEFT);
+        //     $orderPayment->save();
+        // }
+
+        $bankAccounts = config('payments.bank_accounts', []);
+
+        // compute transfer amount = grand_total + unique_code
+        $grandTotal = $order->order_price; // or use delivery->grand_total if stored there
+        $uniqueCode = (int) $orderPayment->unique_code;
+        // $totalToTransfer = $grandTotal + $uniqueCode / 1000;
+        // NOTE: Many shops append numeric code to last 3 digits of amount (e.g. 1.000.000 -> +123)
+        // If you want to add unique_code as integer rupiah, use: $grandTotal + $uniqueCode
+
+        // For clarity, let's assume currency is integer (Rupiah) and unique_code is in units:
+        $transferAmount = $grandTotal + $uniqueCode;
+
+        return view('lagramma-payment-confirmation', compact('order', 'orderPayment', 'bankAccounts', 'transferAmount'));
+    }
+
+    // handle upload of payment confirmation proof
+    public function uploadPaymentProof(Request $request, $invoiceNo)
+    {
+        $request->validate([
+            'payer_name' => 'nullable|string|max:255',
+            'payer_account_number' => 'nullable|string|max:255',
+            'proof_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120', // max 5MB
+        ]);
+
+        $order = Order::where('invoice_number', $invoiceNo)->firstOrFail();
+        $orderPayment = $order->payment;
+        // $orderPayment = $order->payment ?? OrderPayment::create([
+        //     'order_id' => $order->id,
+        //     'transaction_date' => now(),
+        //     'status' => 'PENDING',
+        //     'unique_code' => str_pad(random_int(0, 999), 3, '0', STR_PAD_LEFT),
+        //     'expiry_date' => now()->addDays(config('payments.expiry_days', 3)),
+        //     'created_by' => $order->user_id,
+        // ]);
+
+        // prevent upload/edit when already approved
+        if ($orderPayment->status === 'APPROVED') {
+            return back()->with('error', 'Payment already approved by admin. You cannot edit payment proof.');
+        }
+
+        if ($request->hasFile('proof_file')) {
+            $file = $request->file('proof_file');
+            $path = $file->store('payment_proofs', 'public'); // store in storage/app/public/payment_proofs
+            // delete old file if exist
+            if ($orderPayment->proof_file && Storage::disk('public')->exists($orderPayment->proof_file)) {
+                Storage::disk('public')->delete($orderPayment->proof_file);
+            }
+            $orderPayment->proof_file = $path;
+            $orderPayment->status = 'UPLOADED'; // mark uploaded
+        }
+
+        $orderPayment->payer_name = $request->input('payer_name');
+        $orderPayment->payer_account_number = $request->input('payer_account_number');
+        $orderPayment->save();
+
+        return redirect()->route('payment.success', ['invoiceNo' => $invoiceNo]);
+            // ->with('success', 'Payment proof uploaded successfully. Admin will verify shortly.');
+    }
 }

@@ -509,26 +509,29 @@ class CatalogueController extends Controller
             }
 
             // Step 4: Create Invoice
-            Configuration::setXenditKey(config('services.xendit.secret'));
-            $apiInstance = new InvoiceApi();
-            $create_invoice_request = new CreateInvoiceRequest([
-                'external_id' => $invoiceNo,
-                'amount' => $grandTotal,
-                'payer_email' => $user->email,
-                'description' => 'Invoice La Gramma ' . $invoiceNo,
-                'success_redirect_url' => route('payment.success', ['invoiceNo' => $invoiceNo]),
-                'failed_redirect_url' => route('payment.failed', ['invoiceNo' => $invoiceNo]),
-            ]);
-           $invoice = $apiInstance->createInvoice($create_invoice_request);
+        //     Configuration::setXenditKey(config('services.xendit.secret'));
+        //     $apiInstance = new InvoiceApi();
+        //     $create_invoice_request = new CreateInvoiceRequest([
+        //         'external_id' => $invoiceNo,
+        //         'amount' => $grandTotal,
+        //         'payer_email' => $user->email,
+        //         'description' => 'Invoice La Gramma ' . $invoiceNo,
+        //         'success_redirect_url' => route('payment.success', ['invoiceNo' => $invoiceNo]),
+        //         'failed_redirect_url' => route('payment.failed', ['invoiceNo' => $invoiceNo]),
+        //     ]);
+        //    $invoice = $apiInstance->createInvoice($create_invoice_request);
 
             //  Step 4.1: Insert Order Payment
             OrderPayment::create([
                 'order_id' => $order->id,
-                'vendor_invoice_id' => $invoice['id'],
+                'vendor_invoice_id' => '',
+                // 'vendor_invoice_id' => $invoice['id'],
                 'transaction_date' => now(),
+                'unique_code' => str_pad(random_int(0, 999), 3, '0', STR_PAD_LEFT),
                 'status' => 'PENDING',
-                'invoice_url' => $invoice['invoice_url'],
-                'expiry_date' => Carbon::parse($invoice['expiry_date'])->setTimezone('Asia/Jakarta'),
+                // 'invoice_url' => $invoice['invoice_url'],
+                'invoice_url' => '',
+                // 'expiry_date' => Carbon::parse($invoice['expiry_date'])->setTimezone('Asia/Jakarta'),
                 'created_by' => $user->id,
                 'updated_at' => null
             ]);
@@ -566,8 +569,9 @@ class CatalogueController extends Controller
             DB::commit();
             return response()->json([
                 'success' => true,
-                'message' => 'Order created successfully',
-                'redirect_url' => $invoice['invoice_url'] // or any route
+                'message' => 'Order created successfully. Please complete your payment and upload the payment proof on the next page.',
+                // 'redirect_url' => $invoice['invoice_url'] // or any route
+                'redirect_url' => route('payment.confirmation', ['invoiceNo' => $invoiceNo])
             ]);
         } catch (ApiException $e) {
             DB::rollBack();

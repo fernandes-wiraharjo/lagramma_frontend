@@ -39,6 +39,7 @@
                             </div>
                             <div class="text-center mt-5 pt-1">
                                 <h4 class="mb-3 text-capitalize">Your Order Is Completed !</h4>
+                                <!-- <h4 class="mb-3 text-capitalize">Payment proof uploaded successfully! Admin will verify shortly.</h4> -->
                                 <!-- <p class="text-muted mb-2">You will receive an order confirmation email with details of your -->
                                     <!-- order.</p> -->
                                 <p class="text-muted mb-0">Invoice No: {{ $invoiceNo }}</p>
