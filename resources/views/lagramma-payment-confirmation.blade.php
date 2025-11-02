@@ -102,8 +102,10 @@
                                 <input type="file" name="proof_file" class="form-control" {{ $orderPayment->status === 'APPROVED' ? 'disabled' : '' }}>
                             </div>
 
-                            <div class="d-flex gap-2">
-                                @if($orderPayment->status !== 'APPROVED')
+                            <div class="d-flex gap-2" id="payment-action-buttons">
+                                {{-- Default content while waiting for userRole --}}
+                                <div class="text-muted">Loading actions...</div>
+                                <!-- @if($orderPayment->status !== 'APPROVED')
                                     <button type="submit" class="btn btn-primary">Upload & Submit</button>
                                 @endif
 
@@ -115,7 +117,7 @@
                                 {{-- Optionally add a "Edit later" note --}}
                                 <div class="ms-auto text-muted align-self-center">
                                     You can upload or edit payment proof later from <a href="{{ config('app.backend_url') }}/orders">My Orders</a> until admin approves.
-                                </div>
+                                </div> -->
                             </div>
                         </form>
                     </div>
@@ -139,4 +141,39 @@
         </div>
     </div>
 </section>
+@endsection
+@section('scripts')
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wait until userRole is available (from layout script)
+        const checkUserRole = setInterval(() => {
+            clearInterval(checkUserRole);
+            const container = document.getElementById('payment-action-buttons');
+
+            if (userRole === 'admin') {
+                // Admin view: Approve & Reject buttons
+                container.innerHTML = `
+                    <button type="button" class="btn btn-success" id="approve-btn">Approve</button>
+                    <button type="button" class="btn btn-danger" id="reject-btn">Reject</button>
+                `;
+            } else if (userRole === '' || userRole === 'customer') {
+                // Customer view: Upload & Submit / Skip
+                container.innerHTML = `
+                    @if($orderPayment->status !== 'APPROVED')
+                        <button type="submit" class="btn btn-primary">Upload & Submit</button>
+                    @endif
+
+                    <a href="{{ config('app.backend_url') }}/orders" class="btn btn-outline-secondary">
+                        Skip for now
+                    </a>
+
+                    <div class="ms-auto text-muted align-self-center">
+                        You can upload or edit payment proof later from
+                        <a href="{{ config('app.backend_url') }}/orders">My Orders</a> until admin approves.
+                    </div>
+                `;
+            }
+        }, 200); // check every 200ms until userRole is fetched
+    });
+</script>
 @endsection

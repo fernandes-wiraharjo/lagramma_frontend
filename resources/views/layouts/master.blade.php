@@ -31,6 +31,7 @@
     <script>
         const backendUrl = @json(config('app.backend_url'));
         const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+        let userRole = '';
 
         //get user session
         fetch(`${backendUrl}/api/user`, {
@@ -51,6 +52,8 @@
         }).then(user => {
             if (user) {
                 // console.log('User is logged in:', user);
+                userRole = user.role_name;
+                // alert(userRole);
 
                 // Authenticated user
                 document.getElementById('userDropdownContent').innerHTML = `
@@ -129,6 +132,7 @@
                             <i class="bi bi-box-arrow-in-right text-muted fs-15 me-1"></i> Login
                         </a>
                     `;
+                    userRole = '';
 
                     location.reload();
                 } else {
