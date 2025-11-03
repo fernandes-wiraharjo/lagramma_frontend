@@ -368,6 +368,12 @@ class CheckoutController extends Controller
             }
             $orderPayment->proof_file = $path;
             $orderPayment->status = 'UPLOADED'; // mark uploaded
+
+            // if rejected by admin, then when reupload, the order status changed from cancelled to waiting for payment again
+            if ($order->status !== 'waiting for payment') {
+                $order->status = 'waiting for payment';
+                $order->save();
+            }
         }
 
         $orderPayment->payer_name = $request->input('payer_name');

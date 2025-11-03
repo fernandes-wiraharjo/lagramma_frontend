@@ -76,6 +76,8 @@
 
                         @if($orderPayment->status === 'APPROVED')
                             <div class="alert alert-success">Payment already approved by admin.</div>
+                        @elseif($orderPayment->status === 'REJECTED')
+                            <div class="alert alert-danger">Payment is rejected by admin, please reupload or contact admin.</div>
                         @endif
 
                         <form action="{{ route('payment.confirmation.upload', ['invoiceNo' => $order->invoice_number]) }}" method="post" enctype="multipart/form-data">
@@ -151,11 +153,38 @@
             const container = document.getElementById('payment-action-buttons');
 
             if (userRole === 'admin') {
+                const invoiceNumber = @json($order->invoice_number);
+                // alert(invoiceNumber);
+
                 // Admin view: Approve & Reject buttons
                 container.innerHTML = `
-                    <button type="button" class="btn btn-success" id="approve-btn">Approve</button>
-                    <button type="button" class="btn btn-danger" id="reject-btn">Reject</button>
+                    @if($orderPayment->status !== 'APPROVED')
+                        <button type="button" class="btn btn-success" id="approve-btn">Approve</button>
+                        <button type="button" class="btn btn-danger" id="reject-btn">Reject</button>
+                    @endif
                 `;
+
+                document.querySelector('#approve-btn').addEventListener('click', function() {
+                    fetch(`${backendUrl}/api/payments/${invoiceNumber}/approve`, {
+                        method: 'POST',
+                        headers: { 'Accept': 'application/json' },
+                        credentials: 'include'
+                    }).then(r => r.json()).then(data => {
+                        alert(data.message);
+                        window.location.reload();
+                    });
+                });
+
+                document.querySelector('#reject-btn').addEventListener('click', function() {
+                    fetch(`${backendUrl}/api/payments/${invoiceNumber}/reject`, {
+                        method: 'POST',
+                        headers: { 'Accept': 'application/json' },
+                        credentials: 'include'
+                    }).then(r => r.json()).then(data => {
+                        alert(data.message);
+                        window.location.reload();
+                    });
+                });
             } else if (userRole === '' || userRole === 'customer') {
                 // Customer view: Upload & Submit / Skip
                 container.innerHTML = `
