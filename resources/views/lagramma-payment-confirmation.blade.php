@@ -158,32 +158,77 @@
 
                 // Admin view: Approve & Reject buttons
                 container.innerHTML = `
-                    @if($orderPayment->status !== 'APPROVED')
-                        <button type="button" class="btn btn-success" id="approve-btn">Approve</button>
-                        <button type="button" class="btn btn-danger" id="reject-btn">Reject</button>
+                     @if($orderPayment->status !== 'APPROVED')
+                        <button type="button" class="btn btn-success" id="approve-btn">
+                            <span class="btn-text">Approve</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger" id="reject-btn">
+                            <span class="btn-text">Reject</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        </button>
                     @endif
                 `;
 
-                document.querySelector('#approve-btn').addEventListener('click', function() {
-                    fetch(`${backendUrl}/api/payments/${invoiceNumber}/approve`, {
-                        method: 'POST',
-                        headers: { 'Accept': 'application/json' },
-                        credentials: 'include'
-                    }).then(r => r.json()).then(data => {
+                // Helper function to show loader
+                function showLoader(button, isLoading) {
+                    const text = button.querySelector('.btn-text');
+                    const spinner = button.querySelector('.spinner-border');
+                    if (isLoading) {
+                        text.textContent = 'Processing...';
+                        spinner.classList.remove('d-none');
+                        button.disabled = true;
+                    } else {
+                        text.textContent = button.id === 'approve-btn' ? 'Approve' : 'Reject';
+                        spinner.classList.add('d-none');
+                        button.disabled = false;
+                    }
+                }
+
+                document.querySelector('#approve-btn').addEventListener('click', async function() {
+                    const xsrfToken = await getCSRFToken();
+                    const btn = this;
+                    showLoader(btn, true);
+
+                    try {
+                        const response = await fetch(`${backendUrl}/api/payments/${invoiceNumber}/approve`, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-XSRF-TOKEN': xsrfToken
+                            },
+                            credentials: 'include'
+                        });
+                        const data = await response.json();
                         alert(data.message);
                         window.location.reload();
-                    });
+                    } catch (err) {
+                        alert('Failed to approve payment.');
+                        showLoader(btn, false);
+                    }
                 });
 
-                document.querySelector('#reject-btn').addEventListener('click', function() {
-                    fetch(`${backendUrl}/api/payments/${invoiceNumber}/reject`, {
-                        method: 'POST',
-                        headers: { 'Accept': 'application/json' },
-                        credentials: 'include'
-                    }).then(r => r.json()).then(data => {
+                document.querySelector('#reject-btn').addEventListener('click', async function() {
+                    const xsrfToken = await getCSRFToken();
+                    const btn = this;
+                    showLoader(btn, true);
+
+                    try {
+                        const response = await fetch(`${backendUrl}/api/payments/${invoiceNumber}/reject`, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-XSRF-TOKEN': xsrfToken
+                            },
+                            credentials: 'include'
+                        });
+                        const data = await response.json();
                         alert(data.message);
                         window.location.reload();
-                    });
+                    } catch (err) {
+                        alert('Failed to reject payment.');
+                        showLoader(btn, false);
+                    }
                 });
             } else if (userRole === '' || userRole === 'customer') {
                 // Customer view: Upload & Submit / Skip
