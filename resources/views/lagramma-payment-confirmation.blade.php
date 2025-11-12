@@ -93,15 +93,61 @@
                                 <input type="text" name="payer_account_number" class="form-control" value="{{ old('payer_account_number', $orderPayment->payer_account_number) }}" {{ $orderPayment->status === 'APPROVED' ? 'disabled' : '' }}>
                             </div>
 
+                            @php
+                                $filePath = $orderPayment->proof_file;
+                                $fileUrl = null;
+
+                                if ($filePath) {
+                                    $fileUrl = app()->environment('local')
+                                        ? asset('storage/' . $filePath)
+                                        : asset('public/storage/' . $filePath);
+
+                                    $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+                                }
+                            @endphp
+
                             <div class="mb-3">
-                                <label class="form-label">Proof of Payment (jpg, png, pdf) — max 5MB</label>
-                                @if($orderPayment->proof_file)
-                                    <div class="mb-2">
-                                        Current proof:
-                                        <a href="{{ asset('storage/' . $orderPayment->proof_file) }}" target="_blank">View file</a>
+                                <label class="form-label">Proof of Payment (jpg, jpeg, png, pdf) — max 5MB</label>
+
+                                @if($filePath)
+                                    <div class="card mt-2" style="max-width: 600px;">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3">Current Proof</h6>
+
+                                            @if(in_array(strtolower($extension), ['jpg', 'jpeg', 'png']))
+                                                {{-- Show image preview --}}
+                                                <img
+                                                    src="{{ $fileUrl }}"
+                                                    alt="Proof of Payment"
+                                                    class="img-fluid rounded border"
+                                                    style="max-height: 400px; width: 100%; object-fit: contain;">
+                                            @elseif(strtolower($extension) === 'pdf')
+                                                {{-- Embed PDF --}}
+                                                <iframe
+                                                    src="{{ $fileUrl }}"
+                                                    width="100%"
+                                                    height="400"
+                                                    class="border rounded"></iframe>
+                                            @else
+                                                {{-- Fallback for other types --}}
+                                                <p>
+                                                    <a href="{{ $fileUrl }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                                        View / Download File
+                                                    </a>
+                                                </p>
+                                            @endif
+                                        </div>
                                     </div>
                                 @endif
-                                <input type="file" name="proof_file" class="form-control" {{ $orderPayment->status === 'APPROVED' ? 'disabled' : '' }}>
+
+                                <div class="mt-3">
+                                    <input
+                                        type="file"
+                                        name="proof_file"
+                                        class="form-control"
+                                        accept=".jpg,.jpeg,.png,.pdf"
+                                        {{ $orderPayment->status === 'APPROVED' ? 'disabled' : '' }}>
+                                </div>
                             </div>
 
                             <div class="d-flex gap-2" id="payment-action-buttons">
