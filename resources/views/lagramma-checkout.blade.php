@@ -3,6 +3,7 @@
     Checkout
 @endsection
 @section('css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- extra css -->
      <style>
         .spinner-border {
@@ -156,15 +157,87 @@
                                 <h5 class="mb-0">Shipping Address</h5>
                             </div>
                             <div class="flex-shrink-0">
-                                <a href="javascript:location.reload()" class="badge bg-primary-subtle text-primary link-primary">
+                                <!-- <a href="javascript:location.reload()" class="badge bg-primary-subtle text-primary link-primary">
                                     Reload
                                 </a>
                                 <a href="{{ config('app.backend_url') }}/account-setting" target="_blank"
                                     rel="noopener noreferrer" class="badge bg-secondary-subtle text-secondary link-secondary">
                                     Manage Address
-                                </a>
+                                </a> -->
+                                <button class="btn badge bg-primary-subtle text-primary link-primary" id="feAddAddressButton">
+                                    Add Address
+                                </button>
                             </div>
                         </div>
+
+                        <!-- Add Address Modal -->
+                        <div class="modal fade" id="feAddAddressModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Add New Address</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <form id="feCreateAddressForm" autocomplete="off">
+
+                                            <!-- Name -->
+                                            <div class="mb-3">
+                                                <label class="form-label">Name</label>
+                                                <input id="fe-name" type="text" class="form-control" required>
+                                            </div>
+
+                                            <!-- Search Address -->
+                                            <div class="mb-3">
+                                                <label class="form-label">Search Address</label>
+                                                <input type="text" id="fe-search-address" class="form-control"
+                                                    placeholder="Search location…">
+                                            </div>
+
+                                            <!-- Google Maps -->
+                                            <div id="fe-map" style="height: 300px; width: 100%; border-radius: 8px;"></div>
+
+                                            <!-- Latitude -->
+                                            <div class="mb-3 mt-3">
+                                                <label class="form-label">Latitude</label>
+                                                <input id="fe-latitude" type="text" class="form-control" readonly required>
+                                            </div>
+
+                                            <!-- Longitude -->
+                                            <div class="mb-3">
+                                                <label class="form-label">Longitude</label>
+                                                <input id="fe-longitude" type="text" class="form-control" readonly required>
+                                            </div>
+
+                                            <!-- Region Select -->
+                                            <div class="mb-3">
+                                                <label class="form-label">
+                                                    Select Region
+                                                    <span class="text-muted small">(search city/district/subdistrict/postal code)</span>
+                                                </label>
+
+                                                <select id="fe-region-select" class="form-control" style="width: 100%;"></select>
+                                                <input type="hidden" id="fe-region-id">
+                                                <input type="hidden" id="fe-region-label">
+                                            </div>
+
+                                            <!-- Address Text -->
+                                            <div class="mb-3">
+                                                <label class="form-label">Address</label>
+                                                <textarea id="fe-address" class="form-control" rows="2" required></textarea>
+                                            </div>
+
+                                            <button class="btn btn-primary w-100" type="submit">Save Address</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- loop the user address -->
                         <div class="row gy-3">
                             @forelse(auth()->user()->addresses as $address)
                                 <div class="col-lg-6 col-12">
@@ -294,13 +367,18 @@
         const subtotal = @json($subtotal);
         const totalWeight = @json($totalWeight);
         const itemCount = @json($itemCount);
+        const komerceApiKey = @json(config('app.komerce_api_key'));
         let shippingCost = 0;
         let grandTotal = 0;
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- page js -->
     <script src="{{ URL::asset('build/js/frontend/lagramma-checkout.init.js') }}"></script>
     <!-- form wizard init -->
     <script src="{{ URL::asset('build/js/pages/form-wizard.init.js') }}"></script>
     <!-- landing-index js -->
     <script src="{{ URL::asset('build/js/frontend/menu.init.js') }}"></script>
+    <!-- maps js -->
+     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=feInitMap&libraries=places&v=weekly"></script>
 @endsection

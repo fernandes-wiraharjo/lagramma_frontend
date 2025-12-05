@@ -1,6 +1,137 @@
 let shippingOptions = [];
 
+// address section
+let feMap;
+let feMarker;
+
+function feInitMap() {
+    const pontianak = { lat: -0.0263, lng: 109.3414 };
+
+    feMap = new google.maps.Map(document.getElementById("fe-map"), {
+        center: pontianak,
+        zoom: 14,
+    });
+
+    feMarker = new google.maps.Marker({
+        position: pontianak,
+        map: feMap,
+        draggable: true
+    });
+
+    feMarker.addListener("dragend", e => feUpdateLatLng(e.latLng.lat(), e.latLng.lng()));
+
+    feMap.addListener("click", e => {
+        feMarker.setPosition(e.latLng);
+        feUpdateLatLng(e.latLng.lat(), e.latLng.lng());
+    });
+
+    // Search Box
+    const input = document.getElementById("fe-search-address");
+    const searchBox = new google.maps.places.SearchBox(input);
+
+    feMap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    feMap.addListener("bounds_changed", () => {
+        searchBox.setBounds(feMap.getBounds());
+    });
+
+    searchBox.addListener("places_changed", () => {
+        const places = searchBox.getPlaces();
+        if (!places.length) return;
+
+        const place = places[0];
+        if (!place.geometry) return;
+
+        feMarker.setPosition(place.geometry.location);
+        feMap.panTo(place.geometry.location);
+        feMap.setZoom(15);
+
+        feUpdateLatLng(place.geometry.location.lat(), place.geometry.location.lng());
+    });
+
+    feUpdateLatLng(pontianak.lat, pontianak.lng);
+}
+
+window.feInitMap = feInitMap;
+
+function feUpdateLatLng(lat, lng) {
+    document.getElementById("fe-latitude").value = lat.toFixed(6);
+    document.getElementById("fe-longitude").value = lng.toFixed(6);
+}
+// end of address section
+
 document.addEventListener('DOMContentLoaded', function () {
+    // address section
+    // OPEN MODAL
+    $("#feAddAddressButton").on("click", function () {
+        const modal = new bootstrap.Modal("#feAddAddressModal");
+        modal.show();
+    });
+
+    $("#feAddAddressModal").on("shown.bs.modal", function () {
+        $("#fe-region-select").select2({
+            dropdownParent: $("#feAddAddressModal .modal-body"),
+            placeholder: "Search region…",
+            minimumInputLength: 3,
+            ajax: {
+                url: `${backendUrl}/account/komerce/search-region`,
+                delay: 250,
+                dataType: "json",
+                headers: {
+                    "x-api-key": komerceApiKey
+                },
+                data: params => ({ keyword: params.term }),
+                processResults: data => ({
+                    results: data.data.map(item => ({
+                        id: item.id,
+                        text: item.label
+                    }))
+                })
+            }
+        });
+    });
+
+    $("#fe-region-select").on("select2:select", e => {
+        const data = e.params.data;
+        $("#fe-region-id").val(data.id);
+        $("#fe-region-label").val(data.text);
+    });
+
+    // ======================================================
+    // SUBMIT ADDRESS → BACKEND API
+    // ======================================================
+    $("#feCreateAddressForm").on("submit", function (e) {
+        e.preventDefault();
+
+        const payload = {
+            label: $("#fe-name").val(),
+            address: $("#fe-address").val(),
+            latitude: $("#fe-latitude").val(),
+            longitude: $("#fe-longitude").val(),
+            region_id: $("#fe-region-id").val(),
+            region_label: $("#fe-region-label").val(),
+        };
+
+        fetch(`${backendUrl}/account/addresses`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(res => {
+            if (!res.ok) throw new Error("Failed to save address");
+            return res.json();
+        })
+        .then(() => {
+            bootstrap.Modal.getInstance(document.getElementById("feAddAddressModal")).hide();
+            location.reload(); // refresh checkout page
+        })
+        .catch(err => alert(err.message));
+    });
+    // end of address section
+
     const checkoutBtn = document.getElementById('create-order-btn');
     const radioButtons = document.querySelectorAll('input[name="shippingAddress"]');
     const shippingOptionWrapper = document.getElementById('shippingOptionWrapper');
