@@ -6,6 +6,10 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- extra css -->
      <style>
+        .pac-container {
+            z-index: 1055 !important;
+        }
+        
         .spinner-border {
             margin-left: 10px;
         }
@@ -260,13 +264,14 @@
                                 <div class="col-12">
                                     <div class="alert alert-warning mb-0">
                                         <strong>No shipping address found.</strong><br>
-                                        Please <a href="{{ config('app.backend_url') }}/account-setting" target="_blank"
+                                        Please add your address to proceed checkout.
+                                            <!-- <a href="{{ config('app.backend_url') }}/account-setting" target="_blank"
                                             rel="noopener noreferrer" class="link-secondary text-decoration-underline">
                                                 manage your address
                                             </a> and click
                                             <a href="javascript:location.reload()" class="link-secondary text-decoration-underline">
                                                 reload
-                                            </a> to proceed checkout.
+                                            </a>  -->
                                     </div>
                                 </div>
                             @endforelse

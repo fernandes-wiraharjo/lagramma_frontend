@@ -77,6 +77,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 url: `${backendUrl}/account/komerce/search-region`,
                 delay: 250,
                 dataType: "json",
+                type: "GET",
+                xhrFields: {
+                    withCredentials: true   // IMPORTANT: send cookies
+                },
+                crossDomain: true,
                 headers: {
                     "x-api-key": komerceApiKey
                 },
@@ -100,8 +105,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // ======================================================
     // SUBMIT ADDRESS → BACKEND API
     // ======================================================
-    $("#feCreateAddressForm").on("submit", function (e) {
+    $("#feCreateAddressForm").on("submit", async function (e) {
         e.preventDefault();
+        const xsrfToken = await getCSRFToken();
 
         const payload = {
             label: $("#fe-name").val(),
@@ -117,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
+                'X-XSRF-TOKEN': xsrfToken
             },
             body: JSON.stringify(payload)
         })
