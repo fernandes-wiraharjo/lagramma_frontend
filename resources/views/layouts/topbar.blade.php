@@ -2,12 +2,12 @@
     <div class="container">
         <a class="navbar-brand d-none d-lg-block" href="/">
             <div class="logo-dark">
-                LA GRAMMA
-                <!-- <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" height="25"> -->
+                <!-- LA GRAMMA -->
+                <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" height="25">
             </div>
             <div class="logo-light">
-                LA GRAMMA
-                <!-- <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" height="25"> -->
+                <!-- LA GRAMMA -->
+                <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" height="25">
             </div>
         </a>
         <button class="btn btn-soft-primary btn-icon d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

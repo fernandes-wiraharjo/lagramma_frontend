@@ -37,16 +37,16 @@ File: Custom Css File
 
 /* New Topbar Styling */
 #new-topbar {
-    background-color: #0C3E3C;
-    padding: 0.75rem 1.5rem;
+    // background-color: #0C3E3C;
 }
 
 #new-topbar .topbar-search input {
     border-radius: 8px;
-    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    padding: 0.5rem 1rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
+    min-width: 250px;
 }
 
 #new-topbar .topbar-search input::placeholder {
@@ -58,6 +58,7 @@ File: Custom Css File
     border-color: rgba(255, 255, 255, 0.3);
     color: white;
     box-shadow: none;
+    outline: none;
 }
 
 #new-topbar .btn-topbar-icon {
