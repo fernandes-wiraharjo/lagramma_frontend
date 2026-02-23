@@ -565,7 +565,7 @@
                                         for="product-color-105"></label></li>
                             </ul>
                             <a href="#!">
-                                <h6 class="text-capitalize fs-16 lh-base text-truncate mb-0">Carven Lounge Chair Red</h6>
+                                <h6 class="product-title text-truncate text-center">Carven Lounge Chair Red</h6>
                             </a>
                             <div class="mt-2">
                                 <span class="float-end">4.1 <i
@@ -599,7 +599,7 @@
                                             class="ri-error-warning-line"></i></div>
                                 </div>
                                 <a href="#!">
-                                    <h6 class="text-capitalize fs-16 lh-base text-truncate mb-0">Innovative education book
+                                    <h6 class="product-title text-truncate text-center">Innovative education book
                                     </h6>
                                 </a>
                                 <div class="mt-2">
@@ -641,7 +641,7 @@
                                         for="product-color-113"></label></li>
                             </ul>
                             <a href="#!">
-                                <h6 class="text-capitalize fs-16 lh-base text-truncate mb-0">Ninja Pro Max Smartwatch</h6>
+                                <h6 class="product-title text-truncate text-center">Ninja Pro Max Smartwatch</h6>
                             </a>
                             <div class="mt-2">
                                 <span class="float-end">3.5 <i
@@ -676,7 +676,7 @@
                                         for="product-color-122"></label></li>
                             </ul>
                             <a href="#!">
-                                <h6 class="text-capitalize fs-16 lh-base text-truncate mb-0">Opinion Striped Round Neck
+                                <h6 class="product-title text-truncate text-center">Opinion Striped Round Neck
                                     Green T-shirt</h6>
                             </a>
                             <div class="mt-2">

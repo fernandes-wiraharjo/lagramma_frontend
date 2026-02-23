@@ -84,7 +84,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="#!">
-                                            <h6 class="fs-16 lh-base text-truncate mb-0">World's most expensive t shirt</h6>
+                                            <h6 class="product-title text-truncate text-center">World's most expensive t shirt</h6>
                                         </a>
                                         <div class="mt-3">
                                             <span class="float-end">4.9 <i
@@ -131,7 +131,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="#!">
-                                            <h6 class="fs-16 lh-base text-truncate mb-0">Like Style Women Black Handbag
+                                            <h6 class="product-title text-truncate text-center">Like Style Women Black Handbag
                                             </h6>
                                         </a>
                                         <div class="mt-3">
@@ -182,7 +182,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="#!">
-                                            <h6 class="fs-16 lh-base text-truncate mb-0">Black Horn Backpack For Men Bags
+                                            <h6 class="product-title text-truncate text-center">Black Horn Backpack For Men Bags
                                                 30 L Backpack</h6>
                                         </a>
                                         <div class="mt-3">
@@ -231,7 +231,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="#!">
-                                            <h6 class="fs-16 lh-base text-truncate mb-0">Innovative education book</h6>
+                                            <h6 class="product-title text-truncate text-center">Innovative education book</h6>
                                         </a>
                                         <div class="mt-3">
                                             <span class="float-end">4.7 <i
@@ -281,7 +281,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="#!">
-                                            <h6 class="fs-16 lh-base text-truncate mb-0">Sangria Girls Mint Green &
+                                            <h6 class="product-title text-truncate text-center">Sangria Girls Mint Green &
                                                 Off-White Solid Open Toe Flats</h6>
                                         </a>
                                         <div class="mt-3">
@@ -330,7 +330,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="#!">
-                                            <h6 class="fs-16 lh-base text-truncate mb-0">Lace-Up Casual Shoes For Men</h6>
+                                            <h6 class="product-title text-truncate text-center">Lace-Up Casual Shoes For Men</h6>
                                         </a>
                                         <div class="mt-3">
                                             <span class="float-end">4.0 <i
@@ -378,7 +378,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="#!">
-                                            <h6 class="fs-16 lh-base text-truncate mb-0">Striped High Neck Casual Men
+                                            <h6 class="product-title text-truncate text-center">Striped High Neck Casual Men
                                                 Orange Sweater</h6>
                                         </a>
                                         <div class="mt-3">
@@ -427,7 +427,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="#!">
-                                            <h6 class="fs-16 lh-base text-truncate mb-0">Ninja Pro Max Smartwatch</h6>
+                                            <h6 class="product-title text-truncate text-center">Ninja Pro Max Smartwatch</h6>
                                         </a>
                                         <div class="mt-3">
                                             <span class="float-end">3.6 <i
@@ -477,7 +477,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="#!">
-                                            <h6 class="fs-16 lh-base text-truncate mb-0">Opinion Striped Round Neck Green
+                                            <h6 class="product-title text-truncate text-center">Opinion Striped Round Neck Green
                                                 T-shirt</h6>
                                         </a>
                                         <div class="mt-3">

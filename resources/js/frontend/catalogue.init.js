@@ -126,9 +126,10 @@ function loadProductList(datas, page) {
                                 <div>\
                                     '+ colorElem + '\
                                     <a href="/product-detail/' + datas[i].id + '">\
-                                        <h6 class="text-capitalize fs-15 lh-base text-truncate mb-0">'+ datas[i].productTitle + '</h6>\
+                                        <h6 class="product-title text-truncate text-center">'+ datas[i].productTitle + '</h6>\
                                     </a>\
-                                    <div class="tn mt-3">\
+                                    <p class="product-price text-center">Rp 100.000</p>\
+                                    <div class="tn">\
                                         <a href="/product-detail/' + datas[i].id + '" class="btn btn-primary btn-hover w-100 add-btn">View Product</a>\
                                     </div>\
                                 </div>\
@@ -222,12 +223,9 @@ function loadProductList(datas, page) {
                             <div>\
                                 '+ colorElem + '\
                                 <a href="#!">\
-                                    <h6 class="fs-16 lh-base text-truncate mb-0">'+ datas[i].productTitle + '</h6>\
+                                    <h6 class="product-title text-truncate text-center">'+ datas[i].productTitle + '</h6>\
                                 </a>\
-                                <div class="mt-3">\
-                                    <span class="float-end">'+ datas[i].rating + ' <i class="ri-star-half-fill text-warning align-bottom"></i></span>\
-                                    '+ afterDiscountElem + '\
-                                </div>\
+                                <p class="product-price text-center">Rp 100.000</p>\
                             </div>\
                         </div>\
                     </div>\

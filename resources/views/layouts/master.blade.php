@@ -20,7 +20,10 @@
     <!-- top tagbar -->
     @include('layouts.top-tagbar')
     <!-- topbar -->
-    @include('layouts.topbar')
+    @include('layouts.new-topbar')
+
+    <!-- Cart offcanvas -->
+    @include('layouts.cart-offcanvas')
 
     @yield('content')
 
@@ -308,6 +311,11 @@
 
     <!-- scripts -->
     @include('layouts.vendor-scripts')
+
+    <!-- back-to-top -->
+    <button onclick="topFunction()" class="btn btn-info btn-icon" style="bottom: 50px;" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
 </body>
 
 </html>

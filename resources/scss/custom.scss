@@ -4,4 +4,68 @@ Author: Themesbrand
 Website: https://themesbrand.com/
 Contact: support@themesbrand.com
 File: Custom Css File
-*/      
+*/
+
+
+.add-btn {
+    background-color: white;
+    border: 1px solid #0C3E3C;
+    border-radius: 0;
+    color: #000000;
+}
+
+.product-title {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0%;
+    margin-bottom: 8px;
+}
+
+.product-price {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    margin-bottom: 8px;
+}
+
+/* Header color */
+#page-topbar,
+.top-tagbar {
+    background-color: #0C3E3C !important;
+}
+
+/* New Topbar Styling */
+#new-topbar {
+    background-color: #0C3E3C;
+    padding: 0.75rem 1.5rem;
+}
+
+#new-topbar .topbar-search input {
+    border-radius: 8px;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+#new-topbar .topbar-search input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#new-topbar .topbar-search input:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    box-shadow: none;
+}
+
+#new-topbar .btn-topbar-icon {
+    color: white;
+    background: transparent;
+    border: none;
+}
+
+#new-topbar .btn-topbar-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}

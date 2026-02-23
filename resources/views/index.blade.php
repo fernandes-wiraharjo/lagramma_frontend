@@ -242,8 +242,9 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="product-details">
-                                            <h6 class="fs-15 lh-base text-truncate mb-0">Man Relaxed Fit T-shirt</h6>
+                                            <h6 class="product-title text-truncate text-center">Man Relaxed Fit T-shirt</h6>
                                         </a>
+                                        <p class="product-price text-center">Rp 100.000</p>
                                         <div class="mt-3">
                                             <span class="float-end">4.9 <i
                                                     class="ri-star-half-fill text-warning align-bottom"></i></span>
@@ -291,7 +292,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="product-details">
-                                            <h6 class="fs-15 lh-base text-truncate mb-0">Innovative education book </h6>
+                                            <h6 class="product-title text-truncate text-center">Innovative education book </h6>
                                         </a>
                                         <div class="mt-3">
                                             <span class="float-end">3.2 <i
@@ -340,7 +341,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="product-details">
-                                            <h6 class="fs-15 lh-base text-truncate mb-0">Hp Trendsetter Backpack</h6>
+                                            <h6 class="product-title text-truncate text-center">Hp Trendsetter Backpack</h6>
                                         </a>
                                         <div class="mt-3">
                                             <span class="float-end">4.3 <i
@@ -390,7 +391,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="product-details">
-                                            <h6 class="fs-15 lh-base text-truncate mb-0">Hoodie Newyorker Winter Clothes
+                                            <h6 class="product-title text-truncate text-center">Hoodie Newyorker Winter Clothes
                                             </h6>
                                         </a>
                                         <div class="mt-3">
@@ -442,7 +443,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="product-details">
-                                            <h6 class="fs-15 lh-base text-truncate mb-0">Leather band Smartwatches</h6>
+                                            <h6 class="product-title text-truncate text-center">Leather band Smartwatches</h6>
                                         </a>
                                         <div class="mt-3">
                                             <span class="float-end">3.7 <i
@@ -491,7 +492,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="product-details">
-                                            <h6 class="fs-15 lh-base text-truncate mb-0">Slippers Open Toe</h6>
+                                            <h6 class="product-title text-truncate text-center">Slippers Open Toe</h6>
                                         </a>
                                         <div class="mt-3">
                                             <span class="float-end">2.6 <i
@@ -542,7 +543,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="product-details">
-                                            <h6 class="fs-15 lh-base text-truncate mb-0">T-shirt Geometric Print pattern
+                                            <h6 class="product-title text-truncate text-center">T-shirt Geometric Print pattern
                                             </h6>
                                         </a>
                                         <div class="mt-3">
@@ -594,7 +595,7 @@
                                 <div class="card-body">
                                     <div>
                                         <a href="product-details">
-                                            <h6 class="fs-15 lh-base text-truncate mb-0">Leather sports shoes on wood</h6>
+                                            <h6 class="product-title text-truncate text-center">Leather sports shoes on wood</h6>
                                         </a>
                                         <div class="mt-3">
                                             <span class="float-end">4.9 <i
@@ -685,7 +686,7 @@
                                     <div class="card-body">
                                         <div>
                                             <a href="product-details">
-                                                <h6 class="fs-15 lh-base text-truncate mb-0">Petronas Baseball Cap</h6>
+                                                <h6 class="product-title text-truncate text-center">Petronas Baseball Cap</h6>
                                             </a>
                                             <div class="mt-3">
                                                 <span class="float-end">3.2 <i
@@ -713,7 +714,7 @@
                                     <div class="card-body">
                                         <div>
                                             <a href="product-details">
-                                                <h6 class="fs-15 lh-base text-truncate mb-0">Mens Black T Shirt</h6>
+                                                <h6 class="product-title text-truncate text-center">Mens Black T Shirt</h6>
                                             </a>
                                             <div class="mt-3">
                                                 <span class="float-end">4.3 <i
@@ -741,7 +742,7 @@
                                     <div class="card-body">
                                         <div>
                                             <a href="product-details">
-                                                <h6 class="fs-15 lh-base text-truncate mb-0">Blue Checked Slim Fit Shirt
+                                                <h6 class="product-title text-truncate text-center">Blue Checked Slim Fit Shirt
                                                 </h6>
                                             </a>
                                             <div class="mt-3">
@@ -770,7 +771,7 @@
                                     <div class="card-body">
                                         <div>
                                             <a href="product-details">
-                                                <h6 class="fs-15 lh-base text-truncate mb-0">Onyx SmartGRID Chair Red</h6>
+                                                <h6 class="product-title text-truncate text-center">Onyx SmartGRID Chair Red</h6>
                                             </a>
                                             <div class="mt-3">
                                                 <span class="float-end">3.5 <i
@@ -798,7 +799,7 @@
                                     <div class="card-body">
                                         <div>
                                             <a href="product-details">
-                                                <h6 class="fs-15 lh-base text-truncate mb-0">Nursing Chair Steam Grey</h6>
+                                                <h6 class="product-title text-truncate text-center">Nursing Chair Steam Grey</h6>
                                             </a>
                                             <div class="mt-3">
                                                 <span class="float-end">2.3 <i
