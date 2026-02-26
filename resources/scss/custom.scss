@@ -31,42 +31,8 @@ File: Custom Css File
 
 /* Header color */
 #page-topbar,
-.top-tagbar {
+.top-tagbar,
+#navbar,
+.topbar-shadow {
     background-color: #0C3E3C !important;
-}
-
-/* New Topbar Styling */
-#new-topbar .topbar-search-input {
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    min-width: 250px;
-}
-
-#new-topbar .topbar-search-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-#new-topbar .topbar-search-input:focus {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
-    color: white;
-    box-shadow: none;
-    outline: none;
-}
-
-#new-topbar .btn-topbar-icon {
-    color: white;
-    background: transparent;
-    border: none;
-}
-
-#new-topbar .btn-topbar-icon:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-#new-topbar .topbar-search-input {
-    max-width: 340px;
 }

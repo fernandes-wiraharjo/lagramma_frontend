@@ -1,20 +1,18 @@
-<nav class="navbar navbar-expand-lg ecommerce-navbar" id="navbar">
+<nav class="navbar navbar-expand-lg ecommerce-navbar flex-column" id="navbar">
     <div class="container-fluid d-flex align-items-center w-100">
         <!-- Search - Left -->
         <div class="d-none d-lg-flex flex-lg-grow-1 align-items-center justify-content-start">
             <input type="text" class="topbar-search-input" placeholder="Search all products..." />
         </div>
 
-        @if (false)
         <!-- Mobile Toggle -->
-        <div class="d-lg-none flex-grow-1">
+        <div class="d-lg-none pe-2">
             <button class="btn btn-soft-primary btn-icon" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <i class="bi bi-list fs-20"></i>
             </button>
         </div>
-        @endif
 
         <!-- Logo - Center -->
         <div class="d-flex flex-grow-0 flex-lg-grow-1 align-items-center justify-content-start justify-content-lg-center">
@@ -52,6 +50,7 @@
                 </button>
             </div>
 
+            @if (false)
             <div class="dropdown topbar-head-dropdown ms-2 header-item dropdown-hover-end">
                 <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -66,6 +65,8 @@
                             class="bi bi-moon-stars align-middle me-2"></i> Auto (system default)</a>
                 </div>
             </div>
+            @endif
+
             <div class="dropdown header-item dropdown-hover-end">
                 <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -102,6 +103,12 @@
 
     </div>
 
+    <div class="container-fluid d-none d-lg-flex justify-content-center align-items-center border-top border-light border-opacity-25 py-2">
+        <a href="#!" class="text-decoration-none text-white px-3">SHOP</a>
+        <a href="#!" class="text-decoration-none text-white px-3">A STORY OF LOVE</a>
+        <a href="#!" class="text-decoration-none text-white px-3">LOCATION</a>
+    </div>
+
     <!-- Navbar Menu - Mobile -->
     <div class="collapse navbar-collapse d-lg-none" id="navbarSupportedContent">
         <ul class="navbar-nav mb-0" id="navigation-menu">
@@ -112,6 +119,15 @@
                     <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" height="25"
                         class="card-logo-light mx-auto">
                 </a>
+            </li>
+            <li class="nav-item d-lg-none">
+                <a class="nav-link" href="#!">SHOP</a>
+            </li>
+            <li class="nav-item d-lg-none">
+                <a class="nav-link" href="#!">A STORY OF LOVE</a>
+            </li>
+            <li class="nav-item d-lg-none">
+                <a class="nav-link" href="#!">LOCATION</a>
             </li>
         </ul>
     </div>
