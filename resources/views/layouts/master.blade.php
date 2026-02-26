@@ -92,7 +92,7 @@
         async function getCSRFToken() {
             const response = await fetch(`${backendUrl}/sanctum/csrf-cookie`, {
                 method: 'GET',
-                credentials: 'include',  // Include credentials for cookie sharing
+                credentials: 'include', // Include credentials for cookie sharing
             });
 
             if (!response.ok) {
@@ -114,20 +114,20 @@
             const xsrfToken = await getCSRFToken();
 
             fetch(`${backendUrl}/api/logout-store`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'X-XSRF-TOKEN': xsrfToken,
-                }
-            })
-            .then(res => {
-                if (res.ok) {
-                    alert('Logged out successfully');
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-XSRF-TOKEN': xsrfToken,
+                    }
+                })
+                .then(res => {
+                    if (res.ok) {
+                        alert('Logged out successfully');
 
-                    // Reload or refresh dropdown in guest mode
-                    document.getElementById('userDropdownContent').innerHTML = `
+                        // Reload or refresh dropdown in guest mode
+                        document.getElementById('userDropdownContent').innerHTML = `
                         <h6 class="dropdown-header">Welcome, Guest!</h6>
                         <p class="dropdown-item-text">Please log in to access your account.</p>
                         <div class="dropdown-divider"></div>
@@ -135,14 +135,14 @@
                             <i class="bi bi-box-arrow-in-right text-muted fs-15 me-1"></i> Login
                         </a>
                     `;
-                    userRole = '';
+                        userRole = '';
 
-                    location.reload();
-                } else {
-                    console.error('Logout failed:', res.status);
-                }
-            })
-            .catch(err => console.error('Error during logout:', err));
+                        location.reload();
+                    } else {
+                        console.error('Logout failed:', res.status);
+                    }
+                })
+                .catch(err => console.error('Error during logout:', err));
         }
 
         function numberFormat(value) {
@@ -159,7 +159,7 @@
 
         // Handle plus button
         document.querySelectorAll('.cart-header-plus').forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 const key = this.dataset.key;
                 const qtyInputs = document.querySelectorAll(`.product-quantity[data-key="${key}"]`);
                 let qty = parseInt(qtyInputs[0].value);
@@ -178,7 +178,7 @@
 
         // Handle minus button
         document.querySelectorAll('.cart-header-minus').forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 const key = this.dataset.key;
                 const qtyInputs = document.querySelectorAll(`.product-quantity[data-key="${key}"]`);
                 let qty = parseInt(qtyInputs[0].value);
@@ -197,87 +197,95 @@
 
         // Handle remove item button
         document.querySelectorAll('.remove-item-btn').forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 const key = this.dataset.key;
                 removeCartItem(key);
             });
         });
 
         document.querySelectorAll('.clear-cart-btn').forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 clearCartItem();
             });
         });
 
         function updateCartQuantity(key, qty, change) {
             const linePriceSpans = document.querySelectorAll(`.product-line-price[data-key="${key}"]`);
-            const pricePerItem = parseInt(linePriceSpans[0].dataset.price); // store item base price + modifiers price (if selected) in data-price
+            const pricePerItem = parseInt(linePriceSpans[0].dataset
+            .price); // store item base price + modifiers price (if selected) in data-price
 
             fetch(`/cart/update-quantity`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({ key: key, change: change })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    linePriceSpans.forEach(input => {
-                        input.textContent = numberFormat(pricePerItem * qty);
-                    });
-                    // linePriceSpan.textContent = numberFormat(pricePerItem * qty);
-                    updateCartSubTotal(data.subtotal);
-                } else {
-                    alert(data.message || 'Something went wrong. Page will be reloaded for data consistency');
-                    location.reload();
-                }
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        key: key,
+                        change: change
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        linePriceSpans.forEach(input => {
+                            input.textContent = numberFormat(pricePerItem * qty);
+                        });
+                        // linePriceSpan.textContent = numberFormat(pricePerItem * qty);
+                        updateCartSubTotal(data.subtotal);
+                    } else {
+                        alert(data.message || 'Something went wrong. Page will be reloaded for data consistency');
+                        location.reload();
+                    }
+                });
         }
 
         function removeCartItem(key) {
             fetch(`/cart/remove`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({ key: key })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Product successfully removed from cart!');
-                    location.reload();
-                } else {
-                    alert(data.message || 'Failed to remove item.');
-                }
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        key: key
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Product successfully removed from cart!');
+                        location.reload();
+                    } else {
+                        alert(data.message || 'Failed to remove item.');
+                    }
+                });
         }
 
         function clearCartItem(key) {
             fetch(`/cart/remove-all`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({ key: key })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('All product successfully removed from cart!');
-                    location.reload();
-                } else {
-                    alert(data.message || 'Failed to clear cart.');
-                }
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        key: key
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('All product successfully removed from cart!');
+                        location.reload();
+                    } else {
+                        alert(data.message || 'Failed to clear cart.');
+                    }
+                });
         }
         // END OF CART SECTION --
 
-        document.getElementById('lg-continue-to-co-btn').addEventListener('click', function () {
+        document.getElementById('lg-continue-to-co-btn').addEventListener('click', function() {
             if (!isLoggedIn) {
                 alert('Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.');
                 const currentUrl = window.location.href;
@@ -287,25 +295,25 @@
             }
 
             fetch('/cart/validate-stock', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = data.redirect_url;
-                } else {
-                    alert(data.message); // or use SweetAlert/toast
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Error validating stock.');
-            });
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirect_url;
+                    } else {
+                        alert(data.message); // or use SweetAlert/toast
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Error validating stock.');
+                });
         });
     </script>
 

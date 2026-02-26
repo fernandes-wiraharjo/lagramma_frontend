@@ -1,87 +1,88 @@
 <nav class="navbar navbar-expand-lg ecommerce-navbar flex-column" id="navbar">
-    <div class="container-fluid d-flex align-items-center w-100">
-        <!-- Search - Left -->
-        <div class="d-none d-lg-flex flex-lg-grow-1 align-items-center justify-content-start">
-            <input type="text" class="topbar-search-input" placeholder="Search all products..." />
-        </div>
+    <div class="container-fluid w-100">
+        <div class="row w-100 g-0 align-items-center">
+            <!-- Mobile Toggle -->
+            <div class="col-auto d-lg-none pe-2">
+                <button class="btn btn-soft-primary btn-icon" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="bi bi-list fs-20"></i>
+                </button>
+            </div>
 
-        <!-- Mobile Toggle -->
-        <div class="d-lg-none pe-2">
-            <button class="btn btn-soft-primary btn-icon" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <i class="bi bi-list fs-20"></i>
-            </button>
-        </div>
+            <!-- Search - Left -->
+            <div class="col-lg-4 d-none d-lg-flex align-items-center justify-content-start">
+                <input type="text" class="topbar-search-input" placeholder="Search all products..." />
+            </div>
 
-        <!-- Logo - Center -->
-        <div class="d-flex flex-grow-0 flex-lg-grow-1 align-items-center justify-content-start justify-content-lg-center">
-            <a class="navbar-brand me-0 text-start text-lg-center" href="/">
-                <div class="logo-dark">
-                    <!-- LA GRAMMA -->
-                    <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" height="25">
-                </div>
-                <div class="logo-light">
-                    <!-- LA GRAMMA -->
-                    <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" height="25">
-                </div>
-            </a>
-        </div>
+            <!-- Logo - Center -->
+            <div class="col col-lg-4 d-flex align-items-center justify-content-start justify-content-lg-center">
+                <a class="navbar-brand me-0 text-start text-lg-center" href="/">
+                    <div class="logo-dark">
+                        <!-- LA GRAMMA -->
+                        <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" height="25">
+                    </div>
+                    <div class="logo-light">
+                        <!-- LA GRAMMA -->
+                        <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" height="25">
+                    </div>
+                </a>
+            </div>
 
-        <!-- Icons - Right -->
-        <div class="d-flex ms-auto flex-grow-0 flex-lg-grow-1 align-items-center justify-content-end">
-            {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
+            <!-- Icons - Right -->
+            <div class="col-auto col-lg-4 d-flex align-items-center justify-content-end">
+                {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
                     data-bs-toggle="modal" data-bs-target="#searchModal">
                     <i class="bx bx-search fs-22"></i>
                 </button> --}}
-            <div class="topbar-head-dropdown ms-1 header-item">
-                @php
-                    $cart = session('shopping_cart', []);
-                    $cartCount = count($cart);
-                    $subtotal = collect($cart)->sum('total_price');
-                @endphp
-                <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
-                    data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" aria-controls="ecommerceCart">
-                    <i class="ph-shopping-cart fs-18"></i>
-                    @if ($cartCount > 0)
-                        <span
-                            class="position-absolute topbar-badge lg-cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $cartCount }}</span>
-                    @endif
-                </button>
-            </div>
-
-            @if (false)
-            <div class="dropdown topbar-head-dropdown ms-2 header-item dropdown-hover-end">
-                <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="bi bi-sun align-middle fs-20"></i>
-                </button>
-                <div class="dropdown-menu p-2 dropdown-menu-end" id="light-dark-mode">
-                    <a href="#!" class="dropdown-item" data-mode="light"><i
-                            class="bi bi-sun align-middle me-2"></i> Default (light mode)</a>
-                    <a href="#!" class="dropdown-item" data-mode="dark"><i
-                            class="bi bi-moon align-middle me-2"></i> Dark</a>
-                    <a href="#!" class="dropdown-item" data-mode="auto"><i
-                            class="bi bi-moon-stars align-middle me-2"></i> Auto (system default)</a>
+                <div class="topbar-head-dropdown ms-1 header-item">
+                    @php
+                        $cart = session('shopping_cart', []);
+                        $cartCount = count($cart);
+                        $subtotal = collect($cart)->sum('total_price');
+                    @endphp
+                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
+                        data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" aria-controls="ecommerceCart">
+                        <i class="ph-shopping-cart fs-18"></i>
+                        @if ($cartCount > 0)
+                            <span
+                                class="position-absolute topbar-badge lg-cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $cartCount }}</span>
+                        @endif
+                    </button>
                 </div>
-            </div>
-            @endif
 
-            <div class="dropdown header-item dropdown-hover-end">
-                <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user"
-                        src="@if (@Auth::user()->avatar) {{ URL::asset('images/users') . '/' . @Auth::user()->avatar }} @else {{ URL::asset('build/images/users/user-dummy-img.jpg') }} @endif"
-                        alt="Header Avatar">
-                </button>
-                {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                @if (false)
+                    <div class="dropdown topbar-head-dropdown ms-2 header-item dropdown-hover-end">
+                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bi bi-sun align-middle fs-20"></i>
+                        </button>
+                        <div class="dropdown-menu p-2 dropdown-menu-end" id="light-dark-mode">
+                            <a href="#!" class="dropdown-item" data-mode="light"><i
+                                    class="bi bi-sun align-middle me-2"></i> Default (light mode)</a>
+                            <a href="#!" class="dropdown-item" data-mode="dark"><i
+                                    class="bi bi-moon align-middle me-2"></i> Dark</a>
+                            <a href="#!" class="dropdown-item" data-mode="auto"><i
+                                    class="bi bi-moon-stars align-middle me-2"></i> Auto (system default)</a>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="dropdown header-item dropdown-hover-end">
+                    <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <img class="rounded-circle header-profile-user"
+                            src="@if (@Auth::user()->avatar) {{ URL::asset('images/users') . '/' . @Auth::user()->avatar }} @else {{ URL::asset('build/images/users/user-dummy-img.jpg') }} @endif"
+                            alt="Header Avatar">
+                    </button>
+                    {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                         id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         <i class="ph-user-circle fs-22"></i>
                     </button> --}}
-                <div class="dropdown-menu dropdown-menu-end" id="userDropdownContent">
-                    <!-- item-->
-                    {{--
+                    <div class="dropdown-menu dropdown-menu-end" id="userDropdownContent">
+                        <!-- item-->
+                        {{--
                         <h6 class="dropdown-header">Welcome {{ @Auth::user()->name }}!</h6>
                         <a class="dropdown-item" href="account"><i class="bi bi-person-circle text-muted fs-15 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
                         <a class="dropdown-item" href="order-history"><i class="bi bi-cart4 text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Order History</span></a>
@@ -97,13 +98,15 @@
                         </a>
                         <a class="dropdown-item" href="{{ config('app.backend_url') }}/logout"><i class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">{{ __('t-logout') }}</span></a>
                         --}}
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <div class="container-fluid d-none d-lg-flex justify-content-center align-items-center border-top border-light border-opacity-25 py-2">
+    {{-- Navbar Menus --}}
+    <div class="w-100 d-none d-lg-flex justify-content-center align-items-center border-top border-light border-opacity-25 py-2">
         <a href="#!" class="text-decoration-none text-white px-3">SHOP</a>
         <a href="#!" class="text-decoration-none text-white px-3">A STORY OF LOVE</a>
         <a href="#!" class="text-decoration-none text-white px-3">LOCATION</a>
