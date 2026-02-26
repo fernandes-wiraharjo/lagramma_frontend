@@ -36,11 +36,7 @@ File: Custom Css File
 }
 
 /* New Topbar Styling */
-#new-topbar {
-    // background-color: #0C3E3C;
-}
-
-#new-topbar .topbar-search input {
+#new-topbar .topbar-search-input {
     border-radius: 8px;
     padding: 0.5rem 1rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -49,11 +45,11 @@ File: Custom Css File
     min-width: 250px;
 }
 
-#new-topbar .topbar-search input::placeholder {
+#new-topbar .topbar-search-input::placeholder {
     color: rgba(255, 255, 255, 0.6);
 }
 
-#new-topbar .topbar-search input:focus {
+#new-topbar .topbar-search-input:focus {
     background-color: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.3);
     color: white;
@@ -69,4 +65,8 @@ File: Custom Css File
 
 #new-topbar .btn-topbar-icon:hover {
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+#new-topbar .topbar-search-input {
+    max-width: 340px;
 }

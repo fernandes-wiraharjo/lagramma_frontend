@@ -843,6 +843,10 @@ File: Main Js File
 		if (pageTopbar) {
 			document.body.scrollTop >= 50 || document.documentElement.scrollTop >= 50 ? pageTopbar.classList.add("topbar-shadow") : pageTopbar.classList.remove("topbar-shadow");
 		}
+		var newTopbar = document.getElementById("new-topbar");
+		if (newTopbar) {
+			document.body.scrollTop >= 50 || document.documentElement.scrollTop >= 50 ? newTopbar.classList.add("topbar-shadow") : newTopbar.classList.remove("topbar-shadow");
+		}
 	}
 
 	// Two-column menu activation
