@@ -38,6 +38,11 @@ $lagramma_green: #0C3E3C;
     background-color: $lagramma_green !important;
 }
 
+/* top-tagbar removed: reset navbar offset */
+.ecommerce-navbar {
+    top: 0 !important;
+}
+
 /* Topbar right icons */
 .ecommerce-navbar .lg-topbar-icons {
     gap: 14px;
@@ -63,6 +68,18 @@ $lagramma_green: #0C3E3C;
     width: 240px;
     height: auto;
     max-width: 100%;
+}
+
+/* Topbar menu strip */
+.ecommerce-navbar .lg-navbar-menus {
+    background-color: #ffffff;
+    color: #000000;
+    border-bottom: 5px solid $lagramma_green;
+}
+
+.ecommerce-navbar .lg-navbar-menus a {
+    color: #000000 !important;
+    font-weight: 800;
 }
 
 /* Footer colors */

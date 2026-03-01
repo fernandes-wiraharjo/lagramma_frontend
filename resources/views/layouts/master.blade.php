@@ -18,7 +18,7 @@
 <body>
 
     <!-- top tagbar -->
-    @include('layouts.top-tagbar')
+    {{-- @include('layouts.top-tagbar') --}}
     <!-- topbar -->
     @include('layouts.new-topbar')
 
