@@ -6,10 +6,11 @@ Contact: support@themesbrand.com
 File: Custom Css File
 */
 
+$lagramma_green: #0C3E3C;
 
 .add-btn {
     background-color: white;
-    border: 1px solid #0C3E3C;
+    border: 1px solid $lagramma_green;
     border-radius: 0;
     color: #000000;
 }
@@ -34,7 +35,7 @@ File: Custom Css File
 .top-tagbar,
 #navbar,
 .topbar-shadow {
-    background-color: #0C3E3C !important;
+    background-color: $lagramma_green !important;
 }
 
 /* Topbar right icons */
@@ -64,3 +65,40 @@ File: Custom Css File
     max-width: 100%;
 }
 
+/* Footer colors */
+.footer-landing {
+    background-color: $lagramma_green !important;
+    color: #ffffff;
+}
+
+.footer-landing .footer-title,
+.footer-landing .footer-desc,
+.footer-landing .footer-link a,
+.footer-landing .text-reset,
+.footer-landing .footer-border-alt,
+.footer-landing .footer-border-alt a {
+    color: #ffffff !important;
+}
+
+.footer-landing .footer-social .social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    border-radius: 50%;
+}
+
+.footer-landing .footer-social .social-logo {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+}
+
+.footer-landing .lg-footer-logo {
+    width: 240px;
+    height: auto;
+    max-width: 100%;
+}
