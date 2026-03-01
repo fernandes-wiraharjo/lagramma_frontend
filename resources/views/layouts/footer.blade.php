@@ -27,9 +27,9 @@
             </div>
             <div class="col-lg-6">
                 <div class="row pl-0 pl-lg-3">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="mt-lg-0 mt-4">
-                            <h5 class="footer-title">Categories</h5>
+                            <h5 class="footer-title text-uppercase">Our Product</h5>
                             <ul class="list-unstyled footer-link mt-3">
                                 <li><a href="#!">Lapis Legit</a></li>
                                 <li><a href="#!">Nastar</a></li>
@@ -39,41 +39,24 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="mt-lg-0 mt-4">
-                            <h5 class="footer-title">Information</h5>
+                            <h5 class="footer-title text-uppercase">Support</h5>
                             <ul class="list-unstyled footer-link mt-3">
-                                <!-- <li><a href="#!">Custom Service</a></li> -->
                                 <li><a href="#!">FAQs</a></li>
-                                <!-- <li><a href="#!">Ordering</a></li> -->
-                                <!-- <li><a href="#!">Tracking</a></li> -->
                                 <li><a href="#!">Contacts</a></li>
+                                <li><a href="#!">Terms and Condition</a></li>
                             </ul>
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="mt-lg-0 mt-4">
-                            <h5 class="footer-title">My Account</h5>
+                            <h5 class="footer-title text-uppercase">My Account</h5>
                             <ul class="list-unstyled footer-link mt-3">
-                                <!-- <li><a href="#!">Sign In</a></li> -->
-                                <li><a href="{{ route('view-cart') }}">View Cart</a></li>
-                                <!-- <li><a href="#!">My Wishlist</a></li> -->
-                                <li><a href="{{ config('app.backend_url') }}/orders" id="footer-view-my-order" class="d-none" target="_blank">View My Order</a></li>
-                                <li><a href="#!">Help</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="mt-lg-0 mt-4">
-                            <h5 class="footer-title">Customer Service</h5>
-                            <ul class="list-unstyled footer-link mt-3">
-                                <!-- <li><a href="#!">Payment Methods</a></li> -->
-                                <!-- <li><a href="#!">Money-back!</a></li> -->
-                                <!-- <li><a href="#!">Returns</a></li> -->
-                                <!-- <li><a href="#!">Shipping</a></li> -->
-                                <li><a href="#!">Terms and conditions</a></li>
+                                <li><a href="{{ route('view-cart') }}">Cart</a></li>
+                                <li><a href="{{ config('app.backend_url') }}/orders" id="footer-view-my-order"
+                                        class="d-none" target="_blank">Order</a></li>
                             </ul>
                         </div>
                     </div>
