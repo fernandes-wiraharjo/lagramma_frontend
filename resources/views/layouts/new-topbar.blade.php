@@ -27,17 +27,17 @@
                 <a class="navbar-brand me-0 text-start text-lg-center" href="/">
                     <div class="logo-dark">
                         <!-- LA GRAMMA -->
-                        <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" height="25">
+                        <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" class="lg-topbar-logo">
                     </div>
                     <div class="logo-light">
                         <!-- LA GRAMMA -->
-                        <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" height="25">
+                        <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" class="lg-topbar-logo">
                     </div>
                 </a>
             </div>
 
             <!-- Icons - Right -->
-            <div class="col-auto col-lg-4 d-flex align-items-center justify-content-end">
+            <div class="col-auto col-lg-4 d-flex align-items-center justify-content-end lg-topbar-icons">
                 {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
                     data-bs-toggle="modal" data-bs-target="#searchModal">
                     <i class="bx bx-search fs-22"></i>
@@ -48,9 +48,10 @@
                         $cartCount = count($cart);
                         $subtotal = collect($cart)->sum('total_price');
                     @endphp
-                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
+                    <button type="button"
+                        class="btn p-0 border-0 bg-transparent position-relative lg-topbar-action"
                         data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" aria-controls="ecommerceCart">
-                        <i class="ph-shopping-cart fs-18"></i>
+                        <i class="bi bi-cart3 lg-topbar-icon"></i>
                         @if ($cartCount > 0)
                             <span
                                 class="position-absolute topbar-badge lg-cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $cartCount }}</span>
@@ -76,11 +77,10 @@
                 @endif
 
                 <div class="dropdown header-item dropdown-hover-end">
-                    <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
+                    <button type="button" class="btn p-0 border-0 bg-transparent lg-topbar-action"
+                        id="page-header-user-dropdown" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle header-profile-user"
-                            src="@if (@Auth::user()->avatar) {{ URL::asset('images/users') . '/' . @Auth::user()->avatar }} @else {{ URL::asset('build/images/users/user-dummy-img.jpg') }} @endif"
-                            alt="Header Avatar">
+                        <i class="bi bi-person lg-topbar-icon"></i>
                     </button>
                     {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                         id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"

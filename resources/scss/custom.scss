@@ -36,3 +36,31 @@ File: Custom Css File
 .topbar-shadow {
     background-color: #0C3E3C !important;
 }
+
+/* Topbar right icons */
+.ecommerce-navbar .lg-topbar-icons {
+    gap: 14px;
+}
+
+.ecommerce-navbar .lg-topbar-action {
+    color: #f5b400;
+}
+
+.ecommerce-navbar .lg-topbar-action:hover,
+.ecommerce-navbar .lg-topbar-action:focus {
+    color: #f5b400;
+}
+
+.ecommerce-navbar .lg-topbar-icon {
+    display: block;
+    font-size: 1.65rem;
+    line-height: 1;
+}
+
+/* Topbar brand logo */
+.ecommerce-navbar .lg-topbar-logo {
+    width: 240px;
+    height: auto;
+    max-width: 100%;
+}
+
