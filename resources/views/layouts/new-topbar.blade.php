@@ -12,7 +12,14 @@
 
             <!-- Search - Left -->
             <div class="col-lg-4 d-none d-lg-flex align-items-center justify-content-start">
-                <input type="text" class="topbar-search-input" placeholder="Search all products..." />
+                <div class="input-group rounded-pill bg-white flex-nowrap topbar-search-input" style="max-width: 300px;">
+                    <span class="input-group-text bg-transparent border-0 ps-3 pe-2">
+                        <img src="{{ URL::asset('build/images/search-icon.png') }}" alt="Search"
+                            class="topbar-search-icon">
+                    </span>
+                    <input type="text" class="form-control border-0 bg-transparent shadow-none ps-0 pe-3"
+                        placeholder="Search Our Product" aria-label="Search Our Product">
+                </div>
             </div>
 
             <!-- Logo - Center -->
@@ -102,7 +109,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     {{-- Navbar Menus --}}
