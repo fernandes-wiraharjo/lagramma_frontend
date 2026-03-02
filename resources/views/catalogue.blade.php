@@ -39,7 +39,7 @@
     </section>
 
     <div class="position-relative section">
-        <div class="container-fluid">
+        <div class="container container-1440">
             <div class="ecommerce-product gap-4">
                 <div class="sidebar flex-shrink-0">
                     <div class="card overflow-hidden">

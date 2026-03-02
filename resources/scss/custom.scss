@@ -8,6 +8,10 @@ File: Custom Css File
 
 $lagramma_green: #0C3E3C;
 
+.container.container-1440 {
+    max-width: 1440px;
+}
+
 .add-btn {
     background-color: white;
     border: 1px solid $lagramma_green;

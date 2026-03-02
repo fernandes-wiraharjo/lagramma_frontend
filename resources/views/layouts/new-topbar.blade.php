@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg ecommerce-navbar flex-column" id="navbar">
-    <div class="container-fluid w-100 pb-2 pt-2">
+    <div class="container container-1440 w-100 pb-2 pt-2" style="height: 112px;">
         <div class="row w-100 g-0 align-items-center">
             <!-- Mobile Toggle -->
             <div class="col-auto d-lg-none pe-2">
@@ -112,10 +112,10 @@
     </div>
 
     {{-- Navbar Menus --}}
-    <div class="w-100 d-none d-lg-flex justify-content-center align-items-center py-2 lg-navbar-menus">
-        <a href="#!" class="text-decoration-none text-black px-3">SHOP</a>
-        <a href="#!" class="text-decoration-none text-black px-3">A STORY OF LOVE</a>
-        <a href="#!" class="text-decoration-none text-black px-3">LOCATION</a>
+    <div class="w-100 d-none d-lg-flex justify-content-center align-items-center py-2 lg-navbar-menus" style="height: 48px;">
+        <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">SHOP NOW</a>
+        <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">A STORY OF LOVE</a>
+        <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">LOCATION</a>
     </div>
 
     <!-- Navbar Menu - Mobile -->

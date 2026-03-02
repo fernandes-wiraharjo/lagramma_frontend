@@ -1,5 +1,5 @@
 <section class="section footer-landing pb-0">
-    <div class="container">
+    <div class="container container-1440">
         <div class="row">
             <div class="col-lg-6">
                 <div class="footer-info d-flex flex-column h-100">
