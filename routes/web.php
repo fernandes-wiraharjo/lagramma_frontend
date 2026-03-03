@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\TonerController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,8 @@ Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang'
 
 Auth::routes();
 
-Route::get('/', [CatalogueController::class, 'index'])->name('index');
+// Route::get('/', [CatalogueController::class, 'index'])->name('index');
+Route::get('/', [LandingPageController::class, 'index'])->name('index');
 Route::get('/product-detail/{id}', [CatalogueController::class, 'getByID']);
 Route::get('/view-cart', [CatalogueController::class, 'viewCart'])->name('view-cart');
 Route::post('/add-to-cart', [CatalogueController::class, 'addToCart']);

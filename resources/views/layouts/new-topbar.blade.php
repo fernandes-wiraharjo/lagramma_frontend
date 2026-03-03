@@ -112,10 +112,19 @@
     </div>
 
     {{-- Navbar Menus --}}
-    <div class="w-100 d-none d-lg-flex justify-content-center align-items-center py-2 lg-navbar-menus" style="height: 48px;">
-        <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">SHOP NOW</a>
-        <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">A STORY OF LOVE</a>
-        <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">LOCATION</a>
+    <div class="w-100 d-none d-lg-block lg-navbar-menus" style="height: 48px;">
+        <div class="container container-1440 h-100 position-relative">
+            <div class="d-flex h-100 justify-content-center align-items-center">
+                <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">SHOP NOW</a>
+                <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">A STORY OF LOVE</a>
+                <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">LOCATION</a>
+            </div>
+
+            {{-- WhatsApp Order Now --}}
+            <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                <a href="#!" class="text-decoration-none text-black" style="font-weight: 400;">Order Now</a>
+            </div>
+        </div>
     </div>
 
     <!-- Navbar Menu - Mobile -->
@@ -130,7 +139,7 @@
                 </a>
             </li>
             <li class="nav-item d-lg-none">
-                <a class="nav-link" href="#!">SHOP</a>
+                <a class="nav-link" href="#!">SHOP NOW</a>
             </li>
             <li class="nav-item d-lg-none">
                 <a class="nav-link" href="#!">A STORY OF LOVE</a>
