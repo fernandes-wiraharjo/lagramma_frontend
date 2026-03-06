@@ -36,13 +36,11 @@
             {{-- Product Variant Section --}}
             <div class="row mx-0 my-lg-1 pt-5 px-lg-4 gy-4">
                 <div class="col-6 col-md-6 col-lg-3">
-                    <img class="w-100"
-                        src="{{ URL::asset('build/images/assets/collect-1-full-house-hampers.png') }}"
+                    <img class="w-100" src="{{ URL::asset('build/images/assets/collect-1-full-house-hampers.png') }}"
                         alt="Idul Fitri Variant">
                 </div>
                 <div class="col-6 col-md-6 col-lg-3">
-                    <img class="w-100"
-                        src="{{ URL::asset('build/images/assets/collect-2-traditional-cookies.png') }}"
+                    <img class="w-100" src="{{ URL::asset('build/images/assets/collect-2-traditional-cookies.png') }}"
                         alt="Idul Fitri Variant">
                 </div>
                 <div class="col-6 col-md-6 col-lg-3">
@@ -70,14 +68,27 @@
             <x-side-image-info image="build/images/assets/info-1-egg.png" alt="All Naturals" title="All Natural"
                 description="We bake with real, honest ingredients<br /> &mdash; nothing artificial, ever." />
 
-            <x-side-image-info image="build/images/assets/info-2-no-preservative.png" alt="No Preservatives" title="No Preservatives"
+            <x-side-image-info image="build/images/assets/info-2-no-preservative.png" alt="No Preservatives"
+                title="No Preservatives"
                 description="No shortcuts. No chemical shelf-life <br />tricks. Just pure freshness." />
 
-            <x-side-image-info image="build/images/assets/info-3-highest-quality-ingredients.png" alt="Highest - Quality Ingredients" title="Highest - Quality Ingredients"
+            <x-side-image-info image="build/images/assets/info-3-highest-quality-ingredients.png"
+                alt="Highest - Quality Ingredients" title="Highest - Quality Ingredients"
                 description="We bake with real, honest ingredients — nothing <br />artificial, ever." />
 
-            <x-side-image-info image="build/images/assets/info-4-a-promise-to-grandma-legacy.png" alt="A Promise to Grandma’s Legacy" title="A Promise to Grandma’s Legacy"
+            <x-side-image-info image="build/images/assets/info-4-a-promise-to-grandma-legacy.png"
+                alt="A Promise to Grandma’s Legacy" title="A Promise to Grandma’s Legacy"
                 description="Every layer carries her spirit : Do it sincerely,<br />do it properly and never compromise on quality" />
+
+            <div class="row">
+                <div class="col-12 p-0">
+                    <div class="lagramma-bottom-info">
+                        <p class="title-1">Every layer is made with heart.</p>
+                        <p class="title-2">Since 2013, creating timeless flavors for meaningful moments, shared with the
+                            people</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 @endsection
@@ -94,4 +105,3 @@
     <!-- landing-index js -->
     <script src="{{ URL::asset('build/js/frontend/menu.init.js') }}"></script>
 @endsection
-
