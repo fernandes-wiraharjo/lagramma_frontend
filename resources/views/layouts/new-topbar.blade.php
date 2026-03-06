@@ -3,35 +3,30 @@
         <div class="row w-100 g-0 align-items-center">
             <!-- Mobile Toggle -->
             <div class="col-auto d-lg-none pe-2">
-                <button class="btn btn-soft-primary btn-icon" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <i class="bi bi-list fs-20"></i>
+                <button type="button" class="btn p-0 border-0 bg-transparent position-relative lg-topbar-action"
+                    data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list lg-topbar-icon"></i>
                 </button>
             </div>
 
             <!-- Search - Left -->
             <div class="col-lg-4 d-none d-lg-flex align-items-center justify-content-start">
-                <div class="input-group rounded-pill bg-white flex-nowrap topbar-search-input" style="max-width: 300px;">
-                    <span class="input-group-text bg-transparent border-0 ps-3 pe-2">
-                        <img src="{{ URL::asset('build/images/search-icon.png') }}" alt="Search"
-                            class="topbar-search-icon">
-                    </span>
-                    <input type="text" class="form-control border-0 bg-transparent shadow-none ps-0 pe-3"
-                        placeholder="Search Our Product" aria-label="Search Our Product">
-                </div>
+                <x-search-input-alt max-width="300px" />
             </div>
 
             <!-- Logo - Center -->
-            <div class="col col-lg-4 d-flex align-items-center justify-content-start justify-content-lg-center">
+            <div class="col col-lg-4 d-flex align-items-center justify-content-start justify-content-center">
                 <a class="navbar-brand me-0 text-start text-lg-center" href="/">
                     <div class="logo-dark">
                         <!-- LA GRAMMA -->
-                        <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" class="lg-topbar-logo">
+                        <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" class="lg-topbar-logo"
+                            style="width: 160px;">
                     </div>
                     <div class="logo-light">
                         <!-- LA GRAMMA -->
-                        <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" class="lg-topbar-logo">
+                        <img src="{{ URL::asset('build/images/logo-light.png') }}" alt=""
+                            class="lg-topbar-logo">
                     </div>
                 </a>
             </div>
@@ -42,14 +37,13 @@
                     data-bs-toggle="modal" data-bs-target="#searchModal">
                     <i class="bx bx-search fs-22"></i>
                 </button> --}}
-                <div class="topbar-head-dropdown ms-1 header-item">
+                <div class="topbar-head-dropdown ms-1 header-item d-none d-sm-flex">
                     @php
                         $cart = session('shopping_cart', []);
                         $cartCount = count($cart);
                         $subtotal = collect($cart)->sum('total_price');
                     @endphp
-                    <button type="button"
-                        class="btn p-0 border-0 bg-transparent position-relative lg-topbar-action"
+                    <button type="button" class="btn p-0 border-0 bg-transparent position-relative lg-topbar-action"
                         data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" aria-controls="ecommerceCart">
                         <i class="bi bi-cart3 lg-topbar-icon"></i>
                         @if ($cartCount > 0)
@@ -78,8 +72,8 @@
 
                 <div class="dropdown header-item dropdown-hover-end">
                     <button type="button" class="btn p-0 border-0 bg-transparent lg-topbar-action"
-                        id="page-header-user-dropdown" data-bs-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
+                        id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
                         <i class="bi bi-person lg-topbar-icon"></i>
                     </button>
                     {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
@@ -111,12 +105,20 @@
         </div>
     </div>
 
+    {{-- Mobile Search Section --}}
+    <div class="w-100 d-block d-lg-none lg-navbar-menus" style="height: 72px;">
+        <div class="container container-1440 h-100 position-relative d-flex justify-content-center align-items-center">
+            <x-search-input-alt max-width="560px" />
+        </div>
+    </div>
+
     {{-- Navbar Menus --}}
     <div class="w-100 d-none d-lg-block lg-navbar-menus" style="height: 56px;">
         <div class="container container-1440 h-100 position-relative">
             <div class="d-flex h-100 justify-content-center align-items-center">
                 <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">SHOP NOW</a>
-                <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">A STORY OF LOVE</a>
+                <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">A STORY OF
+                    LOVE</a>
                 <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">LOCATION</a>
             </div>
 

@@ -74,6 +74,12 @@ $lagramma_green: #0c3e3c;
     max-width: 100%;
 }
 
+@media (max-width: 992px) {
+    .ecommerce-navbar .lg-topbar-logo {
+        width: 180px;
+    }
+}
+
 /* Topbar menu strip */
 .ecommerce-navbar .lg-navbar-menus {
     background-color: #ffffff;
@@ -84,6 +90,39 @@ $lagramma_green: #0c3e3c;
 .ecommerce-navbar .lg-navbar-menus a {
     color: #000000 !important;
     font-weight: 800;
+}
+
+.lg-search-input-alt {
+    background-color: #f1f1f1 !important;
+    border: 1px solid #f1f1f1;
+    border-radius: 999px !important;
+    min-height: 42px;
+    overflow: hidden;
+}
+
+.lg-search-input-alt .input-group-text,
+.lg-search-input-alt .form-control,
+.lg-search-input-alt .form-control:focus {
+    background-color: #f1f1f1 !important;
+    border-radius: inherit !important;
+}
+
+.lg-search-input-alt .input-group-text {
+    color: #b8b8b8;
+}
+
+.lg-search-input-alt .input-group-text i {
+    font-size: 1.15rem;
+}
+
+.lg-search-input-alt .form-control {
+    color: #666666;
+    font-size: 1rem;
+}
+
+.lg-search-input-alt .form-control::placeholder {
+    color: #b0b0b0;
+    opacity: 1;
 }
 
 /* Footer colors */
