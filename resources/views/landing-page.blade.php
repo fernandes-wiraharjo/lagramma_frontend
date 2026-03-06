@@ -16,18 +16,18 @@
     </style>
 @endsection
 @section('content')
-    <div class="position-relative section">
+    {{-- <div class="position-relative section">
         <div class="container container-1440">
             <div class="ecommerce-product gap-4">
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <main class="lagramma-main-content">
         <div class="container container-1440">
             {{-- Hero Image section --}}
             <div class="row">
-                <div class="col-12 p-0 hero-image-container overflow-hidden">
+                <div class="col-12 p-0 pt-5 pt-md-0 hero-image-container overflow-hidden">
                     <img class="w-100 h-100 object-fit-cover d-block"
                         src="{{ URL::asset('build/images/assets/hero-idul-fitri.png') }}" alt="Idul Fitri">
                 </div>

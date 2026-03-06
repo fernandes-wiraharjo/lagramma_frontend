@@ -6,8 +6,8 @@
 ])
 
 <div class="row mx-0 px-lg-4 lagramma-side-image-info-row">
-    <div class="col-12 col-lg-6 lagramma-side-image-info-media">
-        <img class="img-fluid w-100 object-fit-cover lagramma-side-image-info-image" src="{{ URL::asset($image) }}"
+    <div class="col-12 col-lg-6 lagramma-side-image-info-media p-0">
+        <img class="img-fluid w-100 d-block object-fit-cover lagramma-side-image-info-image" src="{{ URL::asset($image) }}"
             alt="{{ $alt }}">
     </div>
     <div class="col-12 col-lg-6 d-flex flex-column justify-content-center lagramma-side-image-info-content">

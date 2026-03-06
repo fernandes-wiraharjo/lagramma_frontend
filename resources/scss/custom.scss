@@ -44,7 +44,14 @@ $lagramma_green: #0c3e3c;
 
 /* top-tagbar removed: reset navbar offset */
 .ecommerce-navbar {
-    top: 0 !important;
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+}
+
+.ecommerce-navbar.is-sticky {
+    box-shadow: none !important;
 }
 
 /* Topbar right icons */
@@ -84,7 +91,8 @@ $lagramma_green: #0c3e3c;
 .ecommerce-navbar .lg-navbar-menus {
     background-color: #ffffff;
     color: #000000;
-    box-shadow: 0 6px 16px rgba(12, 62, 60, 0.22);
+    //  box-shadow: 0 6px 16px rgba(12, 62, 60, 0.22);
+    box-shadow: none !important;
 }
 
 .ecommerce-navbar .lg-navbar-menus a {
