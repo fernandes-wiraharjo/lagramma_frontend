@@ -1,4 +1,4 @@
-<section class="section footer-landing pb-0">
+<section class="section footer-landing pb-0 d-none d-lg-block">
     <div class="container container-1440">
         <div class="row">
             <div class="col-lg-6">
@@ -55,7 +55,7 @@
                             <h5 class="footer-title text-uppercase">My Account</h5>
                             <ul class="list-unstyled footer-link mt-3">
                                 <li><a href="{{ route('view-cart') }}">Cart</a></li>
-                                <li><a href="{{ config('app.backend_url') }}/orders" id="footer-view-my-order"
+                                <li><a href="{{ config('app.backend_url') }}/orders" data-footer-view-my-order
                                         class="d-none" target="_blank">Order</a></li>
                             </ul>
                         </div>
@@ -91,3 +91,5 @@
         </div>
     </div>
 </section>
+
+@include('layouts.footer-mobile')

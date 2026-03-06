@@ -83,9 +83,13 @@
             <div class="row">
                 <div class="col-12 p-0">
                     <div class="lagramma-bottom-info">
-                        <p class="title-1">Every layer is made with heart.</p>
-                        <p class="title-2">Since 2013, creating timeless flavors for meaningful moments, shared with the
-                            people</p>
+                        <div>
+                            <p class="title-1">Every layer is<br />made with heart.</p>
+                        </div>
+                        <div class="title-2-container">
+                            <p class="title-2">Since 2013, creating timeless flavors for meaningful moments, shared with the
+                                people</p>
+                        </div>
                     </div>
                 </div>
             </div>

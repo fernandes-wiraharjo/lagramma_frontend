@@ -35,6 +35,7 @@
         const backendUrl = @json(config('app.backend_url'));
         const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
         let userRole = '';
+        const footerOrderLinks = document.querySelectorAll('[data-footer-view-my-order]');
 
         //get user session
         fetch(`${backendUrl}/api/user`, {
@@ -69,7 +70,7 @@
                         <i class="bi bi-box-arrow-right text-muted fs-15 me-1"></i> Logout
                     </a>
                 `;
-                document.getElementById('footer-view-my-order').classList.remove('d-none');
+                footerOrderLinks.forEach((el) => el.classList.remove('d-none'));
             } else {
                 console.log('Guest mode');
 
@@ -80,7 +81,7 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="${backendUrl}/login"><i class="bi bi-box-arrow-in-right text-muted fs-15 me-1"></i> Login</a>
                 `;
-                document.getElementById('footer-view-my-order').classList.add('d-none');
+                footerOrderLinks.forEach((el) => el.classList.add('d-none'));
 
             }
         }).catch(err => {
@@ -320,10 +321,12 @@
     <!-- scripts -->
     @include('layouts.vendor-scripts')
 
+    {{--
     <!-- back-to-top -->
     <button onclick="topFunction()" class="btn btn-info btn-icon" style="bottom: 50px;" id="back-to-top">
         <i class="ri-arrow-up-line"></i>
     </button>
+    --}}
 </body>
 
 </html>

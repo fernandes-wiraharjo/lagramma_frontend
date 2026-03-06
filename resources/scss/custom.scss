@@ -208,18 +208,49 @@ $lagramma_green: #0c3e3c;
     line-height: 1.4;
 }
 
+@media (max-width: 992px) {
+    .lagramma-side-image-info-row {
+        margin: 0 0 24px !important;
+    }
+
+    .lagramma-side-image-info-media,
+    .lagramma-side-image-info-content {
+        padding: 0;
+    }
+
+    .lagramma-side-image-info-image {
+        max-height: none;
+        height: min(72vh, 540px);
+        object-position: center;
+    }
+
+    .lagramma-side-image-info-content {
+        background-color: #ffffff;
+        padding: 0;
+        align-items: center;
+        text-align: center;
+    }
+
+    .lagramma-side-image-info-title {
+        margin-bottom: 0.75rem;
+        font-size: clamp(1.75rem, 5.6vw, 2.15rem);
+        line-height: 1.2;
+    }
+
+    .lagramma-side-image-info-text {
+        margin-bottom: 0;
+        font-size: clamp(1rem, 4.1vw, 1.2rem);
+        line-height: 1.25;
+    }
+}
+
 .lagramma-bottom-info {
     background-image: url("../images/assets/history-section.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     min-height: 720px;
-    padding: 0 clamp(1.5rem, 5vw, 4.5rem);
-    display: grid;
-    grid-template-columns: minmax(0, 420px) minmax(0, 320px);
-    justify-content: space-between;
-    align-items: center;
-    column-gap: clamp(1rem, 8vw, 8rem);
+    padding: 0;
     color: #ffffff;
 }
 
@@ -229,31 +260,139 @@ $lagramma_green: #0c3e3c;
 }
 
 .lagramma-bottom-info .title-1 {
-    font-size: clamp(2rem, 3.2vw, 3rem);
-    font-weight: 600;
+    padding-top: 240px;
+    padding-left: 72px;
+    font-size: clamp(3rem, 3.2vw, 3rem);
+    font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.01em;
 }
 
+@media (max-width: 992px) {
+    .lagramma-bottom-info .title-1 {
+        padding-top: 0px;
+        padding-left: 16px;
+        font-size: clamp(2rem, 5vw, 2.75rem);
+    }
+}
+
+.lagramma-bottom-info .title-2-container {
+    padding-left: 72px;
+    padding-right: 72px;
+    padding-top: 40px;
+}
+
 .lagramma-bottom-info .title-2 {
     justify-self: end;
-    max-width: 300px;
-    font-size: clamp(1rem, 1.25vw, 1.375rem);
-    font-weight: 300;
+    font-size: 1.375rem;
+    font-weight: 400;
     line-height: 1.35;
+    font-weight: 200;
+    max-width: 320px;
+}
+
+@media (max-width: 576px) {
+    .lagramma-bottom-info .title-2-container {
+        padding-left: 64px;
+        padding-right: 16px;
+    }
+
+    .lagramma-bottom-info .title-2 {
+        font-size: 0.875rem;
+        width: 290px;
+        max-width: 100%;
+    }
 }
 
 @media (max-width: 992px) {
     .lagramma-bottom-info {
         min-height: 560px;
-        grid-template-columns: 1fr;
         align-content: center;
-        row-gap: 1.5rem;
-        padding: 2rem 1.25rem;
+        padding: 0;
     }
+}
 
-    .lagramma-bottom-info .title-2 {
-        justify-self: start;
-        max-width: min(34rem, 90vw);
-    }
+.footer-landing-mobile {
+    background-color: #184f4b !important;
+    border-top: 5px solid #7b4427;
+}
+
+.lg-mobile-footer {
+    position: relative;
+    padding: 1rem 0.95rem 0.8rem;
+    color: #ffffff;
+}
+
+.lg-mobile-footer-brand {
+    padding: 0.3rem 0 1rem;
+}
+
+.lg-mobile-footer-logo {
+    width: min(240px, 70vw);
+    height: auto;
+}
+
+.lg-mobile-footer-item {
+    border-top: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+.lg-mobile-footer-item:last-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+.lg-mobile-footer-toggle {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #ffffff;
+    padding: 0.72rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: left;
+}
+
+.lg-mobile-footer-toggle .toggle-icon::before {
+    content: "+";
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.lg-mobile-footer-toggle:not(.collapsed) .toggle-icon::before {
+    content: "-";
+}
+
+.lg-mobile-footer-links {
+    margin: 0 0 0.75rem;
+}
+
+.lg-mobile-footer-links li + li {
+    margin-top: 0.42rem;
+}
+
+.lg-mobile-footer-links a {
+    color: rgba(255, 255, 255, 0.88);
+    text-decoration: none;
+    font-size: 0.94rem;
+}
+
+.lg-mobile-footer .footer-social {
+    margin-top: 1.2rem !important;
+}
+
+.lg-mobile-footer-meta {
+    margin-top: 1.1rem;
+    padding-right: 2rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.lg-mobile-footer-accent {
+    position: absolute;
+    right: 0.95rem;
+    bottom: 0.95rem;
+    font-size: 1.35rem;
+    color: #f5b400;
 }
