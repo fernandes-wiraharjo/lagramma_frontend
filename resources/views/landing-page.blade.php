@@ -1,4 +1,4 @@
-@extends('layouts.master')
+﻿@extends('layouts.master')
 @section('title')
     Catalogue
 @endsection
@@ -16,11 +16,6 @@
     </style>
 @endsection
 @section('content')
-    <section class="section pb-0 mt-4">
-        <div class="container-fluid">
-        </div>
-    </section>
-
     <div class="position-relative section">
         <div class="container container-1440">
             <div class="ecommerce-product gap-4">
@@ -28,14 +23,61 @@
         </div>
     </div>
 
-    <main style="min-height: 80vh;">
+    <main class="lagramma-main-content">
         <div class="container container-1440">
+            {{-- Hero Image section --}}
             <div class="row">
-                <div class="col-12 text-center">
-                    <h1 class="display-4">COMING SOON</h1>
-                    <p class="lead">Our website is under construction. Stay tuned for updates!</p>
+                <div class="col-12 p-0 hero-image-container overflow-hidden">
+                    <img class="w-100 h-100 object-fit-cover d-block"
+                        src="{{ URL::asset('build/images/assets/hero-idul-fitri.png') }}" alt="Idul Fitri">
                 </div>
             </div>
+
+            {{-- Product Variant Section --}}
+            <div class="row mx-0 my-lg-1 pt-5 px-lg-4 gy-4">
+                <div class="col-6 col-md-6 col-lg-3">
+                    <img class="w-100"
+                        src="{{ URL::asset('build/images/assets/collect-1-full-house-hampers.png') }}"
+                        alt="Idul Fitri Variant">
+                </div>
+                <div class="col-6 col-md-6 col-lg-3">
+                    <img class="w-100"
+                        src="{{ URL::asset('build/images/assets/collect-2-traditional-cookies.png') }}"
+                        alt="Idul Fitri Variant">
+                </div>
+                <div class="col-6 col-md-6 col-lg-3">
+                    <img class="w-100" src="{{ URL::asset('build/images/assets/collect-3-nastar-keju.png') }}"
+                        alt="Idul Fitri Variant">
+                </div>
+                <div class="col-6 col-md-6 col-lg-3">
+                    <img class="w-100" src="{{ URL::asset('build/images/assets/collect-4-lapis-legit.png') }}"
+                        alt="Idul Fitri Variant">
+                </div>
+            </div>
+
+            {{-- Discover Us --}}
+            <x-section-title title="Discover Us" />
+
+            {{-- Slider Product Variant --}}
+            <div class="row">
+                <div class="col-12 p-0">
+                    @include('components.carousel')
+                </div>
+            </div>
+
+            {{-- Discover Us --}}
+            <x-section-title title="Our Commitments" />
+            <x-side-image-info image="build/images/assets/info-1-egg.png" alt="All Naturals" title="All Natural"
+                description="We bake with real, honest ingredients<br /> &mdash; nothing artificial, ever." />
+
+            <x-side-image-info image="build/images/assets/info-2-no-preservative.png" alt="No Preservatives" title="No Preservatives"
+                description="No shortcuts. No chemical shelf-life <br />tricks. Just pure freshness." />
+
+            <x-side-image-info image="build/images/assets/info-3-highest-quality-ingredients.png" alt="Highest - Quality Ingredients" title="Highest - Quality Ingredients"
+                description="We bake with real, honest ingredients — nothing <br />artificial, ever." />
+
+            <x-side-image-info image="build/images/assets/info-4-a-promise-to-grandma-legacy.png" alt="A Promise to Grandma’s Legacy" title="A Promise to Grandma’s Legacy"
+                description="Every layer carries her spirit : Do it sincerely,<br />do it properly and never compromise on quality" />
         </div>
     </main>
 @endsection
@@ -52,3 +94,4 @@
     <!-- landing-index js -->
     <script src="{{ URL::asset('build/js/frontend/menu.init.js') }}"></script>
 @endsection
+

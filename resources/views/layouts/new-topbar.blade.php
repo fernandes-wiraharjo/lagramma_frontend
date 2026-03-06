@@ -112,7 +112,7 @@
     </div>
 
     {{-- Navbar Menus --}}
-    <div class="w-100 d-none d-lg-block lg-navbar-menus" style="height: 48px;">
+    <div class="w-100 d-none d-lg-block lg-navbar-menus" style="height: 56px;">
         <div class="container container-1440 h-100 position-relative">
             <div class="d-flex h-100 justify-content-center align-items-center">
                 <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">SHOP NOW</a>

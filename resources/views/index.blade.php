@@ -9,8 +9,7 @@
 @endsection
 @section('content')
     <section class="position-relative">
-        <div id="ecommerceHero" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
+        <x-carousel id="ecommerceHero">
                 <div class="carousel-item active">
                     <div class="ecommerce-home bg-danger-subtle"
                         style="background-image: url('{{ URL::asset('build/images/ecommerce/home/img-1.png')}}');">
@@ -76,14 +75,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#ecommerceHero" data-bs-slide="prev">
-                <i class="ph-caret-left"></i>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#ecommerceHero" data-bs-slide="next">
-                <i class="ph-caret-right"></i>
-            </button>
-        </div>
+        </x-carousel>
     </section>
 
     <section class="section">
