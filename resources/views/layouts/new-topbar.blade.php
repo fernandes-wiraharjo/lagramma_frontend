@@ -116,7 +116,7 @@
     <div class="w-100 d-none d-lg-block lg-navbar-menus" style="height: 56px;">
         <div class="container container-1440 h-100 position-relative">
             <div class="d-flex h-100 justify-content-center align-items-center">
-                <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">SHOP NOW</a>
+                <a href="/catalogue" class="text-decoration-none text-black px-3" style="font-weight: 400;">SHOP NOW</a>
                 <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">A STORY OF
                     LOVE</a>
                 <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">LOCATION</a>
@@ -141,7 +141,7 @@
                 </a>
             </li>
             <li class="nav-item d-lg-none">
-                <a class="nav-link" href="#!">SHOP NOW</a>
+                <a class="nav-link" href="/catalogue">SHOP NOW</a>
             </li>
             <li class="nav-item d-lg-none">
                 <a class="nav-link" href="#!">A STORY OF LOVE</a>
