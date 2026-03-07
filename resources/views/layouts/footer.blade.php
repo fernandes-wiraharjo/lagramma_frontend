@@ -66,10 +66,14 @@
 
         {{-- Author Section --}}
         <div class="row mt-4 pb-3 pt-3 align-items-center fs-12">
-            <div class="col-sm-6">
+            <div class="col-sm-6" style="font-size: 0.75rem;">
                 <script>document.write(new Date().getFullYear())</script> © La Gramma. Develop by <a href="https://fernandesdev.com/" target=
                 "_blank" class="text-reset text-decoration-underline">Fernandes Wiraharjo</a>
             </div>
+
+            <span>
+                <img src="{{ URL::asset('build/images/search-icon.png') }}" alt="La Gramma Logo" class="lg-mobile-footer-accent">
+            </span>
             <!-- <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
                     <ul class="list-inline mb-0">

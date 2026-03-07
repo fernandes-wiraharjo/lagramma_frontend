@@ -491,11 +491,11 @@
 
 {{-- <a href="../backend/index" class="btn btn-warning position-fixed bottom-0 start-0 m-5 z-3 btn-hover d-none d-lg-block"><i class="bi bi-database align-middle me-1"></i> Backend</a> --}}
 
-<!--start back-to-top-->
+{{-- <!--start back-to-top-->
 <button onclick="topFunction()" class="btn btn-info btn-icon" style="bottom: 50px;" id="back-to-top">
     <i class="ri-arrow-up-line"></i>
 </button>
-<!--end back-to-top-->
+<!--end back-to-top--> --}}
 
 <!-- <a class="btn btn-danger shadow-lg chat-button rounded-bottom-0 d-none d-lg-block" data-bs-toggle="collapse" href="#chatBot" aria-expanded="false" aria-controls="chatBot">Online Chat</a> -->
 <div class="collapse chat-box" id="chatBot">

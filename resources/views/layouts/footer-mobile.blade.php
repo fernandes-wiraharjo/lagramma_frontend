@@ -69,11 +69,15 @@
                 </ul>
             </div>
 
-            <div class="lg-mobile-footer-meta">
+            <div class="lg-mobile-footer-meta" style="font-size: 0.6rem;">
                 <script>document.write(new Date().getFullYear())</script> &copy; La Gramma . Develop by
                 <a href="https://fernandesdev.com/" target="_blank" class="text-reset text-decoration-underline">Fernandes Wiraharjo</a>
             </div>
-            <i class="bi bi-flower1 lg-mobile-footer-accent" aria-hidden="true"></i>
+
+            <span>
+                <img src="{{ URL::asset('build/images/search-icon.png') }}" alt="La Gramma Logo" class="lg-mobile-footer-accent">
+            </span>
+            {{-- <i class="bi bi-flower1 lg-mobile-footer-accent" aria-hidden="true"></i> --}}
         </div>
     </div>
 </section>
