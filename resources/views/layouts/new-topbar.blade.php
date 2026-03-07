@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg ecommerce-navbar flex-column" id="navbar">
+<nav class="navbar navbar-expand-lg ecommerce-navbar flex-column" id="navbar" style="border: 4px solid #0C3E3C;">
     <div class="container container-1440 w-100 pb-2 pt-2 lg-topbar-main-row">
         <div class="row w-100 g-0 align-items-center">
             <!-- Mobile Toggle -->

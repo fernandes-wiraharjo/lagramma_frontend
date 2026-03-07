@@ -15,29 +15,6 @@
     </style>
 @endsection
 @section('content')
-    <section class="section pb-0 mt-4">
-        <div class="container-fluid">
-            <!-- <div class="position-relative rounded-3"
-                style="background-image: url('build/images/ecommerce/banner.jpg');background-size: cover;background-position: center;">
-                <div class="row justify-content-end">
-                    <div class="col-xxl-4">
-                        <div class="text-end py-4 px-5 mx-xxl-5">
-                            <h1 class="text-white display-5 lh-base text-capitalize ff-secondary mb-3 fst-italic">Original
-                                sound listem to nature</h1>
-                            <div>
-                                <a href="#!" class="link-effect link-light text-white">Show Collections <i
-                                        class="ri-arrow-right-line align-bottom ms-1"></i></a>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!--end col-->
-                <!-- </div> -->
-                <!--end row-->
-            <!-- </div> -->
-        </div>
-        <!--end container-->
-    </section>
-
     <div class="position-relative section">
         <div class="container container-1440">
             <div class="ecommerce-product gap-4">
