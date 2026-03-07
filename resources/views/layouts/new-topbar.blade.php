@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg ecommerce-navbar flex-column" id="navbar" style="border: 4px solid #0C3E3C;">
+<nav class="navbar navbar-expand-lg ecommerce-navbar flex-column" id="navbar" style="border-bottom: 3px solid #0C3E3C;">
     <div class="container container-1440 w-100 pb-2 pt-2 lg-topbar-main-row">
         <div class="row w-100 g-0 align-items-center">
             <!-- Mobile Toggle -->
@@ -21,7 +21,7 @@
                     <div class="logo-dark">
                         <!-- LA GRAMMA -->
                         <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt=""
-                            class="lg-topbar-logo lg-topbar-logo-dark">
+                            class="lg-topbar-logo lg-topbar-logo-dark" style="width: 240px;">
                     </div>
                     <div class="logo-light">
                         <!-- LA GRAMMA -->
@@ -113,18 +113,29 @@
     </div>
 
     {{-- Navbar Menus --}}
-    <div class="w-100 d-none d-lg-block lg-navbar-menus" style="height: 56px;">
+    <div class="w-100 d-none d-lg-block lg-navbar-menus lg-navbar-menus-desktop">
         <div class="container container-1440 h-100 position-relative">
             <div class="d-flex h-100 justify-content-center align-items-center">
-                <a href="/catalogue" class="text-decoration-none text-black px-3" style="font-weight: 400;">SHOP NOW</a>
-                <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">A STORY OF
+                <a href="/catalogue"
+                    class="text-decoration-none text-black px-3 lg-navbar-menu-link {{ request()->is('catalogue') ? 'lg-navbar-menu-link-active' : '' }}">
+                    SHOP NOW
+                </a>
+                <a href="#!"
+                    class="text-decoration-none text-black px-3 lg-navbar-menu-link {{ request()->is('story-of-love') ? 'lg-navbar-menu-link-active' : '' }}">
+                    A STORY OF
                     LOVE</a>
-                <a href="#!" class="text-decoration-none text-black px-3" style="font-weight: 400;">LOCATION</a>
+                <a href="#!"
+                    class="text-decoration-none text-black px-3 lg-navbar-menu-link {{ request()->is('location') ? 'lg-navbar-menu-link-active' : '' }}">
+                    LOCATION
+                </a>
             </div>
 
             {{-- WhatsApp Order Now --}}
             <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
-                <a href="#!" class="text-decoration-none text-black" style="font-weight: 400;">Order Now</a>
+                <a href="#!"
+                    class="text-decoration-none text-black lg-navbar-menu-link {{ request()->is('order-now') ? 'lg-navbar-menu-link-active' : '' }}">
+                    Order Now
+                </a>
             </div>
         </div>
     </div>

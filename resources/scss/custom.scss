@@ -465,6 +465,11 @@ $lagramma_green: #0c3e3c;
     font-size: inherit;
 }
 
+.ecommerce-navbar .lg-navbar-menus a.lg-navbar-menu-link.lg-navbar-menu-link-active,
+.ecommerce-navbar .lg-navbar-menus a.lg-navbar-menu-link.active {
+    color: #feae03 !important;
+}
+
 .lg-cart-avatar {
     height: 100%;
 }
