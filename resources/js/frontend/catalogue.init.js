@@ -21,7 +21,8 @@ function updateProductCount(totalItems, currentPage, itemsPerPage) {
     const start = (currentPage - 1) * itemsPerPage + 1;
     const end = Math.min(currentPage * itemsPerPage, totalItems);
 
-    countElement.innerText = `Showing ${start}-${end} of ${totalItems} results`;
+    countElement.innerText = `${totalItems} Items`;
+    // countElement.innerText = `Showing ${start}-${end} of ${totalItems} results`;
 }
 
 loadProductList(productListData, currentPage);

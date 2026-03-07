@@ -34,6 +34,44 @@ $lagramma_green: #0c3e3c;
     margin-bottom: 8px;
 }
 
+.lg-sort-select {
+    width: auto !important;
+    min-width: 90px;
+    border: 0 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0 18px 0 0 !important;
+    font-size: inherit !important;
+    font-weight: 400;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 8 L6 4 L10 8' fill='none' stroke='%23111111' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0 center !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.lg-sort-select:focus {
+    outline: none;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.lg-show-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.25rem;
+}
+
+.lg-show-filter svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+}
+
 /* Header color */
 #page-topbar,
 .top-tagbar,
@@ -445,7 +483,7 @@ $lagramma_green: #0c3e3c;
 }
 
 .lg-topbar-main-row {
-    height: 112px;
+    height: 200px;
 }
 
 .ecommerce-navbar .lg-topbar-logo.lg-topbar-logo-dark {
@@ -462,7 +500,7 @@ $lagramma_green: #0c3e3c;
 
 .ecommerce-navbar .lg-navbar-menus a.lg-navbar-menu-link {
     font-weight: 400;
-    font-size: inherit;
+    font-size: 1.25rem;
 }
 
 .ecommerce-navbar .lg-navbar-menus a.lg-navbar-menu-link.lg-navbar-menu-link-active,
