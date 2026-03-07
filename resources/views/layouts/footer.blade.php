@@ -66,7 +66,7 @@
 
         {{-- Author Section --}}
         <div class="row mt-4 pb-3 pt-3 align-items-center fs-12">
-            <div class="col-sm-6" style="font-size: 0.75rem;">
+            <div class="col-sm-6 lg-footer-meta-text">
                 <script>document.write(new Date().getFullYear())</script> © La Gramma. Develop by <a href="https://fernandesdev.com/" target=
                 "_blank" class="text-reset text-decoration-underline">Fernandes Wiraharjo</a>
             </div>

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg ecommerce-navbar flex-column" id="navbar">
-    <div class="container container-1440 w-100 pb-2 pt-2" style="height: 112px;">
+    <div class="container container-1440 w-100 pb-2 pt-2 lg-topbar-main-row">
         <div class="row w-100 g-0 align-items-center">
             <!-- Mobile Toggle -->
             <div class="col-auto d-lg-none pe-2">
@@ -20,8 +20,8 @@
                 <a class="navbar-brand me-0 text-start text-lg-center" href="/">
                     <div class="logo-dark">
                         <!-- LA GRAMMA -->
-                        <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" class="lg-topbar-logo"
-                            style="width: 160px;">
+                        <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt=""
+                            class="lg-topbar-logo lg-topbar-logo-dark">
                     </div>
                     <div class="logo-light">
                         <!-- LA GRAMMA -->
@@ -106,7 +106,7 @@
     </div>
 
     {{-- Mobile Search Section --}}
-    <div class="w-100 d-block d-lg-none lg-navbar-menus" style="height: 72px;">
+    <div class="w-100 d-block d-lg-none lg-navbar-menus lg-navbar-menus-mobile">
         <div class="container container-1440 h-100 position-relative d-flex justify-content-center align-items-center">
             <x-search-input-alt max-width="560px" />
         </div>
@@ -173,7 +173,7 @@
                 <!-- <li class="list-group-item product">
                     <div class="d-flex gap-3">
                         <div class="flex-shrink-0">
-                            <div class="avatar-md" style="height: 100%;">
+                            <div class="avatar-md lg-cart-avatar">
                                 <div class="avatar-title bg-warning-subtle rounded-3">
                                     <img src="{{ URL::asset('build/images/products/img-4.png') }}" alt="" class="avatar-sm">
                                 </div>
@@ -204,7 +204,7 @@
                     <li class="list-group-item product">
                         <div class="d-flex gap-3">
                             <div class="flex-shrink-0">
-                                <div class="avatar-md" style="height: 100%;">
+                                <div class="avatar-md lg-cart-avatar">
                                     <div class="avatar-title bg-warning-subtle rounded-3">
                                         <img src="{{ $item['image'] }}" alt="{{ $item['product_name'] }}"
                                             class="avatar-sm">
@@ -364,7 +364,7 @@
                     </div>
                 </div>
 
-                <div data-simplebar style="max-height: 300px;" class="pe-2 ps-3 my-3">
+                <div data-simplebar class="pe-2 ps-3 my-3 lg-search-dropdown-scroll">
                     <div class="list-group list-group-flush border-dashed">
                         <div class="notification-group-list">
                             <h5 class="text-overflow text-muted fs-13 mb-2 mt-3 text-uppercase notification-title">Apps
@@ -439,7 +439,7 @@
             <div class="modal-body">
                 <div class="mt-2 text-center">
                     <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
-                        colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                        colors="primary:#f7b84b,secondary:#f06548" class="lg-remove-item-icon"></lord-icon>
                     <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
                         <h4>Are you sure ?</h4>
                         <p class="text-muted mx-4 mb-0">Are you sure you want to remove this product ?</p>
@@ -492,7 +492,7 @@
 {{-- <a href="../backend/index" class="btn btn-warning position-fixed bottom-0 start-0 m-5 z-3 btn-hover d-none d-lg-block"><i class="bi bi-database align-middle me-1"></i> Backend</a> --}}
 
 {{-- <!--start back-to-top-->
-<button onclick="topFunction()" class="btn btn-info btn-icon" style="bottom: 50px;" id="back-to-top">
+<button onclick="topFunction()" class="btn btn-info btn-icon lg-back-to-top" id="back-to-top">
     <i class="ri-arrow-up-line"></i>
 </button>
 <!--end back-to-top--> --}}
@@ -507,7 +507,7 @@
         </div>
         <div class="card-body p-0">
             <div id="users-chat-widget">
-                <div class="chat-conversation p-3" id="chat-conversation" data-simplebar style="height: 280px;">
+                <div class="chat-conversation p-3 lg-chat-conversation" id="chat-conversation" data-simplebar>
                     <ul class="list-unstyled chat-conversation-list chat-sm" id="users-conversation">
                         <li class="chat-list left">
                             <div class="conversation-list">
