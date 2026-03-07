@@ -12,3 +12,5 @@
 <link href="{{ URL::asset('build/css/app.min.css') }}" rel="stylesheet" type="text/css">
 <!-- custom Css-->
 <link href="{{ URL::asset('build/css/custom.min.css') }}" rel="stylesheet" type="text/css">
+<!-- catalogue custom Css-->
+<link href="{{ URL::asset('build/css/custom-catalogue.min.css') }}" rel="stylesheet" type="text/css">

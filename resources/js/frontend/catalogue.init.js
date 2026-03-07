@@ -314,7 +314,8 @@ function searchResult(data) {
 
 //  category list filter
 Array.from(document.querySelectorAll('.filter-list a')).forEach(function (filteritem) {
-    filteritem.addEventListener("click", function () {
+    filteritem.addEventListener("click", function (event) {
+        event.preventDefault();
         var filterListItem = document.querySelector(".filter-list a.active");
         if (filterListItem) filterListItem.classList.remove("active");
         filteritem.classList.add('active');
@@ -345,6 +346,30 @@ searchProductList.addEventListener("keyup", function () {
     currentSearchTerm = searchProductList.value;
     applyFilters();
 });
+
+var clearAllFilters = document.getElementById("clearall");
+if (clearAllFilters) {
+    clearAllFilters.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        currentCategory = "All";
+        currentSearchTerm = "";
+
+        if (searchProductList) {
+            searchProductList.value = "";
+        }
+
+        Array.from(document.querySelectorAll('.filter-list a')).forEach(function (filteritem) {
+            filteritem.classList.remove("active");
+            var label = filteritem.querySelector(".listname");
+            if (label && label.textContent.trim() === "All") {
+                filteritem.classList.add("active");
+            }
+        });
+
+        applyFilters();
+    });
+}
 
 document.getElementById("sort-elem").addEventListener("change", function (e) {
     var inputVal = e.target.value

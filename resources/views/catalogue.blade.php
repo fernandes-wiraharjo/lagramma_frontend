@@ -8,11 +8,6 @@
     <!-- nouisliderribute css -->
     <link rel="stylesheet" href="{{ URL::asset('build/libs/nouislider/nouislider.min.css') }}">
 
-    <style>
-        .filter-list a.active {
-            background-color: #94DA25; /* highlight background */
-        }
-    </style>
 @endsection
 @section('content')
     <div class="position-relative" style="padding-top: 40px;">
