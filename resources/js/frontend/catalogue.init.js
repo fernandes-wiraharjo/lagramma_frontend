@@ -117,13 +117,13 @@ function loadProductList(datas, page) {
 
                 document.getElementById("product-grid").innerHTML += layout + '\
                         <div class="card ecommerce-product-widgets border-0 rounded-0 shadow-none overflow-hidden">\
-                            <div class="bg-light bg-opacity-50 rounded py-4 position-relative">\
-                                <img src="'+ datas[i].productImg + '" alt="" style="max-height: 200px;max-width: 100%;" class="mx-auto d-block rounded-2">\
+                            <div class="bg-light bg-opacity-50 rounded position-relative" style="width: 100%; aspect-ratio: 1 / 1;">\
+                                <img src="'+ datas[i].productImg + '" alt="" style="width: 100%; height: 100%; object-fit: cover;" class="mx-auto d-block rounded-2">\
                                 <div class="action vstack gap-2">\
                                 </div>\
                                 '+ discountElem + '\
                             </div>\
-                            <div class="pt-4">\
+                            <div class="py-4">\
                                 <div>\
                                     '+ colorElem + '\
                                     <a href="/product-detail/' + datas[i].id + '">\
