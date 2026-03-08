@@ -36,6 +36,7 @@
         const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
         let userRole = '';
         const footerOrderLinks = document.querySelectorAll('[data-footer-view-my-order]');
+        const userDropdownContent = document.getElementById('userDropdownContent');
 
         //get user session
         fetch(`${backendUrl}/api/user`, {
@@ -60,7 +61,8 @@
                 // alert(userRole);
 
                 // Authenticated user
-                document.getElementById('userDropdownContent').innerHTML = `
+                userDropdownContent.classList.remove('lg-guest-profile-dropdown');
+                userDropdownContent.innerHTML = `
                     <h6 class="dropdown-header">Welcome ${user.name}!</h6>
                     <a class="dropdown-item" href="${backendUrl}/my-account"><i class="bi bi-person-circle text-muted fs-15 me-1"></i> Profile</a>
                     <a class="dropdown-item" href="${backendUrl}/orders" target="_blank"><i class="bi bi-cart4 text-muted fs-15 me-1"></i> Order History</a>
@@ -74,12 +76,14 @@
             } else {
                 console.log('Guest mode');
 
-                // Guest mode
-                document.getElementById('userDropdownContent').innerHTML = `
-                    <h6 class="dropdown-header">Welcome, Guest!</h6>
-                    <p class="dropdown-item-text">Please log in to access your account.</p>
+                // Guest mode - Profile dropdown
+                userDropdownContent.classList.add('lg-guest-profile-dropdown');
+                userDropdownContent.innerHTML = `
+                    <h6 class="dropdown-header">Welcome</h6>
+                    <p class="dropdown-item-text">Enjoy a sweeter experience<br>with La Gramma.</p>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="${backendUrl}/login"><i class="bi bi-box-arrow-in-right text-muted fs-15 me-1"></i> Login</a>
+                    <a class="dropdown-item" href="${backendUrl}/login">Login</a>
+                    <a class="dropdown-item" href="${backendUrl}/register">Sign Up</a>
                 `;
                 footerOrderLinks.forEach((el) => el.classList.add('d-none'));
 
@@ -128,7 +132,8 @@
                         alert('Logged out successfully');
 
                         // Reload or refresh dropdown in guest mode
-                        document.getElementById('userDropdownContent').innerHTML = `
+                        userDropdownContent.classList.add('lg-guest-profile-dropdown');
+                        userDropdownContent.innerHTML = `
                         <h6 class="dropdown-header">Welcome, Guest!</h6>
                         <p class="dropdown-item-text">Please log in to access your account.</p>
                         <div class="dropdown-divider"></div>

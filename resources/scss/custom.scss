@@ -511,3 +511,48 @@ $lagramma_green: #0c3e3c;
 .lg-back-to-top {
     bottom: 50px;
 }
+
+#userDropdownContent.lg-guest-profile-dropdown {
+    min-width: 300px;
+    padding: 20px 22px;
+    background: #ffffff;
+    border-radius: 22px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    border: 2px solid $lagramma_green;
+}
+
+#userDropdownContent.lg-guest-profile-dropdown .dropdown-header {
+    padding: 0;
+    margin: 0 0 12px;
+    font-weight: 400;
+    font-size: 1.25rem;
+    color: #000000;
+}
+
+#userDropdownContent.lg-guest-profile-dropdown .dropdown-item-text {
+    padding: 0;
+    margin: 0 0 14px;
+    font-size: 1.125rem;
+}
+
+#userDropdownContent.lg-guest-profile-dropdown .dropdown-divider {
+    margin: 0 0 14px;
+    border-top: 2px solid #000000;
+    opacity: 1;
+}
+
+#userDropdownContent.lg-guest-profile-dropdown .dropdown-item {
+    padding: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+#userDropdownContent.lg-guest-profile-dropdown .dropdown-item + .dropdown-item {
+    margin-top: 6px;
+}
+
+#userDropdownContent.lg-guest-profile-dropdown .dropdown-item:hover,
+#userDropdownContent.lg-guest-profile-dropdown .dropdown-item:focus {
+    background: transparent;
+}
