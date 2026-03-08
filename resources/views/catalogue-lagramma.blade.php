@@ -21,11 +21,23 @@
                 <div class="col-12 col-md-6">
                     <div class="d-flex justify-content-between justify-content-md-end gap-4">
                         <div id="product-count">113 Items</div>
-                        <div>
-                            <select class="form-select form-select-sm lg-sort-select" id="sort-elem">
-                                <option value="" selected>Sort by</option>
-                                <option value="a_to_z">A - Z</option>
-                                <option value="z_to_a">Z - A</option>
+                        {{-- Sort Options --}}
+                        <div class="dropdown lg-sort-dropdown">
+                            <button class="lg-sort-trigger dropdown-toggle" type="button" id="sort-trigger"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Sort by
+                            </button>
+                            <div class="dropdown-menu lg-popup-panel lg-sort-popup">
+                                <button class="dropdown-item lg-sort-option" type="button" data-sort="a_to_z">
+                                    Name, A - Z
+                                </button>
+                                <button class="dropdown-item lg-sort-option" type="button" data-sort="z_to_a">
+                                    Name, Z - A
+                                </button>
+                            </div>
+                            <select class="form-select form-select-sm lg-sort-select d-none" id="sort-elem">
+                                <option value="a_to_z">Name, A - Z</option>
+                                <option value="z_to_a">Name, Z - A</option>
                             </select>
                         </div>
                     </div>
@@ -102,6 +114,18 @@
 
     <!-- Catalogue init js -->
     <script src="{{ URL::asset('build/js/frontend/catalogue.init.js') }}"></script>
+    <script>
+        document.querySelectorAll('.lg-sort-option').forEach(function(optionButton) {
+            optionButton.addEventListener('click', function() {
+                var sortSelect = document.getElementById('sort-elem');
+                if (!sortSelect) return;
+                sortSelect.value = optionButton.getAttribute('data-sort') || '';
+                sortSelect.dispatchEvent(new Event('change', {
+                    bubbles: true
+                }));
+            });
+        });
+    </script>
     <!-- coming-soon -->
     <script src="{{ URL::asset('build/js/pages/coming-soon.init.js') }}"></script>
 
