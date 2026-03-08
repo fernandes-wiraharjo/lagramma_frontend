@@ -131,7 +131,7 @@ function loadProductList(datas, page) {
                                     </a>\
                                     <p class="product-price text-center">Rp 100.000</p>\
                                     <div class="tn">\
-                                        <a href="/product-detail/' + datas[i].id + '" class="btn btn-primary btn-hover w-100 add-btn">View Product</a>\
+                                        <a href="/product-detail/' + datas[i].id + '" class="btn btn-primary lagramma-btn-hover w-100 add-btn">View Product</a>\
                                     </div>\
                                 </div>\
                             </div>\
@@ -271,7 +271,7 @@ function paginationEvents() {
         pageNumber.innerHTML = "";
         // for each page
         for (var i = 1; i < numPages() + 1; i++) {
-            pageNumber.innerHTML += "<div class='page-item'><a class='page-link clickPageNumber' href='javascript:void(0);'>" + i + "</a></div>";
+            pageNumber.innerHTML += "<div class='page-item'><a class='btn lagramma-page-link lagramma-page-link-hover clickPageNumber add-btn' href='javascript:void(0);'>" + i + "</a></div>";
         }
     }
 
@@ -308,7 +308,7 @@ function searchResult(data) {
     var dataPageNum = Math.ceil(data.length / itemsPerPage)
     // for each page
     for (var i = 1; i < dataPageNum + 1; i++) {
-        pageNumber.innerHTML += "<div class='page-item'><a class='page-link clickPageNumber' href='javascript:void(0);'>" + i + "</a></div>";
+        pageNumber.innerHTML += "<div class='page-item'><a class='btn lagramma-page-link lagramma-page-link-hover clickPageNumber add-btn' href='javascript:void(0);'>" + i + "</a></div>";
     }
 }
 

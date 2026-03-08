@@ -19,6 +19,15 @@ $lagramma_green: #0c3e3c;
     color: #000000;
 }
 
+.lagramma-btn-hover:hover,
+.lagramma-btn-hover:focus,
+.lagramma-btn-hover:active,
+.lagramma-btn-hover.active {
+    background-color: $lagramma_green !important;
+    border-color: $lagramma_green !important;
+    color: #ffffff !important;
+}
+
 .product-title {
     font-weight: 700;
     font-size: 20px;

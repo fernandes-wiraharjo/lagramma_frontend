@@ -57,16 +57,16 @@
             <div class="ecommerce-product gap-4" style="margin-top: 40px;">
                 <div class="flex-grow-1" id="col-3-layout">
                     <div class="row" id="product-grid"></div>
-                    <div class="row" id="pagination-element">
+                    <div class="row pb-4" id="pagination-element">
                         <div class="col-lg-12">
                             <div
                                 class="pagination-block pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
                                 <div class="page-item">
-                                    <a href="javascript:void(0);" class="page-link" id="page-prev">Previous</a>
+                                    <a href="javascript:void(0);" class="btn btn-primary lagramma-btn-hover w-100 add-btn" id="page-prev">Previous</a>
                                 </div>
                                 <span id="page-num" class="pagination"></span>
-                                <div class="page-item">
-                                    <a href="javascript:void(0);" class="page-link" id="page-next">Next</a>
+                                <div class="page-item" style="margin-left: 0.35rem;">
+                                    <a href="javascript:void(0);" class="btn btn-primary lagramma-btn-hover w-100 add-btn" id="page-next">Next</a>
                                 </div>
                             </div>
                         </div>

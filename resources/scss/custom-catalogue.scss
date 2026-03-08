@@ -119,7 +119,8 @@
 
 .lg-catalogue-filter-list {
     height: 320px;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .lg-catalogue-filter-list li + li {
