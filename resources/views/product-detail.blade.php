@@ -16,6 +16,47 @@
             line-height: 1.2;
         }
 
+        .variant-border-frame {
+            border: 3px solid #111827;
+        }
+
+        .variant-style-chip {
+            background-color: #ffffff;
+            color: #111827;
+            font-size: 1rem !important;
+            font-weight: 400 !important;
+            transition: all 0.2s ease;
+        }
+
+        .variant-text-2line {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: normal;
+            word-break: break-word;
+            line-height: 1.2;
+            max-width: 100%;
+            text-align: center;
+        }
+
+        .clothe-size li input[name="variant"]:checked + label.variant-style-chip {
+            box-shadow: 0 0 0 2px #0c3e3c !important;
+            background-color: #0c3e3c !important;
+            border-color: #0c3e3c !important;
+            color: #ffffff !important;
+        }
+
+        .clothe-size li input[name="variant"]:checked + label.variant-style-chip * {
+            color: #ffffff !important;
+        }
+
+        input[name="variant"]:disabled + .variant-style-chip {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
         .btn-outline-primary {
             white-space: nowrap;
             text-align: center;
@@ -200,7 +241,7 @@ if ($product->is_sales_type_price === 1) {
                 <div class="col-lg-5 ms-auto">
                     <div class="ecommerce-product-widgets mt-4 mt-lg-0">
                         <div class="mb-4">
-                            <h4 class="lh-base mb-1">{{ $product->name }} -
+                            <h4 class="lh-base mb-1">{{ $product->name }} - 
                                 <span id="base-price-text">
                                     @if (strtolower($product->category->name) === 'hampers')
                                         @php
@@ -324,14 +365,17 @@ if ($product->is_sales_type_price === 1) {
                                                             data-variant-name="{{ $variant->name }}"
                                                             {{ $isOutOfStock ? 'disabled' : '' }}>
                                                         <label
-                                                            class="variant-label btn btn-soft-primary text-uppercase p-0
-                                                        px-3 py-1 fs-12 d-flex align-items-center justify-content-center
-                                                        rounded-pill text-wrap text-center {{ $isOutOfStock ? 'disabled text-muted' : '' }}"
+                                                            class="variant-label variant-style-chip variant-border-frame text-uppercase p-0
+                                                        px-3 py-1 d-flex align-items-center justify-content-center
+                                                        text-wrap text-center {{ $isOutOfStock ? 'disabled text-muted' : '' }}"
+                                                            style="border-radius: 20px;"
                                                             for="{{ $inputId }}">
-                                                            {{ $variantName }}
-                                                            @if ($isOutOfStock)
-                                                                <span class="ms-1">(Out of Stock)</span>
-                                                            @endif
+                                                            <span class="variant-text-2line">
+                                                                {{ $variantName }}
+                                                                @if ($isOutOfStock)
+                                                                    <span class="ms-1">(Out of Stock)</span>
+                                                                @endif
+                                                            </span>
                                                         </label>
                                                     </li>
                                                 @endforeach
@@ -372,16 +416,17 @@ if ($product->is_sales_type_price === 1) {
                                 </div>
                             @endif
                         </div>
-                        <p id="total-price" class="text-dark fw-bold fs-7 fst-italic d-none mt-3">Total 0</p>
+
                         <div class="d-flex align-items-center mt-3 mb-4">
-                            <h5 class="fs-15 mb-0">Quantity:</h5>
-                            <div class="input-step ms-2">
+                            <div class="input-step ms-2 variant-border-frame">
                                 <button type="button" class="minus" id="btn-minus">–</button>
                                 <input type="number" class="product-quantity1" value="1" min="1"
                                     max="100" readonly="">
                                 <button type="button" class="plus" id="btn-plus">+</button>
                             </div>
                         </div>
+
+                        <p id="total-price" class="text-dark fw-bold fs-7 fst-italic d-none mt-3">Total 0</p>
                         <div class="col-lg-12">
                             <div class="mt-3">
                                 <div class="hstack gap-2">
