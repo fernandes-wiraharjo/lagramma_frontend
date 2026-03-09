@@ -19,6 +19,13 @@ $lagramma_green: #0c3e3c;
     color: #000000;
 }
 
+.lagramma-button-solid {
+    background-color: $lagramma_green;
+    border: 1px solid $lagramma_green;
+    border-radius: 0;
+    color: #ffffff;
+}
+
 .lagramma-btn-hover:hover,
 .lagramma-btn-hover:focus,
 .lagramma-btn-hover:active,

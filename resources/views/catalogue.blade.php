@@ -18,6 +18,7 @@
                 <div class="col-12 col-md-6">
                     <div>Home > Shop</div>
                 </div>
+
                 <div class="col-12 col-md-6">
                     <div class="d-flex justify-content-between justify-content-md-end gap-4">
                         <div>113 Items</div>

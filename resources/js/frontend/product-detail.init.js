@@ -1,4 +1,4 @@
-var swiper = new Swiper(".productSwiper", {
+var swiper = new Swiper(".productSwiper.product-thumbs-horizontal", {
 
     spaceBetween: 10,
     slidesPerView: 4,
@@ -6,10 +6,17 @@ var swiper = new Swiper(".productSwiper", {
     freeMode: true,
     watchSlidesProgress: true,
     breakpoints: {
-      992: {
+      576: {
         slidesPerView: 4,
         spaceBetween: 10,
-        direction: "vertical",
+      },
+      768: {
+        slidesPerView: 5,
+        spaceBetween: 10,
+      },
+      992: {
+        slidesPerView: 5,
+        spaceBetween: 10,
       },
     },
   });
@@ -369,3 +376,4 @@ document.addEventListener('DOMContentLoaded', function () {
     addToCartBtn.addEventListener('click', () => addToCart());
     buyNowBtn.addEventListener('click', () => buyNow());
 });
+
