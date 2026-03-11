@@ -291,12 +291,19 @@
         }
         // END OF CART SECTION --
 
+        // Login modal functionality
+        const loginRequiredModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+        const loginModalBtn = document.getElementById('loginModalBtn');
+
+        loginModalBtn.addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const backendLoginUrl = `${backendUrl}/login?redirect=${encodeURIComponent(currentUrl)}`;
+            window.location.href = backendLoginUrl;
+        });
+
         document.getElementById('lg-continue-to-co-btn').addEventListener('click', function() {
             if (!isLoggedIn) {
-                alert('Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.');
-                const currentUrl = window.location.href;
-                const backendLoginUrl = `${backendUrl}/login?redirect=${encodeURIComponent(currentUrl)}`;
-                window.location.href = backendLoginUrl;
+                loginRequiredModal.show();
                 return;
             }
 
@@ -322,6 +329,25 @@
                 });
         });
     </script>
+
+    <!-- Login Required Modal -->
+    <div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-lock-fill" style="font-size: 3rem; color: #0c3e3c;"></i>
+                    </div>
+                    <h5 class="modal-title mb-3" id="loginRequiredModalLabel">Login Diperlukan</h5>
+                    <p class="text-muted mb-4">Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" class="btn btn-secondary btn-rounded px-4" data-bs-dismiss="modal">Tutup</button>
+                        <button type="button" id="loginModalBtn" class="btn btn-primary btn-rounded px-4">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- scripts -->
     @include('layouts.vendor-scripts')

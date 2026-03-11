@@ -6,6 +6,9 @@ Contact: support@themesbrand.com
 File: Custom Css File
 */
 
+// Lagramma Brand Colors
+$lagramma_green:        #0c3e3c;
+
 .container.container-1440 {
     max-width: 1440px;
 }
@@ -31,6 +34,10 @@ File: Custom Css File
     background-color: $lagramma_green !important;
     border-color: $lagramma_green !important;
     color: #ffffff !important;
+}
+
+.solid-border {
+    border: 3px solid #000000;
 }
 
 .product-title {
@@ -560,4 +567,70 @@ File: Custom Css File
 #userDropdownContent.lg-guest-profile-dropdown .dropdown-item:hover,
 #userDropdownContent.lg-guest-profile-dropdown .dropdown-item:focus {
     background: transparent;
+}
+
+/* Product Detail Quantity Counter */
+.input-step-product {
+    border: 3px solid #111827;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    height: 44px;
+    border-radius: 20px;
+    background: #ffffff;
+    padding: 0;
+
+    input {
+        width: 60px;
+        height: 100%;
+        text-align: center;
+        border: 0;
+        background: #ffffff;
+        color: #111827;
+        font-size: 1rem;
+        font-weight: 500;
+        outline: none;
+
+        &:focus-visible {
+            outline: 0;
+        }
+    }
+
+    button {
+        width: 44px;
+        height: 100%;
+        font-weight: 500;
+        line-height: 1;
+        font-size: 1.5rem;
+        padding: 0 !important;
+        background: #ffffff;
+        color: #111827;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: #f8f9fa;
+        }
+
+        &:active {
+            background-color: #e9ecef;
+        }
+    }
+
+    &.full-width {
+        display: flex;
+        width: 100%;
+
+        button {
+            flex-shrink: 0;
+        }
+
+        input {
+            flex-grow: 1;
+        }
+    }
 }

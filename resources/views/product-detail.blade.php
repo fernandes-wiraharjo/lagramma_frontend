@@ -417,23 +417,24 @@ if ($product->is_sales_type_price === 1) {
                             @endif
                         </div>
 
+                        {{-- Item Quantity Counter --}}
                         <div class="d-flex align-items-center mt-3 mb-4">
-                            <div class="input-step ms-2 variant-border-frame">
-                                <button type="button" class="minus" id="btn-minus">–</button>
+                            <div class="input-step-product">
+                                <button type="button" class="minus" id="btn-minus">−</button>
                                 <input type="number" class="product-quantity1" value="1" min="1"
                                     max="100" readonly="">
                                 <button type="button" class="plus" id="btn-plus">+</button>
                             </div>
                         </div>
 
-                        <p id="total-price" class="text-dark fw-bold fs-7 fst-italic d-none mt-3">Total 0</p>
+                        <p id="total-price" class="text-dark fw-bold fs-7 fst-italic d-none mt-3 solid-border rounded-4 text-center w-100 p-3 fs-5">Total 0</p>
                         <div class="col-lg-12">
                             <div class="mt-3">
                                 <div class="hstack gap-2">
-                                    <button id="btn-add-to-cart" type="button" class="btn btn-success btn-hover w-100">
+                                    <button id="btn-add-to-cart" type="button" class="rounded-4 lagramma-button-outline solid-border py-3 w-100">
                                         <i class="bi bi-cart2 me-2"></i> Add To Cart
                                     </button>
-                                    <button id="btn-buy-now" type="button" class="btn btn-primary btn-hover w-100">
+                                    <button id="btn-buy-now" type="button" class="rounded-4 lagramma-button-solid py-3 w-100">
                                         <i class="bi bi-basket2 me-2"></i> Buy Now
                                     </button>
                                     <!-- <button class="btn btn-soft-danger custom-toggle btn-hover" data-bs-toggle="button"
