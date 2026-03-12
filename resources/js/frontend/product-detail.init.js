@@ -1,4 +1,4 @@
-var swiper = new Swiper(".productSwiper", {
+var swiper = new Swiper(".productSwiper.product-thumbs-horizontal", {
 
     spaceBetween: 10,
     slidesPerView: 4,
@@ -6,10 +6,17 @@ var swiper = new Swiper(".productSwiper", {
     freeMode: true,
     watchSlidesProgress: true,
     breakpoints: {
-      992: {
+      576: {
         slidesPerView: 4,
         spaceBetween: 10,
-        direction: "vertical",
+      },
+      768: {
+        slidesPerView: 5,
+        spaceBetween: 10,
+      },
+      992: {
+        slidesPerView: 5,
+        spaceBetween: 10,
       },
     },
   });
@@ -165,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         basePriceEl.innerHTML = `IDR ${formatRupiah(basePrice)}`;
         basePriceTextEl.innerHTML = `IDR ${formatRupiah(basePrice)}`;
-        totalPriceEl.textContent = subTotal == total ? `Total ${formatRupiah(subTotal)}` : `Total ${formatRupiah(subTotal)} = ${formatRupiah(total)}`;
+        totalPriceEl.textContent = `Rp ${formatRupiah(total)}`;
         totalPriceEl.classList.remove('d-none');
     }
 
@@ -277,10 +284,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Buy now
     function buyNow() {
         if (!isLoggedIn) {
-            alert('Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.');
-            const currentUrl = window.location.href;
-            const backendLoginUrl = `${backendUrl}/login?redirect=${encodeURIComponent(currentUrl)}`;
-            window.location.href = backendLoginUrl;
+            // Show login modal instead of alert
+            const loginModal = document.getElementById('loginRequiredModal');
+            if (loginModal) {
+                const modal = new bootstrap.Modal(loginModal);
+                modal.show();
+            }
             return;
         }
 
@@ -369,3 +378,4 @@ document.addEventListener('DOMContentLoaded', function () {
     addToCartBtn.addEventListener('click', () => addToCart());
     buyNowBtn.addEventListener('click', () => buyNow());
 });
+

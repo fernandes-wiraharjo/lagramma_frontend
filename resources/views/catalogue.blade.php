@@ -8,39 +8,43 @@
     <!-- nouisliderribute css -->
     <link rel="stylesheet" href="{{ URL::asset('build/libs/nouislider/nouislider.min.css') }}">
 
-    <style>
-        .filter-list a.active {
-            background-color: #94DA25; /* highlight background */
-        }
-    </style>
 @endsection
 @section('content')
-    <section class="section pb-0 mt-4">
-        <div class="container-fluid">
-            <!-- <div class="position-relative rounded-3"
-                style="background-image: url('build/images/ecommerce/banner.jpg');background-size: cover;background-position: center;">
-                <div class="row justify-content-end">
-                    <div class="col-xxl-4">
-                        <div class="text-end py-4 px-5 mx-xxl-5">
-                            <h1 class="text-white display-5 lh-base text-capitalize ff-secondary mb-3 fst-italic">Original
-                                sound listem to nature</h1>
-                            <div>
-                                <a href="#!" class="link-effect link-light text-white">Show Collections <i
-                                        class="ri-arrow-right-line align-bottom ms-1"></i></a>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!--end col-->
-                <!-- </div> -->
-                <!--end row-->
-            <!-- </div> -->
-        </div>
-        <!--end container-->
-    </section>
+    <div class="position-relative" style="padding-top: 40px;">
+        <div class="container container-1440">
+            {{-- Top Section --}}
+            <div class="row" style="font-size: 1.25rem; font-weight: 400;">
+                {{-- Bread Crumbs --}}
+                <div class="col-12 col-md-6">
+                    <div>Home > Shop</div>
+                </div>
 
-    <div class="position-relative section">
-        <div class="container-fluid">
-            <div class="ecommerce-product gap-4">
+                <div class="col-12 col-md-6">
+                    <div class="d-flex justify-content-between justify-content-md-end gap-4">
+                        <div>113 Items</div>
+                        <div>
+                            <select class="form-select form-select-sm lg-sort-select" id="sort-elem">
+                                <option value="" selected>Sort by</option>
+                                <option value="a_to_z">A - Z</option>
+                                <option value="z_to_a">Z - A</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="font-size: 1.25rem; font-weight: 400; padding-top: 20px;">
+                <div class="col-12">
+                    <div class="lg-show-filter">
+                        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                            <path d="M2 4h12M4.5 8h7M7 12h2" />
+                        </svg>
+                        <span>Show Filter</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ecommerce-product gap-4" style="margin-top: 40px;">
                 <div class="sidebar flex-shrink-0">
                     <div class="card overflow-hidden">
                         <div class="card-header">

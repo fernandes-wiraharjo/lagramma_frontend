@@ -1,0 +1,221 @@
+/* Catalogue-specific styles */
+
+.lg-sort-select {
+    width: auto !important;
+    min-width: 90px;
+    border: 0 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0 18px 0 0 !important;
+    font-size: inherit !important;
+    font-weight: 400;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 8 L6 4 L10 8' fill='none' stroke='%23111111' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0 center !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.lg-sort-select:focus {
+    outline: none;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.lg-sort-dropdown {
+    position: relative;
+}
+
+.lg-sort-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #111111;
+    font-size: inherit;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+.lg-sort-trigger::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-top: 1.5px solid #111111;
+    border-right: 1.5px solid #111111;
+    transform: rotate(-45deg);
+    margin-top: 2px;
+}
+
+.lg-show-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    color: #111111;
+    cursor: pointer;
+}
+
+.lg-show-filter svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+}
+
+.lg-show-filter:focus {
+    outline: none;
+}
+
+.lg-filter-toggle-wrap {
+    position: relative;
+}
+
+.lg-filter-collapse {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    z-index: 30;
+    width: min(320px, 100%);
+}
+
+.lg-filter-floating {
+    padding-top: 6px;
+}
+
+.lg-popup-panel {
+    background-color: #ffffff;
+    border: 2px solid #2f5a56;
+    border-radius: 14px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
+}
+
+.lg-catalogue-filter-panel {
+    @extend .lg-popup-panel;
+    padding: 14px 14px 16px;
+}
+
+.lg-sort-popup {
+    background: #ffffff;
+    border-color: #222222;
+    min-width: 140px;
+    padding: 12px 14px;
+    margin-top: 8px !important;
+}
+
+.lg-sort-popup .dropdown-item {
+    color: #111111;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    background: transparent;
+    padding: 0;
+}
+
+.lg-sort-popup .dropdown-item + .dropdown-item {
+    margin-top: 8px;
+}
+
+.lg-sort-popup .dropdown-item:focus,
+.lg-sort-popup .dropdown-item:hover,
+.lg-sort-popup .dropdown-item.active {
+    background: transparent;
+    color: #111111;
+}
+
+.lg-catalogue-filter-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.lg-catalogue-filter-clear {
+    color: #111111;
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+.lg-catalogue-filter-search-wrap {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.lg-catalogue-filter-search {
+    border: 2px solid #2f2f2f;
+    border-radius: 8px;
+    background: #efefef;
+    padding: 7px 10px 7px 30px;
+    font-size: 13px;
+    min-height: 34px;
+}
+
+.lg-catalogue-filter-search:focus {
+    border-color: #2f2f2f;
+    box-shadow: none;
+}
+
+.lg-catalogue-filter-search::placeholder {
+    color: #8f8f8f;
+    opacity: 1;
+}
+
+.lg-catalogue-filter-search-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #8f8f8f;
+    font-size: 14px;
+}
+
+.lg-catalogue-filter-list {
+    height: 320px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.lg-catalogue-filter-list li + li {
+    margin-top: 6px;
+}
+
+.lg-catalogue-filter-item {
+    color: #111111;
+    text-decoration: none;
+    gap: 8px;
+    min-height: 26px;
+}
+
+.lg-catalogue-filter-item:hover {
+    color: #111111;
+}
+
+.lg-catalogue-filter-item .listname {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.lg-catalogue-filter-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #2f2f2f;
+    border-radius: 4px;
+    display: inline-block;
+    background: #f6f6f6;
+}
+
+.filter-list a.active {
+    background: transparent !important;
+}
+
+.filter-list a.active .lg-catalogue-filter-checkbox {
+    background: #2f5a56;
+    border-color: #2f5a56;
+}

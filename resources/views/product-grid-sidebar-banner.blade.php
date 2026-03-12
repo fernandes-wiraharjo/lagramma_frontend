@@ -590,7 +590,7 @@
                             </div>
                             <div class="card border-0 p-4 position-relative rounded-3 shadow-lg">
                                 <a href="#!">
-                                    <h6 class="text-capitalize fs-16 lh-base text-truncate">World's most expensive t-shirt
+                                    <h6 class="product-title text-truncate text-center">World's most expensive t-shirt
                                     </h6>
                                 </a>
                                 <p class="text-muted"><i class="ri-star-fill text-warning align-bottom"></i> <i
@@ -623,7 +623,7 @@
                             </div>
                             <div class="card border-0 p-4 position-relative rounded-3 shadow-lg">
                                 <a href="#!">
-                                    <h6 class="text-capitalize fs-16 lh-base text-truncate">Best Footwear Collections</h6>
+                                    <h6 class="product-title text-truncate text-center">Best Footwear Collections</h6>
                                 </a>
                                 <p class="text-muted"><i class="ri-star-fill text-warning align-bottom"></i> <i
                                         class="ri-star-fill text-warning align-bottom"></i> <i
@@ -655,7 +655,7 @@
                             </div>
                             <div class="card border-0 p-4 position-relative rounded-3 shadow-lg">
                                 <a href="#!">
-                                    <h6 class="text-capitalize fs-16 lh-base text-truncate">Elegant Designer Western Dress
+                                    <h6 class="product-title text-truncate text-center">Elegant Designer Western Dress
                                     </h6>
                                 </a>
                                 <p class="text-muted"><i class="ri-star-fill text-warning align-bottom"></i> <i
