@@ -159,7 +159,14 @@
         function updateCartSubTotal(subtotal) {
             const subTotalElements = document.querySelectorAll('.cart-lg-subtotal');
             subTotalElements.forEach(input => {
-                input.textContent = 'IDR' + numberFormat(subtotal);
+                input.textContent = 'Rp ' + numberFormat(subtotal);
+            });
+        }
+
+        function updateCartTotal(total) {
+            const totalElements = document.querySelectorAll('.cart-total');
+            totalElements.forEach(input => {
+                input.textContent = 'Rp ' + numberFormat(total);
             });
         }
 
@@ -239,6 +246,7 @@
                         });
                         // linePriceSpan.textContent = numberFormat(pricePerItem * qty);
                         updateCartSubTotal(data.subtotal);
+                        updateCartTotal(data.subtotal); // Total equals subtotal for now (shipping not calculated)
                     } else {
                         alert(data.message || 'Something went wrong. Page will be reloaded for data consistency');
                         location.reload();
