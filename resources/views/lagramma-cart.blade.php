@@ -11,30 +11,22 @@
         $cartCount = count($cart);
         $subtotal = collect($cart)->sum('total_price');
     @endphp
-    <section class="page-wrapper bg-primary">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="text-center d-flex align-items-center justify-content-between">
-                        <h4 class="text-white mb-0">Cart</h4>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb breadcrumb-light justify-content-center mb-0 fs-15">
-                                <!-- <li class="breadcrumb-item"><a href="#!">Shop</a></li> -->
-                                <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
-                            </ol>
-                        </nav>
-                    </div>
+    <div class="position-relative" style="padding-top: 40px; padding-bottom: 40px;">
+        <div class="container container-1440">
+            {{-- Top Section --}}
+            <div class="row" style="font-size: 1.25rem; font-weight: 400; padding-bottom: 20px;">
+                {{-- Bread Crumbs --}}
+                <div class="col-12 col-md-6">
+                    <div>Home > Cart</div>
                 </div>
-                <!--end col-->
             </div>
-            <!--end row-->
-        </div>
-        <!--end container-->
-    </section>
-    <!--end page-wrapper-->
 
-    <section class="section">
-        <div class="container">
+            <a href="/" class="btn btn-danger btn-hover w-20 py-2 px-4 mb-3 lagramma-button-solid rounded-4">< Back To Shop</a>
+        </div>
+    </div>
+
+    <section>
+        <div class="container container-1440 pb-4">
             <!-- <div class="row">
                 <div class="col-lg-12">
                     <div class="alert alert-danger text-center text-capitalize mb-4 fs-14">
@@ -44,7 +36,7 @@
             </div> -->
             <div class="row product-list justify-content-center">
                 <div class="col-lg-8">
-                    <div class="d-flex align-items-center mb-4">
+                    {{-- <div class="d-flex align-items-center mb-4">
                         <h5 class="mb-0 flex-grow-1 fw-medium">There are <span class="fw-bold">{{ $cartCount }}</span>
                             products in your cart</h5>
                         @if($cartCount > 0)
@@ -52,7 +44,7 @@
                                 <a href="#!" class="text-decoration-underline link-secondary clear-cart-btn">Clear Cart</a>
                             </div>
                         @endif
-                    </div>
+                    </div> --}}
                     <!-- <div class="card product">
                         <div class="card-body p-4">
                             <div class="row gy-3">
@@ -114,98 +106,14 @@
                     <!-- </div> -->
                     <!--end card-->
 
+                    {{-- Cart Items Lagramma Design --}}
                     @foreach ($cart as $key => $item)
-                    <div class="card product">
-                        <div class="card-body p-4">
-                            <div class="row gy-3">
-                                <div class="col-sm-auto">
-                                    <div class="avatar-lg h-100">
-                                        <div class="avatar-title bg-danger-subtle rounded py-3">
-                                            <img src="{{ $item['image'] ?? asset('build/images/products/img-12.png') }}" alt="{{ $item['name'] ?? 'Product Image' }}" class="avatar-md">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm">
-                                    <a href="#!">
-                                        <h5 class="fs-16 lh-base mb-1">
-                                            {{ $item['product_name'] }}{{ !empty($item['product_variant_name']) ? ' - ' . $item['product_variant_name'] : '' }}
-                                        </h5>
-                                    </a>
-
-                                    {{-- Show Modifiers if available --}}
-                                    @if (!empty($item['modifiers']))
-                                    <div class="mt-2">
-                                        <!-- <h6 class="fs-13 fw-semibold text-muted mb-1">Topping:</h6> -->
-                                        <ul class="mb-2 ps-3">
-                                            @foreach ($item['modifiers'] as $modifier)
-                                                <li>
-                                                    {{ $modifier['modifier_name'] }}: {{ $modifier['modifier_option_name'] }}
-                                                    <span class="text-muted">(+IDR {{ number_format($modifier['price'], 0, ',', '.') }})</span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                    @endif
-
-                                    {{-- For Hampers: Show item details --}}
-                                    @if ($item['type'] === 'hampers' && !empty($item['items']))
-                                    <div class="mt-2">
-                                        <h6 class="fs-13 fw-semibold text-muted mb-1">Items:</h6>
-                                        <ul class="mb-2 ps-3">
-                                            @foreach ($item['items'] as $subItem)
-                                                <li>
-                                                    {{ $subItem['product_name'] }}{{ !empty($subItem['name']) ? ' - ' . $subItem['name'] : '' }} x {{ $subItem['quantity'] }}
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                    @endif
-
-                                    <div class="input-step">
-                                        <button type="button" class="cart-header-minus" data-key="{{ $key }}">–</button>
-                                        <input type="number" class="product-quantity" value="{{ $item['quantity'] ?? 1 }}"
-                                            min="0" max="100" data-key="{{ $key }}" readonly>
-                                        <button type="button" class="cart-header-plus" data-key="{{ $key }}">+</button>
-                                    </div>
-                                </div>
-                                <div class="col-sm-auto">
-                                    <div class="text-lg-end">
-                                        <p class="text-muted mb-1 fs-12">Item Price:</p>
-                                        <h5 class="fs-16">IDR<span class="product-price">{{ number_format($item['price'], 0, ',', '.') }}</span></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row align-items-center gy-3">
-                                <div class="col-sm">
-                                    <div class="d-flex flex-wrap my-n1">
-                                        <div>
-                                            <a href="#!" class="d-block text-body p-1 px-2 remove-item-btn" data-key="{{ $key }}"><i
-                                                    class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-auto">
-                                    <div class="d-flex align-items-center gap-2 text-muted">
-                                        <div>Total :</div>
-                                        <h5 class="fs-14 mb-0">IDR<span class="product-line-price"
-                                            data-key="{{ $key }}" data-price="{{ ($item['price'] ?? 0) + (!empty($item['modifiers']) ? array_sum(array_column($item['modifiers'], 'price')) : 0) }}">
-                                            {{ number_format($item['total_price'], 0, ',', '.') }}
-                                            </span>
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card footer -->
-                    </div>
-                    <!--end card-->
+                        <x-cart-item :item="$item" :key="$key" />
                     @endforeach
                 </div>
                 <!--end col-->
                 <div class="col-lg-4">
-                    <div class="sticky-side-div">
+                    <div class="sticky-side-div rounded-4 shadow-blur">
                         <!-- <div class="card">
                             <div class="card-body">
                                 <div class="text-center">
@@ -218,34 +126,34 @@
                                 </div>
                             </div>
                         </div> -->
-                        <div class="card overflow-hidden">
-                            <div class="card-header border-bottom-dashed">
-                                <h5 class="card-title mb-0 fs-15">Order Summary</h5>
+                        <div class="card overflow-hidden rounded-4 border-0">
+                            <div class="card-header pb-0 border-0">
+                                <h5 class="card-title mb-0" style="color: #0C3E3C; font-size: 1.25rem; font-weight: 400;">Order Summary</h5>
                             </div>
-                            <div class="card-body pt-4">
+                            <div class="card-body pt-4 px-4">
                                 <div class="table-responsive table-card">
                                     <table class="table table-borderless mb-0 fs-15">
                                         <tbody>
                                             <tr>
-                                                <td>Sub Total :</td>
-                                                <td class="text-end cart-lg-subtotal">IDR{{ number_format($subtotal, 0, ',', '.') }}</td>
+                                                <td style="font-size: 1.25rem; color: #909090; font-weight: 600; padding-bottom: 0;">Subtotal</td>
+                                                <td class="text-end cart-lg-subtotal" style="font-size: 1.25rem; color: #0C3E3C; font-weight: 600;">Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
                                             </tr>
                                             <!-- <tr>
                                                 <td>Discount <span class="text-muted">(Toner15)</span>:</td>
                                                 <td class="text-end cart-discount"></td>
                                             </tr> -->
                                             <tr>
-                                                <td>Shipping Charge :</td>
-                                                <td class="text-end cart-shipping">-</td>
+                                                <td style="font-size: 1.25rem; color: #909090; font-weight: 600; padding-top: 0;">Shipping</td>
+                                                <td class="text-end cart-shipping" style="font-size: 1.25rem; color: #0C3E3C; font-weight: 600;">-</td>
                                             </tr>
                                             <!-- <tr>
                                                 <td>Estimated Tax (12.5%) : </td>
                                                 <td class="text-end cart-tax"></td>
                                             </tr> -->
-                                            <tr class="table-active">
-                                                <th>Total (IDR) :</th>
-                                                <td class="text-end">
-                                                    <span class="fw-semibold cart-total">-</span>
+                                            <tr>
+                                                <td style="color: #0C3E3C; font-size: 1.25rem; font-weight: 400;">Total</td>
+                                                <td class="text-end" style="color: #0C3E3C; font-size: 1.25rem; font-weight: 400;">
+                                                    <span class="fw-semibold cart-total">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -254,10 +162,10 @@
                                 <!-- end table-responsive -->
                             </div>
                         </div>
-                        <div class="hstack gap-2 justify-content-end">
-                            <a href="/" class="btn btn-hover btn-danger">Continue Shopping</a>
+                        <div class="hstack gap-2 justify-content-end pb-4" style="padding-right: 16px;">
+                            {{-- <a href="/" class="btn btn-hover btn-danger">Continue Shopping</a> --}}
                             <!-- <button type="button" class="btn btn-hover btn-danger">Continue Shopping</button> -->
-                            <button type="button" id="lg-checkout-btn" class="btn btn-hover btn-success" @if($cartCount == 0) disabled @endif>
+                            <button type="button" id="lg-checkout-btn" class="lagramma-button-solid rounded-4 btn btn-hover btn-success" @if($cartCount == 0) disabled @endif>
                                 Check Out <i class="ri-logout-box-r-line align-bottom ms-1"></i>
                             </button>
                         </div>

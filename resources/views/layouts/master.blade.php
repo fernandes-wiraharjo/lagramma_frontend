@@ -159,7 +159,14 @@
         function updateCartSubTotal(subtotal) {
             const subTotalElements = document.querySelectorAll('.cart-lg-subtotal');
             subTotalElements.forEach(input => {
-                input.textContent = 'IDR' + numberFormat(subtotal);
+                input.textContent = 'Rp ' + numberFormat(subtotal);
+            });
+        }
+
+        function updateCartTotal(total) {
+            const totalElements = document.querySelectorAll('.cart-total');
+            totalElements.forEach(input => {
+                input.textContent = 'Rp ' + numberFormat(total);
             });
         }
 
@@ -239,6 +246,7 @@
                         });
                         // linePriceSpan.textContent = numberFormat(pricePerItem * qty);
                         updateCartSubTotal(data.subtotal);
+                        updateCartTotal(data.subtotal); // Total equals subtotal for now (shipping not calculated)
                     } else {
                         alert(data.message || 'Something went wrong. Page will be reloaded for data consistency');
                         location.reload();
@@ -293,12 +301,17 @@
 
         // Login modal functionality
         const loginRequiredModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
-        const loginModalBtn = document.getElementById('loginModalBtn');
 
-        loginModalBtn.addEventListener('click', function() {
-            const currentUrl = window.location.href;
-            const backendLoginUrl = `${backendUrl}/login?redirect=${encodeURIComponent(currentUrl)}`;
-            window.location.href = backendLoginUrl;
+        // Initialize login button event listener after DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginModalBtn = document.getElementById('loginModalBtn');
+            if (loginModalBtn) {
+                loginModalBtn.addEventListener('click', function() {
+                    const currentUrl = window.location.href;
+                    const backendLoginUrl = `${backendUrl}/login?redirect=${encodeURIComponent(currentUrl)}`;
+                    window.location.href = backendLoginUrl;
+                });
+            }
         });
 
         document.getElementById('lg-continue-to-co-btn').addEventListener('click', function() {
@@ -331,18 +344,14 @@
     </script>
 
     <!-- Login Required Modal -->
-    <div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true">
+    <div class="modal fade round-5" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+            <div class="modal-content rounded-4">
                 <div class="modal-body text-center p-4">
-                    <div class="mb-3">
-                        <i class="bi bi-lock-fill" style="font-size: 3rem; color: #0c3e3c;"></i>
-                    </div>
-                    <h5 class="modal-title mb-3" id="loginRequiredModalLabel">Login Diperlukan</h5>
-                    <p class="text-muted mb-4">Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.</p>
+                    <p class="mb-4 fs-3" >Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.</p>
                     <div class="d-flex justify-content-center gap-2">
-                        <button type="button" class="btn btn-secondary btn-rounded px-4" data-bs-dismiss="modal">Tutup</button>
-                        <button type="button" id="loginModalBtn" class="btn btn-primary btn-rounded px-4">Login</button>
+                        <button type="button" id="loginModalBtn" class="lagramma-button-solid rounded-4 py-3 px-4 w-100">Login</button>
+                        <button type="button" class="lagramma-button-outline solid-border rounded-4 py-3 px-4 w-100" data-bs-dismiss="modal">Tutup</button>
                     </div>
                 </div>
             </div>
