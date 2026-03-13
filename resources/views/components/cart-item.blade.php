@@ -5,13 +5,15 @@
         <div class="row gy-3">
             <div class="col-sm-auto">
                 <div class="avatar-lg h-100">
-                    <div class="avatar-title bg-danger-subtle rounded py-3">
+                    <div class="avatar-title bg-danger-subtle rounded d-flex align-items-center justify-content-center"
+                        style="aspect-ratio: 1/1; padding: 0; width: 120px; height: 120px;">
                         <img src="{{ $item['image'] ?? asset('build/images/products/img-12.png') }}"
-                            alt="{{ $item['name'] ?? 'Product Image' }}" class="avatar-md">
+                            alt="{{ $item['name'] ?? 'Product Image' }}"
+                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 0.375rem;">
                     </div>
                 </div>
             </div>
-            <div class="col-sm d-flex flex-column justify-content-between">
+            <div class="col-sm d-flex flex-column justify-content-between" style="margin-left: 24px;">
                 {{-- <div class="row">
                     <div class="col-12 d-flex justify-center-between align-items-center">
                         <h5 class="fs-16 lh-base mb-1">
