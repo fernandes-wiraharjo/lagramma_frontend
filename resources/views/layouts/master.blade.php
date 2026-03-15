@@ -350,7 +350,9 @@
                 <div class="modal-body text-center p-4">
                     <p class="mb-4 fs-3" >Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.</p>
                     <div class="d-flex justify-content-center gap-2">
-                        <button type="button" id="loginModalBtn" class="lagramma-button-solid rounded-4 py-3 px-4 w-100">Login</button>
+                        <a class="lagramma-button-solid rounded-4 py-3 px-4 w-100" href="{{ config('app.backend_url') . '/login' }}" id="loginModalBtn">
+                            Login
+                        </a>
                         <button type="button" class="lagramma-button-outline solid-border rounded-4 py-3 px-4 w-100" data-bs-dismiss="modal">Tutup</button>
                     </div>
                 </div>
