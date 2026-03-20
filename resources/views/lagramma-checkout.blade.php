@@ -4,16 +4,6 @@
 @endsection
 @section('css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- extra css -->
-     <style>
-        .pac-container {
-            z-index: 1055 !important;
-        }
-        
-        .spinner-border {
-            margin-left: 10px;
-        }
-     </style>
 @endsection
 @section('content')
     @php
@@ -23,7 +13,21 @@
         $totalWeight = collect($items)->sum('total_weight');
         $hasAddress = auth()->user()->addresses->count() > 0;
     @endphp
-    <section class="page-wrapper bg-primary">
+
+    <div class="position-relative checkout-page-wrapper">
+        <div class="container container-1440">
+            {{-- Top Section --}}
+            <div class="row breadcrumb-spacing">
+                {{-- Bread Crumbs --}}
+                <div class="col-12 col-md-6">
+                    <div>Home > Cart</div>
+                </div>
+            </div>
+            <a href="/" class="btn btn-danger btn-hover w-20 py-2 px-4 mb-3 lagramma-button-solid rounded-4">< Back To Shop</a>
+        </div>
+    </div>
+
+    {{-- <section class="page-wrapper bg-primary">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -42,17 +46,17 @@
             <!--end row-->
         </div>
         <!--end container-->
-    </section>
+    </section> --}}
 
-    <section class="section">
-        <div class="container">
+    <section>
+        <div class="container container-1440 pb-4">
             <div class="row">
                 <div class="col-xl-8">
-                    <div class="card">
+                    <div class="card rounded-4 shadow-blur p-4">
                         <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table class="table align-middle table-borderless table-nowrap text-center mb-0">
-                                    <thead>
+                                    <thead class="checkout-table-head">
                                         <tr>
                                             <th scope="col">Product</th>
                                             <th scope="col">Rate</th>
@@ -91,16 +95,17 @@
                                                     <div class="avatar-sm flex-shrink-0">
                                                         <div class="avatar-title bg-success-subtle rounded-3">
                                                             <img src="{{ $item['image'] ?? URL::asset('build/images/products/default.png') }}" alt=""
-                                                                class="avatar-xs">
+                                                                class="avatar-sm">
                                                         </div>
                                                     </div>
                                                     <div class="flex-grow-1">
-                                                        <h6>
-                                                            {{ $item['product_name'] }}{{ !empty($item['product_variant_name']) ? ' - ' . $item['product_variant_name'] : '' }}
+                                                        <h6 class="checkout-table-product-name">
+                                                            {{ $item['product_name'] }}
                                                             @if (!empty($item['modifiers']))
-                                                                <span class="text-muted">( IDR {{ number_format($item['price'], 0, ',', '.') }} )</span>
+                                                                <span class="text-checkout-primary-semibold">( Rp {{ number_format($item['price'], 0, ',', '.') }} )</span>
                                                             @endif
                                                         </h6>
+                                                        <h7 class="checkout-table-product-variant">{{ !empty($item['product_variant_name']) ? $item['product_variant_name'] : '' }}</h7>
                                                         <p class="text-muted mb-0">
                                                             {{-- Show Modifiers if available --}}
                                                             @if (!empty($item['modifiers']))
@@ -110,7 +115,7 @@
                                                                     @foreach ($item['modifiers'] as $modifier)
                                                                         <li>
                                                                             {{ $modifier['modifier_name'] }}: {{ $modifier['modifier_option_name'] }}
-                                                                            <span class="text-muted">(+IDR {{ number_format($modifier['price'], 0, ',', '.') }})</span>
+                                                                            <span class="checkout-table-modifier-price">(+Rp {{ number_format($modifier['price'], 0, ',', '.') }})</span>
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
@@ -134,18 +139,18 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td class="checkout-table-cell-rate">
                                                 @php
                                                     $modifierPrice = !empty($item['modifiers']) ? $item['modifiers'][0]['price'] : 0;
                                                     $rate = $item['price'] + $modifierPrice;
                                                 @endphp
-                                                IDR{{ number_format($rate, 0, ',', '.') }}
+                                                Rp {{ number_format($rate, 0, ',', '.') }}
                                             </td>
-                                            <td>
+                                            <td class="checkout-table-cell-qty">
                                                 {{ $item['quantity'] ?? 0 }}
                                             </td>
-                                            <td class="text-end">
-                                                IDR{{ number_format($item['total_price'], 0, ',', '.') }}
+                                            <td class="text-end checkout-table-cell-price">
+                                                Rp {{ number_format($item['total_price'], 0, ',', '.') }}
                                             </td>
                                         </tr>
                                         @endforeach
@@ -157,21 +162,22 @@
 
                     <div class="mt-4 pt-2">
                         <div class="d-flex align-items-center mb-4">
-                            <div class="flex-grow-1">
-                                <h5 class="mb-0">Shipping Address</h5>
-                            </div>
                             <div class="flex-shrink-0">
-                                <!-- <a href="javascript:location.reload()" class="badge bg-primary-subtle text-primary link-primary">
+                                <button class="btn-add-address rounded-4" id="feAddAddressButton">
+                                    Add Address{{ " " }} <img src="{{ URL::asset('/build/images/icons/loc-point-01.svg') }}" />
+                                </button>
+                                {{-- <a href="javascript:location.reload()" class="badge bg-primary-subtle text-primary link-primary">
                                     Reload
                                 </a>
                                 <a href="{{ config('app.backend_url') }}/account-setting" target="_blank"
                                     rel="noopener noreferrer" class="badge bg-secondary-subtle text-secondary link-secondary">
                                     Manage Address
-                                </a> -->
-                                <button class="btn badge bg-primary-subtle text-primary link-primary" id="feAddAddressButton">
-                                    Add Address
-                                </button>
+                                </a>  --}}
                             </div>
+
+                            {{-- <div class="flex-grow-1">
+                                <h5 class="mb-0">Shipping Address</h5>
+                            </div> --}}
                         </div>
 
                         <!-- Add Address Modal -->
@@ -201,7 +207,7 @@
                                             </div>
 
                                             <!-- Google Maps -->
-                                            <div id="fe-map" style="height: 300px; width: 100%; border-radius: 8px;"></div>
+                                            <div id="fe-map" class="checkout-map"></div>
 
                                             <!-- Latitude -->
                                             <div class="mb-3 mt-3">
@@ -243,6 +249,7 @@
 
                         <!-- loop the user address -->
                         <div class="row gy-3">
+                            <h6 class="shipping-address-heading">Shipping Address</h6>
                             @forelse(auth()->user()->addresses as $address)
                                 <div class="col-lg-6 col-12">
                                     <div class="form-check card-radio">
@@ -317,44 +324,47 @@
                 <!-- end col -->
                 <div class="col-lg-4">
                     <div class="sticky-side-div">
-                        <div class="card overflow-hidden">
-                            <div class="card-header border-bottom-dashed">
-                                <h5 class="card-title mb-0 fs-15">Order Summary</h5>
+                        <div class="card overflow-hidden rounded-4 shadow-blur p-4">
+                            <div class="card-header pb-0 border-0">
+                                <h5 class="card-title-checkout mb-0">Order Summary</h5>
                             </div>
-                            <div class="card-body pt-4">
+                            <div class="card-body pt-4 px-4">
                                 <div class="table-responsive table-card">
                                     <table class="table table-borderless mb-0 fs-15">
                                         <tbody>
                                             <tr>
-                                                <td>Sub Total :</td>
-                                                <td class="text-end cart-subtotal">IDR{{ number_format($subtotal, 0, ',', '.') }}</td>
+                                                <td class="order-summary-label no-padding">Subtotal</td>
+                                                <td class="text-end order-summary-value cart-lg-subtotal">Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
                                             </tr>
                                             <tr>
-                                                <td>Shipping Charge :</td>
-                                                <td class="text-end cart-shipping" id="shippingCost">-</td>
+                                                <td class="order-summary-label no-padding-top">Shipping</td>
+                                                <td class="text-end order-summary-value cart-shipping">-</td>
                                             </tr>
-                                            <tr class="table-active">
-                                                <th>Total (IDR) :</th>
-                                                <td class="text-end">
-                                                    <span class="fw-semibold cart-total" id="grandTotal">-</span>
+                                            <tr>
+                                                <td class="order-summary-total-label">Total</td>
+                                                <td class="text-end order-summary-total-value">
+                                                    <span class="fw-semibold cart-total">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <!-- end table-responsive -->
+
+                                <div class="hstack gap-2 justify-content-between justify-content-end mt-4">
+                                    <a href="view-cart" class="btn-back-cart rounded-4">Back To Cart <img src="{{ URL::asset('/build/images/icons/cart-01.svg') }}" /></a>
+                                    <!-- <a href="payment" class="btn btn-hover btn-primary w-100">Create Order</a> -->
+                                    <button
+                                        id="create-order-btn"
+                                        class="btn-payment rounded-4"
+                                        disabled>
+                                        <span id="btn-text">Payment</span>
+                                        <img src="{{ URL::asset('/build/images/icons/payment-01.svg') }}" />
+                                        <span id="loading-spinner" class="d-none spinner-border spinner-border-sm text-light spinner-checkout" role="status"></span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="hstack gap-2 justify-content-between justify-content-end">
-                            <a href="view-cart" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
-                                    class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
-                            <!-- <a href="payment" class="btn btn-hover btn-primary w-100">Create Order</a> -->
-                            <button id="create-order-btn" class="btn btn-hover btn-primary w-100" disabled>
-                                <span id="btn-text">Continue Payment</span>
-                                <span id="loading-spinner" class="d-none spinner-border spinner-border-sm text-light" role="status"></span>
-                            </button>
-                        </div>
-
                     </div>
                     <!-- end stickey -->
                 </div>
