@@ -67,7 +67,7 @@ class CheckoutController extends Controller
 
         $response = Http::withHeaders([
             'x-api-key' => $apiKey
-        ])->get("{$baseUrl}/tariff/api/v1/calculate", [
+        ])->withoutVerifying()->get("{$baseUrl}/tariff/api/v1/calculate", [
             'shipper_destination_id' => $shipperRegionId,
             'receiver_destination_id' => $request->receiver_destination_id,
             'origin_pin_point' => $shipperLatLng,

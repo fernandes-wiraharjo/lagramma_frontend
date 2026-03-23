@@ -261,9 +261,12 @@
                                             data-address='@json($address)'
                                         >
                                         <label class="form-check-label" for="shippingAddress{{ $address->id }}">
-                                            <span class="fs-14 mb-2 d-block fw-semibold">{{ $address->label ?? 'Address' }}</span>
-                                            <span class="text-muted fw-normal text-wrap mb-1 d-block">{{ $address->address }}</span>
-                                            <span class="mt-3 text-muted fw-normal d-block text-wrap">{{ $address->region_label }}</span>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <img src="{{ URL::asset('/build/images/icons/home-icon-01.svg') }}" style="padding-right: 8px;" />
+                                                <span class="fw-semibold" style="font-size: 1.25rem; color: #0c3e3c;">{{ $address->label ?? 'Address' }}</span>
+                                            </div>
+                                            <span class="fw-normal text-wrap d-block" style="font-size: 1.125rem; color: #000000;">{{ $address->address }}</span>
+                                            <span class="fw-normal d-block text-wrap" style="font-size: 1.125rem; color: #000000;">{{ $address->region_label }}</span>
                                         </label>
                                     </div>
                                 </div>
