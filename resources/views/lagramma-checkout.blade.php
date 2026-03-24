@@ -262,11 +262,11 @@
                                         >
                                         <label class="form-check-label" for="shippingAddress{{ $address->id }}">
                                             <div class="d-flex align-items-center mb-2">
-                                                <img src="{{ URL::asset('/build/images/icons/home-icon-01.svg') }}" style="padding-right: 8px;" />
-                                                <span class="fw-semibold" style="font-size: 1.25rem; color: #0c3e3c;">{{ $address->label ?? 'Address' }}</span>
+                                                <img src="{{ URL::asset('/build/images/icons/home-icon-01.svg') }}" class="address-icon" />
+                                                <span class="address-label">{{ $address->label ?? 'Address' }}</span>
                                             </div>
-                                            <span class="fw-normal text-wrap d-block" style="font-size: 1.125rem; color: #000000;">{{ $address->address }}</span>
-                                            <span class="fw-normal d-block text-wrap" style="font-size: 1.125rem; color: #000000;">{{ $address->region_label }}</span>
+                                            <span class="fw-normal text-wrap d-block address-text">{{ $address->address }}</span>
+                                            <span class="fw-normal d-block text-wrap address-text">{{ $address->region_label }}</span>
                                         </label>
                                     </div>
                                 </div>
@@ -287,39 +287,39 @@
                             @endforelse
                         </div>
                         <div class="mt-3" id="shippingOptionWrapper">
-                            <label for="shippingOption">Shipping Option</label>
-                            <select id="shippingOption" class="form-select"></select>
+                            <label for="shippingOption" class="checkout-form-label pb-2">*Shipping Option</label>
+                            <select id="shippingOption" class="form-select shadow-blur shipping-option-select"></select>
                         </div>
                         <div class="mt-3" id="sendToOtherContainer">
-                            <label>
-                                <input type="checkbox" id="cbSendToOther"> Send to other ?
+                            <label class="d-flex align-items-center checkout-form-label">
+                                <input type="checkbox" id="cbSendToOther" class="checkout-checkbox"><span style="padding-left: 8px;">Mengirim kepada orang lain?</span>
                             </label>
                         </div>
                         <!-- Conditional sender/receiver fields -->
                         <div id="sto_fields">
                             <div class="form-group">
-                                <label for="sto_pic_name">Sender PIC Name</label>
-                                <input type="text" id="sto_pic_name" class="form-control">
+                                <label for="sto_pic_name" class="checkout-form-label">Nama Pengirim</label>
+                                <input type="text" id="sto_pic_name" class="form-control shadow-blur" style="border-radius: 20px; padding-top: 16px; padding-bottom: 16px;">
                             </div>
 
                             <div class="form-group">
-                                <label for="sto_pic_phone">Sender PIC Phone</label>
-                                <input type="text" id="sto_pic_phone" class="form-control">
+                                <label for="sto_pic_phone" class="checkout-form-label">Nomor Pengirim</label>
+                                <input type="text" id="sto_pic_phone" class="form-control shadow-blur" style="border-radius: 20px; padding-top: 16px; padding-bottom: 16px;">
                             </div>
 
                             <div class="form-group">
-                                <label for="sto_receiver_name">Receiver Name</label>
-                                <input type="text" id="sto_receiver_name" class="form-control">
+                                <label for="sto_receiver_name" class="checkout-form-label">Nama Penerima</label>
+                                <input type="text" id="sto_receiver_name" class="form-control shadow-blur" style="border-radius: 20px; padding-top: 16px; padding-bottom: 16px;">
                             </div>
 
                             <div class="form-group">
-                                <label for="sto_receiver_phone">Receiver Phone</label>
-                                <input type="text" id="sto_receiver_phone" class="form-control">
+                                <label for="sto_receiver_phone" class="checkout-form-label">Nomor Penerima</label>
+                                <input type="text" id="sto_receiver_phone" class="form-control shadow-blur" style="border-radius: 20px; padding-top: 16px; padding-bottom: 16px;">
                             </div>
 
                             <div class="form-group">
-                                <label for="sto_note">Note</label>
-                                <textarea id="sto_note" class="form-control"></textarea>
+                                <label for="sto_note" class="checkout-form-label">Note di Kartu Ucapan (Opsional)</label>
+                                <textarea id="sto_note" class="form-control shadow-blur" rows="10" style="border-radius: 20px; padding-top: 16px; padding-bottom: 16px;"></textarea>
                             </div>
                         </div>
                     </div>

@@ -287,3 +287,54 @@ $lagramma_green: #0c3e3c;
         color: #ffffff;
     }
 }
+
+// ============================================
+// Form Labels & Inputs
+// ============================================
+
+// Base form label style (reusable)
+.checkout-form-label {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $checkout-primary;
+    margin-top: 1rem;
+
+    &.pb-2 {
+        padding-bottom: 0.5rem;
+    }
+}
+
+// Checkbox style
+.checkout-checkbox {
+    border: 2px solid $checkout-primary;
+    width: 24px;
+    height: 24px;
+    accent-color: $checkout-primary;
+}
+
+// Shipping option select
+.shipping-option-select {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-radius: 20px;
+    font-size: 1.25rem;
+}
+
+// Address card icon
+.address-icon {
+    padding-right: 8px;
+}
+
+// Address label
+.address-label {
+    font-size: 1.25rem;
+    color: $checkout-primary;
+    font-weight: 600;
+}
+
+// Address text
+.address-text {
+    font-size: 1.125rem;
+    color: #000000;
+    font-weight: 400;
+}
