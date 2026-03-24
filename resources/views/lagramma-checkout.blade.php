@@ -186,7 +186,7 @@
                                 <div class="modal-content">
 
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Add New Address</h5>
+                                        <h5 class="modal-title lagramma-green-font modal-title-checkout">Add Address</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
 
@@ -195,14 +195,14 @@
 
                                             <!-- Name -->
                                             <div class="mb-3">
-                                                <label class="form-label">Name</label>
-                                                <input id="fe-name" type="text" class="form-control" required>
+                                                <label class="form-label modal-form-label">Name</label>
+                                                <input id="fe-name" type="text" class="form-control checkout-form-input" required>
                                             </div>
 
                                             <!-- Search Address -->
                                             <div class="mb-3">
-                                                <label class="form-label">Search Address</label>
-                                                <input type="text" id="fe-search-address" class="form-control"
+                                                <label class="form-label modal-form-label">Search Address</label>
+                                                <input type="text" id="fe-search-address" class="form-control checkout-form-input"
                                                     placeholder="Search location…">
                                             </div>
 
@@ -211,32 +211,32 @@
 
                                             <!-- Latitude -->
                                             <div class="mb-3 mt-3">
-                                                <label class="form-label">Latitude</label>
-                                                <input id="fe-latitude" type="text" class="form-control" readonly required>
+                                                <label class="form-label modal-form-label">Latitude</label>
+                                                <input id="fe-latitude" type="text" class="form-control checkout-form-input" readonly required>
                                             </div>
 
                                             <!-- Longitude -->
                                             <div class="mb-3">
-                                                <label class="form-label">Longitude</label>
-                                                <input id="fe-longitude" type="text" class="form-control" readonly required>
+                                                <label class="form-label modal-form-label">Longitude</label>
+                                                <input id="fe-longitude" type="text" class="form-control checkout-form-input" readonly required>
                                             </div>
 
                                             <!-- Region Select -->
                                             <div class="mb-3">
-                                                <label class="form-label">
-                                                    Select Region
-                                                    <span class="text-muted small">(search city/district/subdistrict/postal code)</span>
+                                                <label class="form-label modal-form-label">
+                                                    Region
+                                                    <span class="small lagramma-green-color" style="font-weight: 400; font-size: 1.5rem;">(search city/district/subdistrict/postal code)</span>
                                                 </label>
 
-                                                <select id="fe-region-select" class="form-control" style="width: 100%;"></select>
+                                                <select id="fe-region-select" class="form-control checkout-form-input shadow-blur" style="width: 100%;"></select>
                                                 <input type="hidden" id="fe-region-id">
                                                 <input type="hidden" id="fe-region-label">
                                             </div>
 
                                             <!-- Address Text -->
                                             <div class="mb-3">
-                                                <label class="form-label">Address</label>
-                                                <textarea id="fe-address" class="form-control" rows="2" required></textarea>
+                                                <label class="form-label modal-form-label">Address</label>
+                                                <textarea id="fe-address" class="form-control checkout-form-input" rows="2" required></textarea>
                                             </div>
 
                                             <button class="btn btn-primary w-100" type="submit">Save Address</button>
@@ -292,34 +292,34 @@
                         </div>
                         <div class="mt-3" id="sendToOtherContainer">
                             <label class="d-flex align-items-center checkout-form-label">
-                                <input type="checkbox" id="cbSendToOther" class="checkout-checkbox"><span style="padding-left: 8px;">Mengirim kepada orang lain?</span>
+                                <input type="checkbox" id="cbSendToOther" class="checkout-checkbox"><span class="checkbox-label-text">Mengirim kepada orang lain?</span>
                             </label>
                         </div>
                         <!-- Conditional sender/receiver fields -->
                         <div id="sto_fields">
                             <div class="form-group">
                                 <label for="sto_pic_name" class="checkout-form-label">Nama Pengirim</label>
-                                <input type="text" id="sto_pic_name" class="form-control shadow-blur" style="border-radius: 20px; padding-top: 16px; padding-bottom: 16px;">
+                                <input type="text" id="sto_pic_name" class="form-control shadow-blur checkout-form-input">
                             </div>
 
                             <div class="form-group">
                                 <label for="sto_pic_phone" class="checkout-form-label">Nomor Pengirim</label>
-                                <input type="text" id="sto_pic_phone" class="form-control shadow-blur" style="border-radius: 20px; padding-top: 16px; padding-bottom: 16px;">
+                                <input type="text" id="sto_pic_phone" class="form-control shadow-blur checkout-form-input">
                             </div>
 
                             <div class="form-group">
                                 <label for="sto_receiver_name" class="checkout-form-label">Nama Penerima</label>
-                                <input type="text" id="sto_receiver_name" class="form-control shadow-blur" style="border-radius: 20px; padding-top: 16px; padding-bottom: 16px;">
+                                <input type="text" id="sto_receiver_name" class="form-control shadow-blur checkout-form-input">
                             </div>
 
                             <div class="form-group">
                                 <label for="sto_receiver_phone" class="checkout-form-label">Nomor Penerima</label>
-                                <input type="text" id="sto_receiver_phone" class="form-control shadow-blur" style="border-radius: 20px; padding-top: 16px; padding-bottom: 16px;">
+                                <input type="text" id="sto_receiver_phone" class="form-control shadow-blur checkout-form-input">
                             </div>
 
                             <div class="form-group">
                                 <label for="sto_note" class="checkout-form-label">Note di Kartu Ucapan (Opsional)</label>
-                                <textarea id="sto_note" class="form-control shadow-blur" rows="10" style="border-radius: 20px; padding-top: 16px; padding-bottom: 16px;"></textarea>
+                                <textarea id="sto_note" class="form-control shadow-blur checkout-form-input" rows="10"></textarea>
                             </div>
                         </div>
                     </div>

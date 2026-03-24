@@ -338,3 +338,31 @@ $lagramma_green: #0c3e3c;
     color: #000000;
     font-weight: 400;
 }
+
+// ============================================
+// Modal Styles
+// ============================================
+
+// Modal title
+.modal-title-checkout {
+    font-size: 2rem;
+}
+
+// Modal form label (green, bold)
+.modal-form-label {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $checkout-primary;
+}
+
+// Form input with rounded styling
+.checkout-form-input {
+    border-radius: 20px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+// Checkbox label spacing
+.checkbox-label-text {
+    padding-left: 8px;
+}

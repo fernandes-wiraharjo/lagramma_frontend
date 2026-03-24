@@ -9,6 +9,10 @@ File: Custom Css File
 // Lagramma Brand Colors
 $lagramma_green:        #0c3e3c;
 
+.lagramma-green-font {
+    color: $lagramma_green;
+}
+
 .container.container-1440 {
     max-width: 1440px;
 }
