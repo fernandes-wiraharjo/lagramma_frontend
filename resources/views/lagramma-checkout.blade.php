@@ -196,29 +196,35 @@
                                             <!-- Name -->
                                             <div class="mb-3">
                                                 <label class="form-label modal-form-label">Name</label>
-                                                <input id="fe-name" type="text" class="form-control checkout-form-input" required>
+                                                <input id="fe-name" type="text" class="form-control checkout-form-input shadow-blur" required>
                                             </div>
 
                                             <!-- Search Address -->
                                             <div class="mb-3">
                                                 <label class="form-label modal-form-label">Search Address</label>
-                                                <input type="text" id="fe-search-address" class="form-control checkout-form-input"
-                                                    placeholder="Search location…">
                                             </div>
 
                                             <!-- Google Maps -->
                                             <div id="fe-map" class="checkout-map"></div>
 
+                                            <div class="mb-3 mt-3">
+                                                <input type="text" id="fe-search-address" class="form-control checkout-form-input shadow-blur"
+                                                    placeholder="Search location…">
+                                                <div class="mt-1" style="font-size: 1rem; font-weight: 300; line-height: 1.2; text-align: justify; color: #000000;">
+                                                    Mohon letakkan titik map sesuai dengan lokasi anda dengan sempurna, kesalahan dalam memasukkan titik akan menghambat kecepatan dan ketepatan dalam proses pengiriman
+                                                </div>
+                                            </div>
+
                                             <!-- Latitude -->
                                             <div class="mb-3 mt-3">
                                                 <label class="form-label modal-form-label">Latitude</label>
-                                                <input id="fe-latitude" type="text" class="form-control checkout-form-input" readonly required>
+                                                <input id="fe-latitude" type="text" class="form-control checkout-form-input shadow-blur" readonly required>
                                             </div>
 
                                             <!-- Longitude -->
                                             <div class="mb-3">
                                                 <label class="form-label modal-form-label">Longitude</label>
-                                                <input id="fe-longitude" type="text" class="form-control checkout-form-input" readonly required>
+                                                <input id="fe-longitude" type="text" class="form-control checkout-form-input shadow-blur" readonly required>
                                             </div>
 
                                             <!-- Region Select -->
@@ -236,7 +242,7 @@
                                             <!-- Address Text -->
                                             <div class="mb-3">
                                                 <label class="form-label modal-form-label">Address</label>
-                                                <textarea id="fe-address" class="form-control checkout-form-input" rows="2" required></textarea>
+                                                <textarea id="fe-address" class="form-control checkout-form-input shadow-blur" rows="2" required></textarea>
                                             </div>
 
                                             <button class="btn btn-primary w-100" type="submit">Save Address</button>
