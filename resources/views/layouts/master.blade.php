@@ -22,18 +22,40 @@
     <!-- topbar -->
     @include('layouts.new-topbar')
 
-    <!-- Cart offcanvas -->
-    @include('layouts.cart-offcanvas')
+    {{-- Cart offcanvas is already included in new-topbar.blade.php (lines 171-343) --}}
+    {{-- @include('layouts.cart-offcanvas') --}}
 
     @yield('content')
 
     <!-- footer -->
     @include('layouts.footer')
 
+    <!-- Login Required Modal -->
+    <div class="modal fade round-5" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+                <div class="modal-body text-center p-4">
+                    <p class="mb-4 fs-3" >Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" id="loginModalBtn" class="lagramma-button-solid rounded-4 py-3 px-4 w-100">Login</button>
+                        <button type="button" class="lagramma-button-outline solid-border rounded-4 py-3 px-4 w-100" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- scripts -->
+    @include('layouts.vendor-scripts')
+
     <!-- layout master scripts -->
     <script>
         const backendUrl = @json(config('app.backend_url'));
         const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+        console.log({
+            isLoggedIn,
+        })
         let userRole = '';
         const footerOrderLinks = document.querySelectorAll('[data-footer-view-my-order]');
         const userDropdownContent = document.getElementById('userDropdownContent');
@@ -61,7 +83,7 @@
                 // alert(userRole);
 
                 // Authenticated user
-                userDropdownContent.classList.remove('lg-guest-profile-dropdown');
+                userDropdownContent.classList.add('lg-user-dropdown');
                 userDropdownContent.innerHTML = `
                     <h6 class="dropdown-header">Welcome ${user.name}!</h6>
                     <a class="dropdown-item" href="${backendUrl}/my-account"><i class="bi bi-person-circle text-muted fs-15 me-1"></i> Profile</a>
@@ -77,7 +99,7 @@
                 console.log('Guest mode');
 
                 // Guest mode - Profile dropdown
-                userDropdownContent.classList.add('lg-guest-profile-dropdown');
+                userDropdownContent.classList.add('lg-user-dropdown');
                 userDropdownContent.innerHTML = `
                     <h6 class="dropdown-header">Welcome</h6>
                     <p class="dropdown-item-text">Enjoy a sweeter experience<br>with La Gramma.</p>
@@ -132,7 +154,7 @@
                         alert('Logged out successfully');
 
                         // Reload or refresh dropdown in guest mode
-                        userDropdownContent.classList.add('lg-guest-profile-dropdown');
+                        userDropdownContent.classList.add('lg-user-dropdown');
                         userDropdownContent.innerHTML = `
                         <h6 class="dropdown-header">Welcome, Guest!</h6>
                         <p class="dropdown-item-text">Please log in to access your account.</p>
@@ -302,8 +324,9 @@
         // Login modal functionality
         const loginRequiredModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
 
-        // Initialize login button event listener after DOM is ready
+        // Initialize event listeners after DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
+            // Login modal button
             const loginModalBtn = document.getElementById('loginModalBtn');
             if (loginModalBtn) {
                 loginModalBtn.addEventListener('click', function() {
@@ -312,9 +335,11 @@
                     window.location.href = backendLoginUrl;
                 });
             }
-        });
 
-        document.getElementById('lg-continue-to-co-btn').addEventListener('click', function() {
+            // Continue to checkout button
+            const continueToCoBtn = document.getElementById('lg-continue-to-co-btn');
+            if (continueToCoBtn) {
+                continueToCoBtn.addEventListener('click', function() {
             if (!isLoggedIn) {
                 loginRequiredModal.show();
                 return;
@@ -340,6 +365,8 @@
                     console.error(err);
                     alert('Error validating stock.');
                 });
+                });
+            }
         });
     </script>
 

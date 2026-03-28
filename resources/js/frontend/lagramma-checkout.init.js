@@ -29,8 +29,6 @@ function feInitMap() {
     const input = document.getElementById("fe-search-address");
     const searchBox = new google.maps.places.SearchBox(input);
 
-    feMap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
     feMap.addListener("bounds_changed", () => {
         searchBox.setBounds(feMap.getBounds());
     });
