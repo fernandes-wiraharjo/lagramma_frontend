@@ -1,0 +1,368 @@
+//
+// _lagramma-checkout.scss
+// Lagramma Checkout Page Styles
+//
+
+// Color Variables
+$checkout-primary: #0C3E3C;
+$checkout-secondary: #909090;
+$lagramma_green: #0c3e3c;
+
+// ============================================
+// Reusable Mixins
+// ============================================
+
+// Mixin for white SVG icon on hover
+@mixin btn-icon-white-hover {
+    &:hover {
+        img {
+            filter: brightness(0) invert(1);
+        }
+    }
+}
+
+// ============================================
+// Reusable Utility Classes
+// ============================================
+
+// Spacing
+.checkout-spacing-vertical {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.breadcrumb-spacing {
+    font-size: 1.25rem;
+    font-weight: 400;
+    padding-bottom: 20px;
+}
+
+// Typography
+.text-checkout-primary {
+    color: $checkout-primary;
+}
+
+.text-checkout-secondary {
+    color: $checkout-secondary;
+}
+
+.text-size-lg {
+    font-size: 1.25rem;
+}
+
+.fw-checkout-normal {
+    font-weight: 400;
+}
+
+.fw-checkout-semibold {
+    font-weight: 600;
+}
+
+.fw-checkout-bold {
+    font-weight: 700;
+}
+
+// Combined text utilities
+.text-checkout-primary-semibold {
+    color: $checkout-primary;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.text-checkout-primary-bold {
+    color: $checkout-primary;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.text-checkout-secondary-lg {
+    color: $checkout-secondary;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+// Table Styles
+.checkout-table {
+    &-head {
+        th {
+            font-size: 1.25rem;
+            color: $checkout-primary;
+            border-bottom: 2px solid $checkout-primary;
+        }
+    }
+
+    &-cell {
+        &-rate,
+        &-qty,
+        &-price {
+            font-size: 1.25rem;
+            color: $checkout-primary;
+            font-weight: 600;
+        }
+    }
+
+    &-product-name {
+        font-weight: 700;
+        font-size: 1.25rem;
+    }
+
+    &-product-variant {
+        font-weight: 600;
+        font-size: 1.25rem;
+    }
+
+    &-modifier-price {
+        font-size: 1.25rem;
+        color: $checkout-primary;
+        font-weight: 600;
+    }
+}
+
+// Card Styles
+.card-title-checkout {
+    color: $checkout-primary;
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+// Order Summary Table
+.order-summary {
+    &-label {
+        font-size: 1.25rem;
+        color: $checkout-secondary;
+        font-weight: 600;
+
+        &.no-padding {
+            padding-bottom: 0;
+        }
+
+        &.no-padding-top {
+            padding-top: 0;
+        }
+    }
+
+    &-value {
+        font-size: 1.25rem;
+        color: $checkout-primary;
+        font-weight: 600;
+    }
+
+    &-total-label {
+        color: $checkout-primary;
+        font-size: 1.25rem;
+        font-weight: 400;
+    }
+
+    &-total-value {
+        color: $checkout-primary;
+        font-size: 1.25rem;
+        font-weight: 400;
+    }
+}
+
+// Shipping Address Section
+.shipping-address-heading {
+    font-size: 2rem;
+    color: $checkout-primary;
+    font-weight: 700;
+}
+
+// Google Maps
+.checkout-map {
+    height: 300px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+// Spinner
+.spinner-checkout {
+    margin-left: 10px;
+}
+
+// Ensure the spinner also works with Bootstrap's spinner-border-sm
+.spinner-border.spinner-checkout {
+    margin-left: 10px;
+}
+
+// Google Places Autocomplete Override
+.pac-container {
+    z-index: 1055 !important;
+}
+
+// ============================================
+// Component-specific Styles
+// ============================================
+
+// Checkout page wrapper
+.checkout-page-wrapper {
+    @extend .checkout-spacing-vertical;
+}
+
+// Back button
+.btn-back-shop {
+    background-color: #ffffff;
+    border: 3px solid $lagramma_green;
+    border-radius: 1rem;
+    color: $checkout-primary;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    width: 20%;
+
+    &:hover {
+        background-color: $lagramma_green;
+        color: #ffffff;
+    }
+}
+
+// Add address button
+.btn-add-address {
+    background-color: #ffffff;
+    border: 3px solid $lagramma_green;
+    border-radius: 1rem;
+    color: $checkout-primary;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    width: 100%;
+
+    img {
+        margin-left: 0.25rem;
+    }
+
+    @include btn-icon-white-hover;
+
+    &:hover {
+        background-color: $lagramma_green;
+        color: #ffffff;
+    }
+}
+
+// Payment button
+.btn-payment {
+    background-color: $lagramma_green;
+    border: 3px solid $lagramma_green;
+    border-radius: 1rem;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    width: 100%;
+
+    img {
+        margin-left: 0.25rem;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+        background-color: darken($lagramma_green, 5%);
+        border-color: darken($lagramma_green, 5%);
+    }
+}
+
+// Back to cart button
+.btn-back-cart {
+    background-color: #ffffff;
+    border: 3px solid $lagramma_green;
+    border-radius: 1rem;
+    color: $checkout-primary;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    width: 100%;
+
+    img {
+        margin-left: 0.25rem;
+    }
+
+    @include btn-icon-white-hover;
+
+    &:hover {
+        background-color: $lagramma_green;
+        color: #ffffff;
+    }
+}
+
+// ============================================
+// Form Labels & Inputs
+// ============================================
+
+// Base form label style (reusable)
+.checkout-form-label {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $checkout-primary;
+    margin-top: 1rem;
+
+    &.pb-2 {
+        padding-bottom: 0.5rem;
+    }
+}
+
+// Checkbox style
+.checkout-checkbox {
+    border: 2px solid $checkout-primary;
+    width: 24px;
+    height: 24px;
+    accent-color: $checkout-primary;
+}
+
+// Shipping option select
+.shipping-option-select {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-radius: 20px;
+    font-size: 1.25rem;
+}
+
+// Address card icon
+.address-icon {
+    padding-right: 8px;
+}
+
+// Address label
+.address-label {
+    font-size: 1.25rem;
+    color: $checkout-primary;
+    font-weight: 600;
+}
+
+// Address text
+.address-text {
+    font-size: 1.125rem;
+    color: #000000;
+    font-weight: 400;
+}
+
+// ============================================
+// Modal Styles
+// ============================================
+
+// Modal title
+.modal-title-checkout {
+    font-size: 2rem;
+}
+
+// Modal form label (green, bold)
+.modal-form-label {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $checkout-primary;
+}
+
+// Form input with rounded styling
+.checkout-form-input {
+    border-radius: 20px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+// Checkbox label spacing
+.checkbox-label-text {
+    padding-left: 8px;
+}
