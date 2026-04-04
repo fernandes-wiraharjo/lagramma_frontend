@@ -9,6 +9,10 @@ File: Custom Css File
 // Lagramma Brand Colors
 $lagramma_green:        #0c3e3c;
 
+#ecommerceCart.offcanvas {
+    width: 600px !important; /* or your desired width */
+}
+
 .lagramma-green-font {
     color: $lagramma_green;
 }

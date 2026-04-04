@@ -22,9 +22,6 @@
     <!-- topbar -->
     @include('layouts.new-topbar')
 
-    {{-- Cart offcanvas is already included in new-topbar.blade.php (lines 171-343) --}}
-    {{-- @include('layouts.cart-offcanvas') --}}
-
     @yield('content')
 
     <!-- footer -->
