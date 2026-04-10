@@ -45,6 +45,7 @@ Route::get('/checkout-success/{invoiceNo}', [CheckoutController::class, 'viewSuc
 Route::get('/checkout-failed/{invoiceNo}', [CheckoutController::class, 'viewFailed'])->name('payment.failed');
 
 Route::get('/a-story-of-love', [ArticleController::class, 'aStoryOfLove'])->name('article.story-of-love');
+Route::get('/frequently-asked-questions', [ArticleController::class, 'frequentlyAskedQuestions'])->name('article.story-of-love');
 
 Route::middleware(['auth'])->group(function () {
     // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
