@@ -4,6 +4,7 @@ use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\TonerController;
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,8 @@ Route::post('/payment/confirmation/{invoiceNo}/upload', [CheckoutController::cla
 Route::post('/calculate-shipping', [CheckoutController::class, 'calculateShipping']);
 Route::get('/checkout-success/{invoiceNo}', [CheckoutController::class, 'viewSuccess'])->name('payment.success');
 Route::get('/checkout-failed/{invoiceNo}', [CheckoutController::class, 'viewFailed'])->name('payment.failed');
+
+Route::get('/a-story-of-love', [ArticleController::class, 'aStoryOfLove'])->name('article.story-of-love');
 
 Route::middleware(['auth'])->group(function () {
     // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
