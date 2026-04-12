@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Index
+    A Story of Love
 @endsection
 @section('css')
     <!-- extra css -->

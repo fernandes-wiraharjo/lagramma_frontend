@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    Index
+    Frequently Asked Questions
 @endsection
 @section('css')
 @endsection
