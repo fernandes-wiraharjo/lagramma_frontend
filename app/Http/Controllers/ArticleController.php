@@ -26,4 +26,9 @@ class ArticleController extends Controller
     {
         return view('articles.e-commerce-term-and-condition');
     }
+
+    public function locations()
+    {
+        return view('articles.locations');
+    }
 }
