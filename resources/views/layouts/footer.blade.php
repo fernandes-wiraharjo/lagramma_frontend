@@ -43,9 +43,9 @@
                         <div class="mt-lg-0 mt-4">
                             <h5 class="footer-title text-uppercase">Support</h5>
                             <ul class="list-unstyled footer-link mt-3">
-                                <li><a href="#!">FAQs</a></li>
-                                <li><a href="#!">Contacts</a></li>
-                                <li><a href="#!">Terms and Condition</a></li>
+                                <li><a href="/frequently-asked-questions">FAQs</a></li>
+                                <li><a href="/contact-us">Contacts</a></li>
+                                <li><a href="/e-commerce-term-and-condition">Terms and Condition</a></li>
                             </ul>
                         </div>
                     </div>

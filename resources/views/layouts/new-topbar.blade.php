@@ -120,12 +120,12 @@
                     class="text-decoration-none text-black px-3 lg-navbar-menu-link {{ request()->is('catalogue') ? 'lg-navbar-menu-link-active' : '' }}">
                     SHOP NOW
                 </a>
-                <a href="#!"
-                    class="text-decoration-none text-black px-3 lg-navbar-menu-link {{ request()->is('story-of-love') ? 'lg-navbar-menu-link-active' : '' }}">
+                <a href="/a-story-of-love"
+                    class="text-decoration-none text-black px-3 lg-navbar-menu-link {{ request()->is('a-story-of-love') ? 'lg-navbar-menu-link-active' : '' }}">
                     A STORY OF
                     LOVE</a>
-                <a href="#!"
-                    class="text-decoration-none text-black px-3 lg-navbar-menu-link {{ request()->is('location') ? 'lg-navbar-menu-link-active' : '' }}">
+                <a href="/locations"
+                    class="text-decoration-none text-black px-3 lg-navbar-menu-link {{ request()->is('locations') ? 'lg-navbar-menu-link-active' : '' }}">
                     LOCATION
                 </a>
             </div>
@@ -155,10 +155,10 @@
                 <a class="nav-link" href="/catalogue">SHOP NOW</a>
             </li>
             <li class="nav-item d-lg-none">
-                <a class="nav-link" href="#!">A STORY OF LOVE</a>
+                <a class="nav-link" href="/a-story-of-love">A STORY OF LOVE</a>
             </li>
             <li class="nav-item d-lg-none">
-                <a class="nav-link" href="#!">LOCATION</a>
+                <a class="nav-link" href="/locations">LOCATION</a>
             </li>
         </ul>
     </div>

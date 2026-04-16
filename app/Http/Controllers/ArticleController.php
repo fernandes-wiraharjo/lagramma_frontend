@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class ArticleController extends Controller
+{
+    
+    public function aStoryOfLove()
+    {
+        return view('articles.a-story-of-love');
+    }
+
+    public function frequentlyAskedQuestions()
+    {
+        return view('articles.frequently-ask-questions');
+    }
+
+    public function contactUs()
+    {
+        return view('articles.contact-us');
+    }
+
+    public function eCommerceTermAndCondition()
+    {
+        return view('articles.e-commerce-term-and-condition');
+    }
+
+    public function locations()
+    {
+        return view('articles.locations');
+    }
+}

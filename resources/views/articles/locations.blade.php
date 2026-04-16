@@ -1,0 +1,151 @@
+@extends('layouts.master')
+@section('title')
+    E-Commerce Terms & Condition
+@endsection
+@section('css')
+    <style>
+        .location-title {
+            font-weight: 400;
+            font-size: 1.5rem;
+            padding-bottom: 4px;
+            margin: 0;
+        }
+
+        .location-address {
+            font-weight: 300;
+            font-size: 1.5rem;
+            line-height: 1.25;
+        }
+
+        .location-list {
+            display: flex;
+            flex-direction: column;
+            gap: 56px;
+        }
+
+        .background-page-wrapper {
+            position: relative;
+        }
+
+        .background-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background-image: url("{{ URL::asset('build/images/assets/locations.png') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 0;
+        }
+    </style>
+@endsection
+@section('content')
+    <div class="background-page-wrapper">
+        <div class="background-left"></div>
+
+        <div class="container container-1440">
+            <div class="position-relative checkout-page-wrapper">
+                <div class="container container-1440">
+                    {{-- Top Section --}}
+                    <div class="row breadcrumb-spacing">
+                        {{-- Bread Crumbs --}}
+                        <div class="col-12 col-md-6 fw-bold" style="color: #909090;">
+                            <div>Home > Location</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-6" style="padding-left: 56px; padding-bottom: 64px;">
+                    {{-- Location List --}}
+                    <section class="location-list">
+                        <div class="d-flex align-items-start gap-3">
+                            <div style="padding-top: 4px;">
+                                <img src="{{ URL::asset('build/images/icons/pinpoint.svg') }}" alt="Location Icon"
+                                    class="location-icon" width="32" height="32" />
+                            </div>
+                            <div>
+                                <h2 class="location-title">La Gramma GAMA</h2>
+                                <p class="location-address">Jl.Gajahmada 151B, Benua Melayu Darat,<br />Kec. Pontianak Sel,
+                                    Kota
+                                    Pontianak,<br />Kalimantan Barat 78121</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start gap-3">
+                            <div style="padding-top: 4px;">
+                                <img src="{{ URL::asset('build/images/icons/pinpoint.svg') }}" alt="Location Icon"
+                                    class="location-icon" width="32" height="32" />
+                            </div>
+                            <div>
+                                <h2 class="location-title">La Gramma GAIA</h2>
+                                <p class="location-address">Gaia Mall, Jalan Arteri Supadio<br />Kubu Raya, Kalbar</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start gap-3">
+                            <div style="padding-top: 4px;">
+                                <img src="{{ URL::asset('build/images/icons/pinpoint.svg') }}" alt="Location Icon"
+                                    class="location-icon" width="32" height="32" />
+                            </div>
+                            <div>
+                                <h2 class="location-title">La Gramma BPP (Soon)</h2>
+                                <p class="location-address">Jl. Tjutjup Suparna Blok G1 no 2A & 2B.<br />Gunung Samarinda,
+                                    Balikpapan Utara</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {{-- Open Hour Information --}}
+                    <section class="location-list" style="margin-top: 64px;">
+                        <div class="d-flex align-items-start gap-3">
+                            <div>
+                                <img src="{{ URL::asset('build/images/icons/watch.svg') }}" alt="Open Hour Icon"
+                                    width="32" height="32" />
+                            </div>
+                            <div>
+                                <p class="location-address">Monday - Sunday • 07.00 - 24.00 WIB</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start gap-3">
+                            <div>
+                                <img src="{{ URL::asset('build/images/icons/whatsapp.svg') }}" alt="WhatsApp Icon"
+                                    width="32" height="32" />
+                            </div>
+                            <div class="location-address">
+                                <p>Dalam Kota : <u>081952684970</u> / <u>082213706036</u></p>
+                                <p>Luar Kota :<u>082254485151</u></p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start gap-3">
+                            <div>
+                                <img src="{{ URL::asset('build/images/icons/instagram.svg') }}" alt="Instagram Icon" />
+                            </div>
+                            <div>
+                                <p class="location-address">Lagrammahomemade</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-start gap-3">
+                            <div>
+                                <img src="{{ URL::asset('build/images/icons/tiktokshop.svg') }}" alt="TikTok Shop Icon"
+                                    width="32" height="32" />
+                            </div>
+                            <div>
+                                <p class="location-address">La Gramma Homemade</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('scripts')
+@endsection
