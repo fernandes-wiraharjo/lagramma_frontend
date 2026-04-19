@@ -12,4 +12,23 @@ class ArticleController extends Controller
         return view('articles.a-story-of-love');
     }
 
+    public function frequentlyAskedQuestions()
+    {
+        return view('articles.frequently-ask-questions');
+    }
+
+    public function contactUs()
+    {
+        return view('articles.contact-us');
+    }
+
+    public function eCommerceTermAndCondition()
+    {
+        return view('articles.e-commerce-term-and-condition');
+    }
+
+    public function locations()
+    {
+        return view('articles.locations');
+    }
 }

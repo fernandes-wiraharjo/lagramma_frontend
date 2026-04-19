@@ -45,6 +45,10 @@ Route::get('/checkout-success/{invoiceNo}', [CheckoutController::class, 'viewSuc
 Route::get('/checkout-failed/{invoiceNo}', [CheckoutController::class, 'viewFailed'])->name('payment.failed');
 
 Route::get('/a-story-of-love', [ArticleController::class, 'aStoryOfLove'])->name('article.story-of-love');
+Route::get('/frequently-asked-questions', [ArticleController::class, 'frequentlyAskedQuestions'])->name('article.frequently-asked-questions');
+Route::get('/contact-us', [ArticleController::class, 'contactUs'])->name('article.contact-us');
+Route::get('/e-commerce-term-and-condition', [ArticleController::class, 'eCommerceTermAndCondition'])->name('article.e-commerce-term-and-condition');
+Route::get('/locations', [ArticleController::class, 'locations'])->name('article.locations');
 
 Route::middleware(['auth'])->group(function () {
     // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
