@@ -327,17 +327,19 @@
                 } else if (userRole === '' || userRole === 'customer') {
                     // Customer view: Upload & Submit / Skip
                     container.innerHTML = `
-                    @if ($orderPayment->status !== 'APPROVED')
-                        <button type="submit" class="btn btn-primary">Upload & Submit</button>
-                    @endif
+                    <div class="d-flex gap-2">
+                        @if ($orderPayment->status !== 'APPROVED')
+                            <button type="submit" class="rounded-4 solid-border py-3 w-100 lagramma-button-solid solid-border">Upload & Submit</button>
+                        @endif
 
-                    <a href="{{ config('app.backend_url') }}/orders" class="btn btn-outline-secondary">
-                        Skip for now
-                    </a>
+                        <a href="{{ config('app.backend_url') }}/orders" class="text-center rounded-4 lagramma-button-outline solid-border py-3 w-100">
+                            Skip for now
+                        </a>
+                    </div>
 
-                    <div class="ms-auto text-muted align-self-center">
+                    <div class="ms-auto text-danger align-self-center mt-2 fst-italic">
                         You can upload or edit payment proof later from
-                        <a href="{{ config('app.backend_url') }}/orders">My Orders</a> until admin approves.
+                        <a href="{{ config('app.backend_url') }}/orders" class="text-danger fst-bold">My Orders</a> until admin approves.
                     </div>
                 `;
                 }
