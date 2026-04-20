@@ -13,32 +13,26 @@
                                 {{ number_format($subtotal, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
-                            <td class="order-summary-label no-padding-top">Shipping</td>
+                            <td class="order-summary-label no-padding">Shipping</td>
                             <td class="text-end order-summary-value cart-shipping">-</td>
+                        </tr>
+                        <tr>
+                            <td class="order-summary-label no-padding">Unique Code</td>
+                            <td class="text-end order-summary-value cart-shipping">
+                                Rp {{ number_format($uniqueCode, 0, ',', '.') }}
+                            </td>
                         </tr>
                         <tr>
                             <td class="order-summary-total-label">Total</td>
                             <td class="text-end order-summary-total-value">
                                 <span class="fw-semibold cart-total">Rp
-                                    {{ number_format($subtotal, 0, ',', '.') }}</span>
+                                    {{ number_format($transferAmount, 0, ',', '.') }}</span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <!-- end table-responsive -->
-
-            <div class="hstack gap-2 justify-content-between justify-content-end mt-4">
-                <a href="view-cart" class="btn-back-cart rounded-4 text-center">Back To Cart <img
-                        src="{{ URL::asset('/build/images/icons/cart-01.svg') }}" /></a>
-                <button id="create-order-btn" class="btn-payment rounded-4" disabled>
-                    <span id="btn-text">Payment</span>
-                    <img src="{{ URL::asset('/build/images/icons/payment-01.svg') }}" />
-                    <span id="loading-spinner"
-                        class="d-none spinner-border spinner-border-sm text-light spinner-checkout"
-                        role="status"></span>
-                </button>
-            </div>
         </div>
     </div>
 </div>

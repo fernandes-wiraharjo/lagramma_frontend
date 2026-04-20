@@ -4,9 +4,23 @@
             style="border-bottom: 2px solid #0c3e3c; font-weight: 700; font-size: 1.5rem; padding-bottom: 16px;">
             Payment Info</h2>
 
-        <div>
-            Order ID <strong>{{ $order->invoice_number }}</strong><br>
-            Order Total <strong>IDR{{ number_format($order->order_price, 0, ',', '.') }}</strong><br>
+        <div class="pt-2 pb-4 fs-18">
+            <div class="row">
+                <div class="col-md-6" style="font-weight: 700;">
+                    Order ID
+                </div>
+                <div class="col-md-6">
+                    {{ $order->invoice_number }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" style="font-weight: 700;">
+                    Order Total
+                </div>
+                <div class="col-md-6">
+                    Rp {{ number_format($order->order_price, 0, ',', '.') }}
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -14,7 +28,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card overflow-hidden rounded-4 shadow-blur p-4">
-            <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class="fs-18 fw-bold">Unique Code</div>
                 <div class="fs-18 fw-bold">{{ $orderPayment->unique_code }}</div>
             </div>
@@ -23,12 +37,32 @@
         </div>
 
         <div class="card overflow-hidden rounded-4 shadow-blur p-4">
-            <h5>Bank Account Info</h5>
             @foreach ($bankAccounts as $bank)
                 <div class="mb-2">
-                    <strong>{{ $bank['bank'] }}</strong><br>
-                    {{ $bank['account_name'] }}<br>
-                    Account No: <strong>{{ $bank['account_number'] }}</strong>
+                    <x-bank-icon :bank="$bank" class="mb-1" /><br>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div>
+                            <div class="fs-18 fw-bold">{{ $bank['account_name'] }}</div>
+                            <div class="py-2">
+                                <span class="lagramma-button-solid rounded-4 fs-18 fw-bold py-2 px-3">
+                                    <img src="{{ URL::asset('build/images/assets/iconamoon_copy.svg') }}" alt="Copy"
+                                        class="me-1" width="20">
+                                    <span>{{ $bank['account_number'] }}</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="fs-18 fw-bold text-end lagramma-green-font">Total Transfer</div>
+                            <div class="py-2">
+                                <span class="lagramma-button-solid rounded-4 fs-18 fw-bold py-2 px-3">
+                                    <img src="{{ URL::asset('build/images/assets/iconamoon_copy.svg') }}" alt="Copy"
+                                        class="me-1" width="20">
+                                    <span>Rp {{ number_format($transferAmount, 0, ',', '.') }}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                     {{-- @if (!empty($bank['branch'])) <div class="text-muted">{{ $bank['branch'] }}</div> @endif --}}
                 </div>
             @endforeach
@@ -118,19 +152,6 @@
                 <div id="payment-action-buttons">
                     {{-- Default content while waiting for userRole --}}
                     <div class="text-muted">Loading actions...</div>
-                    {{-- @if ($orderPayment->status !== 'APPROVED')
-                                        <button type="submit" class="btn btn-primary">Upload & Submit</button>
-                                    @endif --}}
-
-                    {{-- Skip button: lets user proceed without uploading now --}}
-                    {{-- <a href="{{ config('app.backend_url') }}/orders" class="btn btn-outline-secondary">
-                                        Skip for now
-                                    </a> --}}
-
-                    {{-- Optionally add a "Edit later" note --}}
-                    {{-- <div class="ms-auto text-muted align-self-center">
-                                        You can upload or edit payment proof later from <a href="{{ config('app.backend_url') }}/orders">My Orders</a> until admin approves.
-                                    </div> --}}
                 </div>
             </form>
         </div>
