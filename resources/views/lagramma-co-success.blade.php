@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <section>
+    <section class="py-5">
         <div class="container container-1440">
             <div class="row">
                 <div class="col-12 mx-auto">
@@ -38,7 +38,7 @@
                         {{ $invoiceNo }}</p>
                     <div class="mt-4 pt-2 hstack gap-2 justify-content-center w-100 mx-auto d-flex flex-column flex-md-row" style="gap: 20px;">
                         <a href="{{ config('app.backend_url') }}/orders"
-                            class="text-center rounded-4 lagramma-button-solid py-3 action-button" style="font-size: 1.5rem; color: #ffffff;">View
+                            class="text-center rounded-4 solid-border-green lagramma-button-solid py-3 action-button" style="font-size: 1.5rem; color: #ffffff;">View
                             Order</a>
                         <a href="/" class="text-center solid-border-green rounded-4 lagramma-button-outline py-3 action-button" style="font-size: 1.5rem; color: #0c3e3c;">Back To
                             Shopping</a>
