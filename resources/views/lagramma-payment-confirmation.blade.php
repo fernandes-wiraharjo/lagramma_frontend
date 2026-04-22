@@ -52,9 +52,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Wait until userRole is available (from layout script)
             const checkUserRole = setInterval(() => {
+                if (userRole === '') return;
                 clearInterval(checkUserRole);
                 const container = document.getElementById('payment-action-buttons');
 
+                console.log('resources/views/lagramma-payment-confirmation.blade.php - User Role:', userRole); // Debug log
+                console.log('User Role:', userRole); // Debug log
                 if (userRole === 'admin') {
                     const invoiceNumber = @json($order->invoice_number);
                     // alert(invoiceNumber);
@@ -62,12 +65,12 @@
                     // Admin view: Approve & Reject buttons
                     container.innerHTML = `
                      @if ($orderPayment->status !== 'APPROVED')
-                        <button type="button" class="btn btn-success" id="approve-btn">
-                            <span class="btn-text">Approve</span>
+                        <button type="button" class="rounded-4 py-3 fs-18 btn btn-success flex-grow-1" id="approve-btn" style="background-color: #1FAF38; border-color: #1FAF38;">
+                            <span class="btn-text fs-18">Approve</span>
                             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                         </button>
-                        <button type="button" class="btn btn-danger" id="reject-btn">
-                            <span class="btn-text">Reject</span>
+                        <button type="button" class="rounded-4 py-3 fs-18 btn btn-danger flex-grow-1" id="reject-btn" style="background-color: #FF0000; border-color: #FF0000;">
+                            <span class="btn-text fs-18">Reject</span>
                             <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                         </button>
                     @endif
@@ -138,19 +141,21 @@
                 } else if (userRole === '' || userRole === 'customer') {
                     // Customer view: Upload & Submit / Skip
                     container.innerHTML = `
-                    <div class="d-flex gap-2">
-                        @if ($orderPayment->status !== 'APPROVED')
-                            <button type="submit" class="rounded-4 solid-border py-3 w-100 lagramma-button-solid solid-border">Upload & Submit</button>
-                        @endif
+                    <div class="w-100">
+                        <div class="d-flex gap-3 flex-column flex-sm-row">
+                            @if ($orderPayment->status !== 'APPROVED')
+                                <button type="submit" class="fs-18 rounded-4 py-3 lagramma-button-solid solid-border-green flex-grow-1">Upload & Submit</button>
+                            @endif
 
-                        <a href="{{ config('app.backend_url') }}/orders" class="text-center rounded-4 lagramma-button-outline solid-border py-3 w-100">
-                            Skip for now
-                        </a>
-                    </div>
+                            <a href="{{ config('app.backend_url') }}/orders" class="lagramma-green-font fs-18 text-center rounded-4 lagramma-button-outline solid-border-green py-3 flex-grow-1">
+                                Skip for now
+                            </a>
+                        </div>
 
-                    <div class="ms-auto text-danger align-self-center mt-2 fst-italic">
-                        You can upload or edit payment proof later from
-                        <a href="{{ config('app.backend_url') }}/orders" class="text-danger fst-bold">My Orders</a> until admin approves.
+                        <div class="ms-auto text-danger align-self-center mt-2 fst-italic">
+                            You can upload or edit payment proof later from
+                            <a href="{{ config('app.backend_url') }}/orders" class="text-danger fst-bold">My Orders</a> until admin approves.
+                        </div>
                     </div>
                 `;
                 }

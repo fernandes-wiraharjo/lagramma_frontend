@@ -149,7 +149,7 @@
                     </div>
                 </div>
 
-                <div id="payment-action-buttons">
+                <div id="payment-action-buttons" class="d-flex gap-3">
                     {{-- Default content while waiting for userRole --}}
                     <div class="text-muted">Loading actions...</div>
                 </div>
