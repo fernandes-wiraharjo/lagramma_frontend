@@ -9,6 +9,10 @@ File: Custom Css File
 // Lagramma Brand Colors
 $lagramma_green:        #0c3e3c;
 
+.breadcrumb-item {
+    color: black;
+}
+
 .lagramma-h1 {
     color: $lagramma_green;
     font-weight: 700;

@@ -65,7 +65,8 @@ class CheckoutController extends Controller
         $shipperRegionId = config('app.shipper_region_id');
         $shipperLatLng = config('app.shipper_lat_lng');
 
-        $response = Http::withHeaders([
+        $response = Http::withoutVerifying()
+        ->withHeaders([
             'x-api-key' => $apiKey
         ])->withoutVerifying()->get("{$baseUrl}/tariff/api/v1/calculate", [
             'shipper_destination_id' => $shipperRegionId,
