@@ -133,8 +133,9 @@
             {{-- WhatsApp Order Now --}}
             <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
                 <a href="#!"
-                    class="text-decoration-none text-black lg-navbar-menu-link {{ request()->is('order-now') ? 'lg-navbar-menu-link-active' : '' }}">
-                    Order Now
+                    class="d-flex justify-content-center align-items-center gap-4 text-decoration-none text-black lg-navbar-menu-link {{ request()->is('order-now') ? 'lg-navbar-menu-link-active' : '' }}">
+                    <img src="{{ URL::asset('build/images/icons/whatsapp-black.svg') }}" width="24"/>
+                    ORDER NOW
                 </a>
             </div>
         </div>
