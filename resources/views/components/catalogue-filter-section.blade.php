@@ -18,7 +18,7 @@
         </li>
         @foreach($categories as $category)
             <li>
-                <a href="#" class="lg-catalogue-filter-item d-flex align-items-center">
+                <a href="#" class="lg-catalogue-filter-item d-flex align-items-center" data-category-id="{{ $category->id }}">
                     <span class="lg-catalogue-filter-checkbox" aria-hidden="true"></span>
                     <span class="listname">{{ $category->name }}</span>
                 </a>
