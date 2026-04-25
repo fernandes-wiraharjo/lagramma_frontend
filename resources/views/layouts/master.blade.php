@@ -42,9 +42,6 @@
         </div>
     </div>
 
-    
-    <!-- scripts -->
-    @include('layouts.vendor-scripts')
 
     <!-- layout master scripts -->
     <script>
@@ -386,6 +383,8 @@
 
     <!-- scripts -->
     @include('layouts.vendor-scripts')
+
+    @yield('scripts')
 
     {{--
     <!-- back-to-top -->
