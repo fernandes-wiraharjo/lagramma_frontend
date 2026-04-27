@@ -10,13 +10,13 @@
                     <div class="footer-social mt-auto pt-3">
                         <ul class="list-inline mb-0">
                             <li class="list-inline-item">
-                                <a href="#!" class="text-reset social-link">
+                                <a target="_blank" href="https://www.instagram.com/lagrammahomemade/" class="text-reset social-link" target="_blank">
                                     <img src="{{ URL::asset('build/images/instagram.png') }}" alt="Instagram"
                                         class="social-logo">
                                 </a>
                             </li>
                             <li class="list-inline-item">
-                                <a href="#!" class="text-reset social-link">
+                                <a target="_blank" href="https://www.tiktok.com/@lagrammahomemade_" class="text-reset social-link" target="_blank">
                                     <img src="{{ URL::asset('build/images/tiktok.png') }}" alt="Tiktok"
                                         class="social-logo">
                                 </a>
