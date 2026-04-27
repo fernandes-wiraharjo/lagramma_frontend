@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    E-Commerce Terms & Condition
+    Location
 @endsection
 @section('css')
     <style>
@@ -118,8 +118,11 @@
                                     width="32" height="32" />
                             </div>
                             <div class="location-address">
-                                <p>Dalam Kota : <u>081952684970</u> / <u>082213706036</u></p>
-                                <p>Luar Kota :<u>082254485151</u></p>
+                                <p>Dalam Kota : <a target="_blank"
+                                        href="https://wa.me/6281952684970"><u>081952684970</u></a> / <a target="_blank"
+                                        href="https://wa.me/6282213706036"><u>082213706036</u></a></p>
+                                <p>Luar Kota :<a target="_blank" href="https://wa.me/6282254485151"><u>082254485151</u></a>
+                                </p>
                             </div>
                         </div>
 
@@ -128,7 +131,10 @@
                                 <img src="{{ URL::asset('build/images/icons/instagram.svg') }}" alt="Instagram Icon" />
                             </div>
                             <div>
-                                <p class="location-address">Lagrammahomemade</p>
+                                <p class="location-address">
+                                    <a class="lagramma-green-font" target="_blank"
+                                        href="https://www.instagram.com/lagrammahomemade/">Lagrammahomemade</a>
+                                </p>
                             </div>
                         </div>
 
@@ -138,7 +144,9 @@
                                     width="32" height="32" />
                             </div>
                             <div>
-                                <p class="location-address">La Gramma Homemade</p>
+                                <p class="location-address">
+                                    <a class="lagramma-green-font" target="_blank" href="https://www.tiktok.com/@lagrammahomemade_">La Gramma Homemade</a>
+                                </p>
                             </div>
                         </div>
                     </section>
