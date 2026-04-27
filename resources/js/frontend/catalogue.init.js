@@ -28,10 +28,12 @@ function updateProductCount(totalItems, currentPage, itemsPerPage) {
 loadProductList(productListData, currentPage);
 paginationEvents();
 
-// Auto-apply category filter from query param
+// Auto-apply filters from query params
 (function() {
     var urlParams = new URLSearchParams(window.location.search);
     var categoryId = urlParams.get('category_id');
+    var searchTerm = urlParams.get('search');
+
     if (categoryId) {
         var categoryLink = document.querySelector('.filter-list a[data-category-id="' + categoryId + '"]');
         if (categoryLink) {
@@ -39,8 +41,25 @@ paginationEvents();
             if (currentActive) currentActive.classList.remove("active");
             categoryLink.classList.add("active");
             currentCategory = categoryLink.querySelector(".listname").innerHTML;
-            applyFilters();
         }
+    }
+
+    if (searchTerm) {
+        currentSearchTerm = searchTerm;
+        var searchInput = document.getElementById("searchProductList");
+        if (searchInput) {
+            searchInput.value = searchTerm;
+        }
+
+        var filterCollapseEl = document.getElementById("catalogue-filter-panel");
+        if (filterCollapseEl) {
+            var bsCollapse = bootstrap.Collapse.getOrCreateInstance(filterCollapseEl);
+            bsCollapse.show();
+        }
+    }
+
+    if (categoryId || searchTerm) {
+        applyFilters();
     }
 })();
 
