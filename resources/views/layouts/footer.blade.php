@@ -31,9 +31,9 @@
                         <div class="mt-lg-0 mt-4">
                             <h5 class="footer-title text-uppercase">Our Product</h5>
                             <ul class="list-unstyled footer-link mt-3">
-                                <li><a href="#!">Lapis Legit</a></li>
-                                <li><a href="#!">Nastar</a></li>
-                                <li><a href="#!">Cookies</a></li>
+                                <li><a href="/catalogue?category_id=4483549">Lapis Legit</a></li>
+                                <li><a href="/catalogue?category_id=66457309">Nastar</a></li>
+                                <li><a href="/catalogue?category_id=4483551">Cookies</a></li>
                                 <li><a href="#!">Patisserie</a></li>
                                 <li><a href="#!">PIA</a></li>
                             </ul>
@@ -67,8 +67,7 @@
         {{-- Author Section --}}
         <div class="row mt-4 pb-3 pt-3 align-items-center fs-12">
             <div class="col-sm-6 lg-footer-meta-text">
-                <script>document.write(new Date().getFullYear())</script> © La Gramma. Develop by <a href="https://fernandesdev.com/" target=
-                "_blank" class="text-reset text-decoration-underline">Fernandes Wiraharjo</a>
+                <script>document.write(new Date().getFullYear())</script> © La Gramma. Develop by Fernandes Wiraharjo
             </div>
 
             <span>
