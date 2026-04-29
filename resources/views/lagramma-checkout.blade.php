@@ -347,12 +347,12 @@
                                             </tr>
                                             <tr>
                                                 <td class="order-summary-label no-padding-top">Shipping</td>
-                                                <td class="text-end order-summary-value cart-shipping">-</td>
+                                                <td class="text-end order-summary-value cart-shipping" id="shippingCost">-</td>
                                             </tr>
                                             <tr>
                                                 <td class="order-summary-total-label">Total</td>
                                                 <td class="text-end order-summary-total-value">
-                                                    <span class="fw-semibold cart-total">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                                                    <span class="fw-semibold cart-total" id="grandTotal">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                                                 </td>
                                             </tr>
                                         </tbody>

@@ -35,7 +35,7 @@
                 <div class="modal-body text-center p-4">
                     <p class="mb-4 fs-3" >Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.</p>
                     <div class="d-flex justify-content-center gap-2">
-                        <a class="lagramma-button-solid rounded-4 py-3 px-4 w-100" href="{{ config('app.backend_url') . '/login' }}" id="loginModalBtn">
+                        <a href="{{ config('app.backend_url') . '/login?redirect=' . urlencode(url()->current()) }}" class="lagramma-button-solid rounded-4 py-3 px-4 w-100">
                             Login
                         </a>
                         {{-- <button type="button" id="loginModalBtn" class="lagramma-button-solid rounded-4 py-3 px-4 w-100">Login</button> --}}
@@ -326,6 +326,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Login modal button
             const loginModalBtn = document.getElementById('loginModalBtn');
+            console.log('Login Modal Button:', loginModalBtn);
             if (loginModalBtn) {
                 loginModalBtn.addEventListener('click', function() {
                     const currentUrl = window.location.href;

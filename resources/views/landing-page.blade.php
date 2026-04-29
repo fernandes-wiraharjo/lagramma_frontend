@@ -1,6 +1,6 @@
 ﻿@extends('layouts.master')
 @section('title')
-    Catalogue
+    Lapis Legit Oleh Oleh Kalimantan
 @endsection
 @section('css')
     <!-- extra css -->

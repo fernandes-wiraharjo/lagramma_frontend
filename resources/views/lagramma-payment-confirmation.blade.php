@@ -1,7 +1,7 @@
 @php
     $items = $checkoutData ?? [];
     $itemCount = count($items);
-    $subtotal = $order->order_price;
+    $subtotal = $order->order_price - $order->delivery->shipping_cost;
     $totalWeight = collect($items)->sum('total_weight');
     $hasAddress = auth()->user()->addresses->count() > 0;
 @endphp
@@ -42,7 +42,7 @@
             </section>
 
             <section class="col-xl-5">
-                <x-order-summary :subtotal="$subtotal" :uniqueCode="$orderPayment->unique_code" :transferAmount="$transferAmount" />
+                <x-order-summary :subtotal="$subtotal" :uniqueCode="$orderPayment->unique_code" :transferAmount="$transferAmount" :delivery="$order->delivery" />
             </section>
         </div>
     </div>
