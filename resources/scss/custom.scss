@@ -16,14 +16,15 @@ $lagramma_green:        #0c3e3c;
     margin: 0;
     padding: 0;
     gap: 0.5rem;
+    --lg-breadcrumb-color: black;
 
     li {
         display: flex;
         align-items: center;
-        color: black;
+        color: var(--lg-breadcrumb-color);
 
         a {
-            color: black;
+            color: var(--lg-breadcrumb-color);
             text-decoration: none;
 
             &:hover {

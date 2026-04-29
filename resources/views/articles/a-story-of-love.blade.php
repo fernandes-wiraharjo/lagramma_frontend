@@ -24,8 +24,8 @@
                 {{-- Top Section --}}
                 <div class="row breadcrumb-spacing">
                     {{-- Bread Crumbs --}}
-                    <div class="col-12 col-md-6 fw-bold">
-                        <div>Home > About</div>
+                    <div class="col-12 col-md-6">
+                        <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'About']]" />
                     </div>
                 </div>
             </div>

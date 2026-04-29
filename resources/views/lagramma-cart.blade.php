@@ -17,7 +17,7 @@
             <div class="row" style="font-size: 1.25rem; font-weight: 400; padding-bottom: 20px;">
                 {{-- Bread Crumbs --}}
                 <div class="col-12 col-md-6">
-                    <div>Home > Cart</div>
+                    <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'Cart']]" />
                 </div>
             </div>
 

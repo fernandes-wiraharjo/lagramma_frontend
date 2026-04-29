@@ -20,7 +20,7 @@
             <div class="row breadcrumb-spacing">
                 {{-- Bread Crumbs --}}
                 <div class="col-12 col-md-6">
-                    <div>Home > Cart</div>
+                    <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'Checkout']]" />
                 </div>
             </div>
             <a href="/" class="btn btn-danger btn-hover w-20 py-2 px-4 mb-3 lagramma-button-solid rounded-4">< Back To Shop</a>

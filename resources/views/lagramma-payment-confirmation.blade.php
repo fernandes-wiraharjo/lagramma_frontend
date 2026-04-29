@@ -17,19 +17,10 @@
             <div class="row breadcrumb-spacing">
                 {{-- Bread Crumbs --}}
                 <div class="col-12 col-md-6">
-                    <div>Home > Shop > Cart > Checkout > Payment</div>
+                    <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'Shop', 'url' => '/catalogue'], ['label' => 'Cart', 'url' => '/view-cart'], ['label' => 'Checkout', 'url' => '/checkout'], ['label' => 'Payment']]" />
                 </div>
             </div>
 
-            {{-- TODO: change breadcrumb to this format --}}
-            {{-- <div class="d-flex align-items-center justify-content-start mb-4">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb breadcrumb-light justify-content-center mb-0 fs-15" style="color: black;">
-                        <li class="breadcrumb-item"><a href="#!">Shop</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Payment</li>
-                    </ol>
-                </nav>
-            </div> --}}
             <a href="/" class="btn-hover w-20 py-2 px-4 mb-3 lagramma-button-solid rounded-4">
                 < Back To Shop</a>
         </div>

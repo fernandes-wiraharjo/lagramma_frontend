@@ -51,8 +51,8 @@
                     {{-- Top Section --}}
                     <div class="row breadcrumb-spacing">
                         {{-- Bread Crumbs --}}
-                        <div class="col-12 col-md-6 fw-bold" style="color: #909090;">
-                            <div>Home > Location</div>
+                        <div class="col-12 col-md-6">
+                            <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'Location']]" color="#909090" />
                         </div>
                     </div>
                 </div>
