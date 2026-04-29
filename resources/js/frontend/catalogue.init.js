@@ -279,9 +279,9 @@ function selectedPage() {
     var pagenumLink = document.getElementById('page-num').getElementsByClassName('clickPageNumber');
     for (var i = 0; i < pagenumLink.length; i++) {
         if (i == currentPage - 1) {
-            pagenumLink[i].parentNode.classList.add("active");
+            pagenumLink[i].classList.add("active");
         } else {
-            pagenumLink[i].parentNode.classList.remove("active");
+            pagenumLink[i].classList.remove("active");
         }
     }
 };
@@ -315,6 +315,7 @@ function paginationEvents() {
             currentPage--;
             loadProductList(filteredProductList, currentPage);
         }
+        this.blur();
     });
 
     nextButton.addEventListener('click', function () {
@@ -322,6 +323,7 @@ function paginationEvents() {
             currentPage++;
             loadProductList(filteredProductList, currentPage);
         }
+        this.blur();
     });
 
     pageNumbers();
