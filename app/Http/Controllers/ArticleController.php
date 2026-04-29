@@ -27,6 +27,11 @@ class ArticleController extends Controller
         return view('articles.e-commerce-term-and-condition');
     }
 
+    public function eCommerceTermAndConditionId()
+    {
+        return view('articles.e-commerce-term-and-condition-id');
+    }
+
     public function locations()
     {
         return view('articles.locations');

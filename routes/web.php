@@ -48,6 +48,7 @@ Route::get('/a-story-of-love', [ArticleController::class, 'aStoryOfLove'])->name
 Route::get('/frequently-asked-questions', [ArticleController::class, 'frequentlyAskedQuestions'])->name('article.frequently-asked-questions');
 Route::get('/contact-us', [ArticleController::class, 'contactUs'])->name('article.contact-us');
 Route::get('/e-commerce-term-and-condition', [ArticleController::class, 'eCommerceTermAndCondition'])->name('article.e-commerce-term-and-condition');
+Route::get('/e-commerce-term-and-condition-id', [ArticleController::class, 'eCommerceTermAndConditionId'])->name('article.e-commerce-term-and-condition-id');
 Route::get('/locations', [ArticleController::class, 'locations'])->name('article.locations');
 
 Route::middleware(['auth'])->group(function () {
