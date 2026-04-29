@@ -244,8 +244,7 @@
                                                 <label class="form-label modal-form-label">Address</label>
                                                 <textarea id="fe-address" class="form-control checkout-form-input shadow-blur" rows="2" required></textarea>
                                             </div>
-
-                                            <button class="btn btn-primary w-100" type="submit">Save Address</button>
+                                            <button class="lagramma-button-solid w-100 py-2 my-2 rounded-4 fs-18" type="submit">Save</button>
                                         </form>
                                     </div>
 
