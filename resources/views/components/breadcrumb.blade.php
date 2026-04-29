@@ -1,19 +1,15 @@
-@if (isset($attributes))
-    <!-- start page title -->
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">{{ $attributes['title'] }}</h4>
+@props(['items' => []])
 
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">{{ $attributes['pagetitle'] }}</a></li>
-                        <li class="breadcrumb-item active">{{ $attributes['title'] }}</li>
-                    </ol>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- end page title -->
-@endif
+<nav aria-label="breadcrumb">
+    <ol class="lg-breadcrumb">
+        @foreach ($items as $item)
+            @if ($loop->last)
+                <li class="active" aria-current="page">{{ $item['label'] }}</li>
+            @else
+                <li>
+                    <a href="{{ $item['url'] ?? '#' }}">{{ $item['label'] }}</a>
+                </li>
+            @endif
+        @endforeach
+    </ol>
+</nav>

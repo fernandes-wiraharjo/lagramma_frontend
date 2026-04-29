@@ -9,8 +9,38 @@ File: Custom Css File
 // Lagramma Brand Colors
 $lagramma_green:        #0c3e3c;
 
-.breadcrumb-item {
-    color: black;
+.lg-breadcrumb {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.5rem;
+
+    li {
+        display: flex;
+        align-items: center;
+        color: $lagramma_green;
+
+        a {
+            color: $lagramma_green;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        &.active {
+            font-weight: 600;
+        }
+    }
+
+    li + li::before {
+        content: ">";
+        margin-right: 0.5rem;
+        color: $lagramma_green;
+    }
 }
 
 .lagramma-h1 {
