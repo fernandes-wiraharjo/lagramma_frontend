@@ -328,6 +328,13 @@
                                 <textarea id="sto_note" class="form-control shadow-blur checkout-form-input" rows="10"></textarea>
                             </div>
                         </div>
+
+                        <!-- Term & Condition -->
+                        <div class="mt-3" id="termConditionContainer">
+                            <label class="d-flex align-items-center checkout-form-label">
+                                <input type="checkbox" id="cbTermCondition" class="checkout-checkbox"><span class="checkbox-label-text">I agree to <a href="/e-commerce-term-and-condition" target="_blank">the term and conditions</a></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <!-- end col -->
