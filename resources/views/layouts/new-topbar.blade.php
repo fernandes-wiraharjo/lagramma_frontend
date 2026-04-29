@@ -40,7 +40,7 @@
                 <div class="topbar-head-dropdown ms-1 header-item d-none d-sm-flex">
                     @php
                         $cart = session('shopping_cart', []);
-                        $cartCount = count($cart);
+                        $cartCount = collect($cart)->sum('quantity');
                         $subtotal = collect($cart)->sum('total_price');
                     @endphp
                     <button type="button" class="btn p-0 border-0 bg-transparent position-relative lg-topbar-action"
