@@ -361,7 +361,7 @@
                                 <!-- end table-responsive -->
 
                                 <div class="hstack gap-2 justify-content-between justify-content-end mt-4">
-                                    <a href="view-cart" class="btn-back-cart rounded-4">Back To Cart <img src="{{ URL::asset('/build/images/icons/cart-01.svg') }}" /></a>
+                                    <a href="view-cart" class="btn-back-cart rounded-4 text-center">Back To Cart <img src="{{ URL::asset('/build/images/icons/cart-01.svg') }}" /></a>
                                     <!-- <a href="payment" class="btn btn-hover btn-primary w-100">Create Order</a> -->
                                     <button
                                         id="create-order-btn"

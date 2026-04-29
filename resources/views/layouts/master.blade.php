@@ -27,6 +27,7 @@
     <!-- footer -->
     @include('layouts.footer')
 
+
     <!-- Login Required Modal -->
     <div class="modal fade round-5" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -34,7 +35,10 @@
                 <div class="modal-body text-center p-4">
                     <p class="mb-4 fs-3" >Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.</p>
                     <div class="d-flex justify-content-center gap-2">
-                        <button type="button" id="loginModalBtn" class="lagramma-button-solid rounded-4 py-3 px-4 w-100">Login</button>
+                        <a class="lagramma-button-solid rounded-4 py-3 px-4 w-100" href="{{ config('app.backend_url') . '/login' }}" id="loginModalBtn">
+                            Login
+                        </a>
+                        {{-- <button type="button" id="loginModalBtn" class="lagramma-button-solid rounded-4 py-3 px-4 w-100">Login</button> --}}
                         <button type="button" class="lagramma-button-outline solid-border rounded-4 py-3 px-4 w-100" data-bs-dismiss="modal">Tutup</button>
                     </div>
                 </div>
@@ -363,23 +367,6 @@
             }
         });
     </script>
-
-    <!-- Login Required Modal -->
-    <div class="modal fade round-5" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4">
-                <div class="modal-body text-center p-4">
-                    <p class="mb-4 fs-3" >Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.</p>
-                    <div class="d-flex justify-content-center gap-2">
-                        <a class="lagramma-button-solid rounded-4 py-3 px-4 w-100" href="{{ config('app.backend_url') . '/login' }}" id="loginModalBtn">
-                            Login
-                        </a>
-                        <button type="button" class="lagramma-button-outline solid-border rounded-4 py-3 px-4 w-100" data-bs-dismiss="modal">Tutup</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- scripts -->
     @include('layouts.vendor-scripts')
