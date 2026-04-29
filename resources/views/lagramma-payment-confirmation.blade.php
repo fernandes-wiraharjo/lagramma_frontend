@@ -154,7 +154,7 @@
 
                         <div class="ms-auto text-danger align-self-center mt-2 fst-italic">
                             You can upload or edit payment proof later from
-                            <a href="{{ config('app.backend_url') }}/orders" class="text-danger fst-bold">My Orders</a> until admin approves.
+                            <b><a href="{{ config('app.backend_url') }}/orders" class="text-danger fst-bold">My Orders</a></b> until admin approves.
                         </div>
                     </div>
                 `;
