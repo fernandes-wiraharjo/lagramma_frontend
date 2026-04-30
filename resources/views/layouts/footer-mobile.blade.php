@@ -2,7 +2,14 @@
     <div class="container-fluid px-0">
         <div class="lg-mobile-footer">
             <div class="lg-mobile-footer-brand text-center">
-                <img src="{{ URL::asset('build/images/logo-white.png') }}" alt="La Gramma" class="lg-mobile-footer-logo">
+                <a target="_blank" href="https://www.instagram.com/lagrammahomemade/" class="text-reset social-link"
+                    target="_blank">
+                    <img src="{{ URL::asset('build/images/instagram.png') }}" alt="Instagram" class="social-logo">
+                </a>
+                <a target="_blank" href="https://www.tiktok.com/@lagrammahomemade_" class="text-reset social-link"
+                    target="_blank">
+                    <img src="{{ URL::asset('build/images/tiktok.png') }}" alt="Tiktok" class="social-logo">
+                </a>
             </div>
 
             <div class="lg-mobile-footer-accordion" id="lgMobileFooterAccordion">
@@ -14,11 +21,10 @@
                     </button>
                     <div id="mobileFooterProduct" class="collapse" data-bs-parent="#lgMobileFooterAccordion">
                         <ul class="list-unstyled lg-mobile-footer-links">
-                            <li><a href="#!">Lapis Legit</a></li>
-                            <li><a href="#!">Nastar</a></li>
-                            <li><a href="#!">Cookies</a></li>
-                            <li><a href="#!">Patisserie</a></li>
-                            <li><a href="#!">PIA</a></li>
+                            <li><a href="/catalogue?category_id=4483549">Lapis Legit</a></li>
+                            <li><a href="/catalogue?category_id=66457309">Nastar</a></li>
+                            <li><a href="/catalogue?category_id=4483551">Cookies</a></li>
+                            <li><a href="/catalogue?category_id=116729812">Hampers</a></li>
                         </ul>
                     </div>
                 </div>
@@ -31,9 +37,9 @@
                     </button>
                     <div id="mobileFooterSupport" class="collapse" data-bs-parent="#lgMobileFooterAccordion">
                         <ul class="list-unstyled lg-mobile-footer-links">
-                            <li><a href="#!">FAQs</a></li>
-                            <li><a href="#!">Contacts</a></li>
-                            <li><a href="#!">Terms and Condition</a></li>
+                            <li><a href="/frequently-asked-questions">FAQs</a></li>
+                            <li><a href="/contact-us">Contacts</a></li>
+                            <li><a href="/e-commerce-term-and-condition">Terms and Condition</a></li>
                         </ul>
                     </div>
                 </div>
@@ -47,8 +53,8 @@
                     <div id="mobileFooterAccount" class="collapse" data-bs-parent="#lgMobileFooterAccordion">
                         <ul class="list-unstyled lg-mobile-footer-links">
                             <li><a href="{{ route('view-cart') }}">Cart</a></li>
-                            <li><a href="{{ config('app.backend_url') }}/orders" data-footer-view-my-order class="d-none"
-                                    target="_blank">Order</a></li>
+                            <li><a href="{{ config('app.backend_url') }}/orders" data-footer-view-my-order
+                                    class="d-none" target="_blank">Order</a></li>
                         </ul>
                     </div>
                 </div>
@@ -58,7 +64,8 @@
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">
                         <a href="#!" class="text-reset social-link">
-                            <img src="{{ URL::asset('build/images/instagram.png') }}" alt="Instagram" class="social-logo">
+                            <img src="{{ URL::asset('build/images/instagram.png') }}" alt="Instagram"
+                                class="social-logo">
                         </a>
                     </li>
                     <li class="list-inline-item">
@@ -70,12 +77,16 @@
             </div>
 
             <div class="lg-mobile-footer-meta lg-mobile-footer-meta-small">
-                <script>document.write(new Date().getFullYear())</script> &copy; La Gramma . Develop by
-                <a href="https://fernandesdev.com/" target="_blank" class="text-reset text-decoration-underline">Fernandes Wiraharjo</a>
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> &copy; La Gramma . Develop by
+                <a href="https://fernandesdev.com/" target="_blank"
+                    class="text-reset text-decoration-underline">Fernandes Wiraharjo</a>
             </div>
 
             <span>
-                <img src="{{ URL::asset('build/images/search-icon.png') }}" alt="La Gramma Logo" class="lg-mobile-footer-accent">
+                <img src="{{ URL::asset('build/images/search-icon.png') }}" alt="La Gramma Logo"
+                    class="lg-mobile-footer-accent">
             </span>
             {{-- <i class="bi bi-flower1 lg-mobile-footer-accent" aria-hidden="true"></i> --}}
         </div>
