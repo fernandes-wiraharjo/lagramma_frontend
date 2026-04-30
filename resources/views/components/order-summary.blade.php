@@ -1,3 +1,7 @@
+@php
+    $shippingCost = $delivery->shipping_cost;
+@endphp
+
 <div class="sticky-side-div">
     <div class="card overflow-hidden rounded-4 shadow-blur p-4">
         <div class="card-header pb-0 border-0">
@@ -14,7 +18,7 @@
                         </tr>
                         <tr>
                             <td class="order-summary-label no-padding">Shipping</td>
-                            <td class="text-end order-summary-value cart-shipping">-</td>
+                            <td class="text-end order-summary-value cart-shipping">Rp {{ number_format($shippingCost, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                             <td class="order-summary-label no-padding">Unique Code</td>

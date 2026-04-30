@@ -1,6 +1,6 @@
 ﻿@extends('layouts.master')
 @section('title')
-    Catalogue
+    Lapis Legit Oleh Oleh Kalimantan
 @endsection
 @section('css')
     <!-- extra css -->
@@ -30,20 +30,28 @@
             {{-- Product Variant Section --}}
             <div class="row mx-0 my-lg-1 pt-5 px-lg-4 gy-4">
                 <div class="col-6 col-md-6 col-lg-3">
-                    <img class="w-100" src="{{ URL::asset('build/images/assets/collect-1-full-house-hampers.png') }}"
-                        alt="Idul Fitri Variant">
+                    <a href="/catalogue?category_id=116729812">
+                        <img class="w-100" src="{{ URL::asset('build/images/assets/collect-1-full-house-hampers.png') }}"
+                            alt="Full House Hampers">
+                    </a>
                 </div>
                 <div class="col-6 col-md-6 col-lg-3">
-                    <img class="w-100" src="{{ URL::asset('build/images/assets/collect-2-traditional-cookies.png') }}"
-                        alt="Idul Fitri Variant">
+                    <a href="/catalogue?category_id=4483551">
+                        <img class="w-100" src="{{ URL::asset('build/images/assets/collect-2-traditional-cookies.png') }}"
+                            alt="Cookies">
+                    </a>
                 </div>
                 <div class="col-6 col-md-6 col-lg-3">
-                    <img class="w-100" src="{{ URL::asset('build/images/assets/collect-3-nastar-keju.png') }}"
-                        alt="Idul Fitri Variant">
+                    <a href="/catalogue?category_id=66457309">
+                        <img class="w-100" src="{{ URL::asset('build/images/assets/collect-3-nastar-keju.png') }}"
+                            alt="Nastar Keju">
+                    </a>
                 </div>
                 <div class="col-6 col-md-6 col-lg-3">
-                    <img class="w-100" src="{{ URL::asset('build/images/assets/collect-4-lapis-legit.png') }}"
-                        alt="Idul Fitri Variant">
+                    <a href="/catalogue?category_id=4483549">
+                        <img class="w-100" src="{{ URL::asset('build/images/assets/collect-4-lapis-legit.png') }}"
+                            alt="Lapis Legit">
+                    </a>
                 </div>
             </div>
 

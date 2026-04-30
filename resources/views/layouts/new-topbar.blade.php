@@ -40,7 +40,7 @@
                 <div class="topbar-head-dropdown ms-1 header-item d-none d-sm-flex">
                     @php
                         $cart = session('shopping_cart', []);
-                        $cartCount = count($cart);
+                        $cartCount = collect($cart)->sum('quantity');
                         $subtotal = collect($cart)->sum('total_price');
                     @endphp
                     <button type="button" class="btn p-0 border-0 bg-transparent position-relative lg-topbar-action"
@@ -132,9 +132,10 @@
 
             {{-- WhatsApp Order Now --}}
             <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
-                <a href="#!"
-                    class="text-decoration-none text-black lg-navbar-menu-link {{ request()->is('order-now') ? 'lg-navbar-menu-link-active' : '' }}">
-                    Order Now
+                <a target="_blank" href="https://wa.me/6282213706036?text=Hello%20Lagramma!%20Saya%20ingin%20bertanya%20terkait"
+                    class="d-flex justify-content-center align-items-center gap-4 text-decoration-none text-black lg-navbar-menu-link {{ request()->is('order-now') ? 'lg-navbar-menu-link-active' : '' }}">
+                    <img src="{{ URL::asset('build/images/icons/whatsapp-black.svg') }}" width="24"/>
+                    ORDER NOW
                 </a>
             </div>
         </div>

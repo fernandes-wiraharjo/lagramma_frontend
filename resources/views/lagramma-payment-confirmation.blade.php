@@ -1,7 +1,7 @@
 @php
     $items = $checkoutData ?? [];
     $itemCount = count($items);
-    $subtotal = $order->order_price;
+    $subtotal = $order->order_price - $order->delivery->shipping_cost;
     $totalWeight = collect($items)->sum('total_weight');
     $hasAddress = auth()->user()->addresses->count() > 0;
 @endphp
@@ -17,19 +17,10 @@
             <div class="row breadcrumb-spacing">
                 {{-- Bread Crumbs --}}
                 <div class="col-12 col-md-6">
-                    <div>Home > Shop > Cart > Checkout > Payment</div>
+                    <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'Shop', 'url' => '/catalogue'], ['label' => 'Cart', 'url' => '/view-cart'], ['label' => 'Checkout', 'url' => '/checkout'], ['label' => 'Payment']]" />
                 </div>
             </div>
 
-            {{-- TODO: change breadcrumb to this format --}}
-            {{-- <div class="d-flex align-items-center justify-content-start mb-4">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb breadcrumb-light justify-content-center mb-0 fs-15" style="color: black;">
-                        <li class="breadcrumb-item"><a href="#!">Shop</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Payment</li>
-                    </ol>
-                </nav>
-            </div> --}}
             <a href="/" class="btn-hover w-20 py-2 px-4 mb-3 lagramma-button-solid rounded-4">
                 < Back To Shop</a>
         </div>
@@ -42,7 +33,7 @@
             </section>
 
             <section class="col-xl-5">
-                <x-order-summary :subtotal="$subtotal" :uniqueCode="$orderPayment->unique_code" :transferAmount="$transferAmount" />
+                <x-order-summary :subtotal="$subtotal" :uniqueCode="$orderPayment->unique_code" :transferAmount="$transferAmount" :delivery="$order->delivery" />
             </section>
         </div>
     </div>
@@ -154,7 +145,7 @@
 
                         <div class="ms-auto text-danger align-self-center mt-2 fst-italic">
                             You can upload or edit payment proof later from
-                            <a href="{{ config('app.backend_url') }}/orders" class="text-danger fst-bold">My Orders</a> until admin approves.
+                            <b><a href="{{ config('app.backend_url') }}/orders" class="text-danger fst-bold">My Orders</a></b> until admin approves.
                         </div>
                     </div>
                 `;

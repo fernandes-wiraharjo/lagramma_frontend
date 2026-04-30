@@ -41,21 +41,27 @@
                 <div class="mb-2">
                     <x-bank-icon :bank="$bank" class="mb-1" /><br>
 
-                    <div class="d-flex justify-content-between align-items-center mt-4">
-                        <div>
+                    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-center mt-4">
+                        <div class="w-100 w-md-auto mb-3 mb-md-0">
                             <div class="fs-18 fw-bold">{{ $bank['account_name'] }}</div>
                             <div class="py-2">
-                                <span class="lagramma-button-solid rounded-4 fs-18 fw-bold py-2 px-3">
+                                <span class="lagramma-button-solid rounded-4 fs-18 fw-bold py-2 px-3 copy-btn"
+                                    role="button" tabindex="0"
+                                    data-copy="{{ $bank['account_number'] }}"
+                                    title="Copy account number">
                                     <img src="{{ URL::asset('build/images/assets/iconamoon_copy.svg') }}" alt="Copy"
                                         class="me-1" width="20">
                                     <span>{{ $bank['account_number'] }}</span>
                                 </span>
                             </div>
                         </div>
-                        <div>
-                            <div class="fs-18 fw-bold text-end lagramma-green-font">Total Transfer</div>
+                        <div class="w-100 w-md-auto">
+                            <div class="fs-18 fw-bold lagramma-green-font">Total Transfer</div>
                             <div class="py-2">
-                                <span class="lagramma-button-solid rounded-4 fs-18 fw-bold py-2 px-3">
+                                <span class="lagramma-button-solid rounded-4 fs-18 fw-bold py-2 px-3 copy-btn"
+                                    role="button" tabindex="0"
+                                    data-copy="{{ $transferAmount }}"
+                                    title="Copy transfer amount">
                                     <img src="{{ URL::asset('build/images/assets/iconamoon_copy.svg') }}" alt="Copy"
                                         class="me-1" width="20">
                                     <span>Rp {{ number_format($transferAmount, 0, ',', '.') }}</span>
@@ -157,3 +163,34 @@
         </div>
     </div>
 </div>
+
+<script>
+    function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        } else {
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            return Promise.resolve();
+        }
+    }
+
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        btn.style.cursor = 'pointer';
+        btn.addEventListener('click', function() {
+            var value = this.getAttribute('data-copy');
+            var span = this.querySelector('span');
+            var original = span.textContent;
+            copyToClipboard(value).then(function() {
+                span.textContent = 'Copied!';
+                setTimeout(function() { span.textContent = original; }, 1500);
+            });
+        });
+    });
+</script>

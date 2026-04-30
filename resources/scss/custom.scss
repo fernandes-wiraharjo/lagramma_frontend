@@ -9,8 +9,43 @@ File: Custom Css File
 // Lagramma Brand Colors
 $lagramma_green:        #0c3e3c;
 
-.breadcrumb-item {
-    color: black;
+.lg-breadcrumb {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.5rem;
+    --lg-breadcrumb-color: black;
+
+    li {
+        display: flex;
+        align-items: center;
+        color: var(--lg-breadcrumb-color);
+
+        a {
+            color: var(--lg-breadcrumb-color);
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        &.active {
+            font-weight: 600;
+        }
+    }
+
+    li + li::before {
+        content: "";
+        background-image: url("/build/images/icons/weui_arrow-filled.svg");
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 8px;
+        height: 16px;
+        margin-right: 0.5rem;
+    }
 }
 
 .lagramma-h1 {
@@ -21,17 +56,18 @@ $lagramma_green:        #0c3e3c;
 }
 
 .lagramma-h2 {
-    font-weight: 400;
+    font-weight: 500;
     font-style: normal;
-    font-size: 2rem;
+    font-size: 2.3125rem;
     padding-bottom: 32px;
 }
 
 .lagramma-p {
     font-weight: 300;
     font-style: normal;
-    font-size: 2rem;
+    font-size: 2.3125rem;
     padding-bottom: 32px;
+    line-height: 1.2;
 }
 
 #ecommerceCart.offcanvas {

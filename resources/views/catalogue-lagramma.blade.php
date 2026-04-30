@@ -16,8 +16,9 @@
             <div class="row" style="font-size: 1.25rem; font-weight: 400;">
                 {{-- Bread Crumbs --}}
                 <div class="col-12 col-md-6">
-                    <div>Home > Shop</div>
+                    <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'Shop']]" />
                 </div>
+
                 <div class="col-12 col-md-6">
                     <div class="d-flex justify-content-between justify-content-md-end gap-4">
                         <div id="product-count">113 Items</div>

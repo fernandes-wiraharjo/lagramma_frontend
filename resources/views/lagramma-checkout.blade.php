@@ -20,7 +20,7 @@
             <div class="row breadcrumb-spacing">
                 {{-- Bread Crumbs --}}
                 <div class="col-12 col-md-6">
-                    <div>Home > Cart</div>
+                    <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'Checkout']]" />
                 </div>
             </div>
             <a href="/" class="btn btn-danger btn-hover w-20 py-2 px-4 mb-3 lagramma-button-solid rounded-4">< Back To Shop</a>
@@ -48,7 +48,7 @@
         <!--end container-->
     </section> --}}
 
-    <section>
+    <section class="pb-5">
         <div class="container container-1440 pb-4">
             <div class="row">
                 <div class="col-xl-8">
@@ -244,8 +244,7 @@
                                                 <label class="form-label modal-form-label">Address</label>
                                                 <textarea id="fe-address" class="form-control checkout-form-input shadow-blur" rows="2" required></textarea>
                                             </div>
-
-                                            <button class="btn btn-primary w-100" type="submit">Save Address</button>
+                                            <button class="lagramma-button-solid w-100 py-2 my-2 rounded-4 fs-18" type="submit">Save</button>
                                         </form>
                                     </div>
 
@@ -328,6 +327,13 @@
                                 <textarea id="sto_note" class="form-control shadow-blur checkout-form-input" rows="10"></textarea>
                             </div>
                         </div>
+
+                        <!-- Term & Condition -->
+                        <div class="mt-3" id="termConditionContainer">
+                            <label class="d-flex align-items-center checkout-form-label">
+                                <input type="checkbox" id="cbTermCondition" class="checkout-checkbox"><span class="checkbox-label-text">I agree to <a href="/e-commerce-term-and-condition" target="_blank">the term and conditions</a></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <!-- end col -->
@@ -347,12 +353,12 @@
                                             </tr>
                                             <tr>
                                                 <td class="order-summary-label no-padding-top">Shipping</td>
-                                                <td class="text-end order-summary-value cart-shipping">-</td>
+                                                <td class="text-end order-summary-value cart-shipping" id="shippingCost">-</td>
                                             </tr>
                                             <tr>
                                                 <td class="order-summary-total-label">Total</td>
                                                 <td class="text-end order-summary-total-value">
-                                                    <span class="fw-semibold cart-total">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                                                    <span class="fw-semibold cart-total" id="grandTotal">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                                                 </td>
                                             </tr>
                                         </tbody>

@@ -27,6 +27,7 @@
     <!-- footer -->
     @include('layouts.footer')
 
+
     <!-- Login Required Modal -->
     <div class="modal fade round-5" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -34,7 +35,10 @@
                 <div class="modal-body text-center p-4">
                     <p class="mb-4 fs-3" >Silahkan login terlebih dahulu untuk melanjutkan ke halaman checkout.</p>
                     <div class="d-flex justify-content-center gap-2">
-                        <button type="button" id="loginModalBtn" class="lagramma-button-solid rounded-4 py-3 px-4 w-100">Login</button>
+                        <a href="{{ config('app.backend_url') . '/login?redirect=' . urlencode(url()->current()) }}" class="lagramma-button-solid rounded-4 py-3 px-4 w-100">
+                            Login
+                        </a>
+                        {{-- <button type="button" id="loginModalBtn" class="lagramma-button-solid rounded-4 py-3 px-4 w-100">Login</button> --}}
                         <button type="button" class="lagramma-button-outline solid-border rounded-4 py-3 px-4 w-100" data-bs-dismiss="modal">Tutup</button>
                     </div>
                 </div>
@@ -42,9 +46,6 @@
         </div>
     </div>
 
-    
-    <!-- scripts -->
-    @include('layouts.vendor-scripts')
 
     <!-- layout master scripts -->
     <script>
@@ -325,6 +326,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Login modal button
             const loginModalBtn = document.getElementById('loginModalBtn');
+            console.log('Login Modal Button:', loginModalBtn);
             if (loginModalBtn) {
                 loginModalBtn.addEventListener('click', function() {
                     const currentUrl = window.location.href;
@@ -366,6 +368,11 @@
             }
         });
     </script>
+
+    <!-- scripts -->
+    @include('layouts.vendor-scripts')
+
+    @yield('scripts')
 
     {{--
     <!-- back-to-top -->

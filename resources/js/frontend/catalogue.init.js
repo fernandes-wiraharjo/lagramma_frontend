@@ -28,6 +28,41 @@ function updateProductCount(totalItems, currentPage, itemsPerPage) {
 loadProductList(productListData, currentPage);
 paginationEvents();
 
+// Auto-apply filters from query params
+(function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var categoryId = urlParams.get('category_id');
+    var searchTerm = urlParams.get('search');
+
+    if (categoryId) {
+        var categoryLink = document.querySelector('.filter-list a[data-category-id="' + categoryId + '"]');
+        if (categoryLink) {
+            var currentActive = document.querySelector(".filter-list a.active");
+            if (currentActive) currentActive.classList.remove("active");
+            categoryLink.classList.add("active");
+            currentCategory = categoryLink.querySelector(".listname").innerHTML;
+        }
+    }
+
+    if (searchTerm) {
+        currentSearchTerm = searchTerm;
+        var searchInput = document.getElementById("searchProductList");
+        if (searchInput) {
+            searchInput.value = searchTerm;
+        }
+
+        var filterCollapseEl = document.getElementById("catalogue-filter-panel");
+        if (filterCollapseEl) {
+            var bsCollapse = bootstrap.Collapse.getOrCreateInstance(filterCollapseEl);
+            bsCollapse.show();
+        }
+    }
+
+    if (categoryId || searchTerm) {
+        applyFilters();
+    }
+})();
+
 function applyFilters() {
     let result = productListData;
 
@@ -244,9 +279,9 @@ function selectedPage() {
     var pagenumLink = document.getElementById('page-num').getElementsByClassName('clickPageNumber');
     for (var i = 0; i < pagenumLink.length; i++) {
         if (i == currentPage - 1) {
-            pagenumLink[i].parentNode.classList.add("active");
+            pagenumLink[i].classList.add("active");
         } else {
-            pagenumLink[i].parentNode.classList.remove("active");
+            pagenumLink[i].classList.remove("active");
         }
     }
 };
@@ -280,6 +315,7 @@ function paginationEvents() {
             currentPage--;
             loadProductList(filteredProductList, currentPage);
         }
+        this.blur();
     });
 
     nextButton.addEventListener('click', function () {
@@ -287,6 +323,7 @@ function paginationEvents() {
             currentPage++;
             loadProductList(filteredProductList, currentPage);
         }
+        this.blur();
     });
 
     pageNumbers();
