@@ -41,18 +41,27 @@
                 display: none;
             }
         }
+
+        .p-no-margin {
+            margin: 0;
+            padding: 0;
+        }
+
+        .content-margin-bottom {
+            margin-bottom: 88px;
+        }
     </style>
 @endsection
 
 @section('content')
-    <div class="container container-1440">
+    <div class="container container-1440 content-margin-bottom">
         <h1 class="lagramma-h1 pb-4 mt-5">Contact Us</h1>
 
         <h2 class="lagramma-h2">Contact Us</h2>
-        <p class="lagramma-p">We're here to help you with orders, questions, and special requests.</p>
+        <p class="contact-table">We're here to help you with orders, questions, and special requests.</p>
 
         <h2 class="lagramma-h2">Phone</h2>
-        <p class="lagramma-p">Our customer service team will be happy to assist you on whatsapp chat in <a target="_blank" href="https://wa.me/6282213706036?text=Hello%20Lagramma!%20Saya%20ingin%20bertanya%20terkait">082213706036</a></p>
+        <p class="contact-table">Our customer service team will be happy to assist you on whatsapp chat in <a target="_blank" href="https://wa.me/6282213706036?text=Hello%20Lagramma!%20Saya%20ingin%20bertanya%20terkait">082213706036</a></p>
 
         <h2 class="lagramma-h2">Email</h2>
         <div class="contact-table pb-5">
@@ -70,6 +79,12 @@
                     <a target="_blank" href="mailto:lagrammahomemade@gmail.com">lagrammahomemade@gmail.com</a>
                 </div>
             </div>
+        </div>
+
+        <h2 class="lagramma-h2">Online Chat</h2>
+        <div class="contact-table">
+            <p class="p-no-margin">Our team is available via online chat during the following hours :</p>
+            <p class="p-no-margin">Monday – Sunday: 09.00 – 17.00 WIB</p>
         </div>
     </div>
 @endsection

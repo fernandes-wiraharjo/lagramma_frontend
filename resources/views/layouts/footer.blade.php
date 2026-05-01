@@ -10,13 +10,15 @@
                     <div class="footer-social mt-auto pt-3">
                         <ul class="list-inline mb-0">
                             <li class="list-inline-item">
-                                <a target="_blank" href="https://www.instagram.com/lagrammahomemade/" class="text-reset social-link" target="_blank">
+                                <a target="_blank" href="https://www.instagram.com/lagrammahomemade/"
+                                    class="text-reset social-link" target="_blank">
                                     <img src="{{ URL::asset('build/images/instagram.png') }}" alt="Instagram"
                                         class="social-logo">
                                 </a>
                             </li>
                             <li class="list-inline-item">
-                                <a target="_blank" href="https://www.tiktok.com/@lagrammahomemade_" class="text-reset social-link" target="_blank">
+                                <a target="_blank" href="https://www.tiktok.com/@lagrammahomemade_"
+                                    class="text-reset social-link" target="_blank">
                                     <img src="{{ URL::asset('build/images/tiktok.png') }}" alt="Tiktok"
                                         class="social-logo">
                                 </a>
@@ -31,10 +33,10 @@
                         <div class="mt-lg-0 mt-4">
                             <h5 class="footer-title text-uppercase">Our Product</h5>
                             <ul class="list-unstyled footer-link mt-3">
-                                <li><a href="/catalogue?category_id=4483549">Lapis Legit</a></li>
-                                <li><a href="/catalogue?category_id=66457309">Nastar</a></li>
-                                <li><a href="/catalogue?category_id=4483551">Cookies</a></li>
-                                <li><a href="/catalogue?category_id=116729812">Hampers</a></li>
+                                <li><a href="/catalogue?category_id=3">Lapis Legit</a></li>
+                                <li><a href="/product-detail/51">Nastar</a></li>
+                                <li><a href="/catalogue?category_id=5">Cookies</a></li>
+                                <li><a href="/product-detail/50">Hampers</a></li>
                             </ul>
                         </div>
                     </div>
@@ -66,11 +68,14 @@
         {{-- Author Section --}}
         <div class="row mt-4 pb-3 pt-3 align-items-center fs-12">
             <div class="col-sm-6 lg-footer-meta-text">
-                <script>document.write(new Date().getFullYear())</script> © La Gramma. Develop by Fernandes Wiraharjo
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> © La Gramma. Develop by Fernandes Wiraharjo
             </div>
 
             <span>
-                <img src="{{ URL::asset('build/images/search-icon.png') }}" alt="La Gramma Logo" class="lg-mobile-footer-accent">
+                <img src="{{ URL::asset('build/images/search-icon.png') }}" alt="La Gramma Logo"
+                    class="lg-mobile-footer-accent">
             </span>
             <!-- <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
