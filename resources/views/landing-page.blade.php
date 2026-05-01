@@ -30,7 +30,7 @@
             {{-- Product Variant Section --}}
             <div class="row mx-0 my-lg-1 pt-5 px-lg-4 gy-4">
                 <div class="col-6 col-md-6 col-lg-3">
-                    <a href="/product-detail/50">
+                    <a href="/product-detail/90">
                         <img class="w-100" src="{{ URL::asset('build/images/assets/collect-1-full-house-hampers.png') }}"
                             alt="Full House Hampers">
                     </a>
@@ -42,7 +42,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-6 col-lg-3">
-                    <a href="/product-detail/90">
+                    <a href="/product-detail/51">
                         <img class="w-100" src="{{ URL::asset('build/images/assets/collect-3-nastar-keju.png') }}"
                             alt="Nastar Keju">
                     </a>

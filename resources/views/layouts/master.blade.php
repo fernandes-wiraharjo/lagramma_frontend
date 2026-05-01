@@ -319,11 +319,10 @@
         }
         // END OF CART SECTION --
 
-        // Login modal functionality
-        const loginRequiredModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
-
         // Initialize event listeners after DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
+            // Login modal functionality
+            const loginRequiredModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
             // Login modal button
             const loginModalBtn = document.getElementById('loginModalBtn');
             console.log('Login Modal Button:', loginModalBtn);
