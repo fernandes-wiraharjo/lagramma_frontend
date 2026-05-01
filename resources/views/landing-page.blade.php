@@ -42,7 +42,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-6 col-lg-3">
-                    <a href="/product-detail/51">
+                    <a href="/product-detail/90">
                         <img class="w-100" src="{{ URL::asset('build/images/assets/collect-3-nastar-keju.png') }}"
                             alt="Nastar Keju">
                     </a>
