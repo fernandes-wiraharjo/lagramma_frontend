@@ -22,9 +22,9 @@
                     <div id="mobileFooterProduct" class="collapse" data-bs-parent="#lgMobileFooterAccordion">
                         <ul class="list-unstyled lg-mobile-footer-links">
                             <li><a href="/catalogue?category_id=3">Lapis Legit</a></li>
-                            <li><a href="/catalogue?category_id=4">Nastar</a></li>
+                            <li><a href="/product-detail/51">Nastar</a></li>
                             <li><a href="/catalogue?category_id=5">Cookies</a></li>
-                            <li><a href="/catalogue?category_id=9">Hampers</a></li>
+                            <li><a href="/product-detail/50">Hampers</a></li>
                         </ul>
                     </div>
                 </div>
