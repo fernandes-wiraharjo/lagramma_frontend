@@ -34,9 +34,9 @@
                             <h5 class="footer-title text-uppercase">Our Product</h5>
                             <ul class="list-unstyled footer-link mt-3">
                                 <li><a href="/catalogue?category_id=3">Lapis Legit</a></li>
-                                <li><a href="/product-detail/51">Nastar</a></li>
+                                <li><a href="/catalogue?category_id=4">Nastar</a></li>
                                 <li><a href="/catalogue?category_id=5">Cookies</a></li>
-                                <li><a href="/product-detail/50">Hampers</a></li>
+                                <li><a href="/catalogue?category_id=9">Hampers</a></li>
                             </ul>
                         </div>
                     </div>
