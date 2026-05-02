@@ -138,7 +138,7 @@
 
                                 <div class="flex-shrink-0 d-flex justify-content-between align-items-end mt-3 py-2" style="border-top: 2px solid #D9D9D9; font-size: 1.125rem; font-weight: 300;">
                                     <div class="flex-grow-1 text-center">
-                                        1 Item(s):
+                                        <span class="cart-item-count" data-key="{{ $key }}">{{ $item['quantity'] }}</span> Item(s):
                                     </div>
                                     <div class="mb-0">
                                         Rp <span class="product-line-price" data-key="{{ $key }}"

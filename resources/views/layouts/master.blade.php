@@ -264,7 +264,10 @@
                         linePriceSpans.forEach(input => {
                             input.textContent = numberFormat(pricePerItem * qty);
                         });
-                        // linePriceSpan.textContent = numberFormat(pricePerItem * qty);
+                        // Update item count labels
+                        document.querySelectorAll(`.cart-item-count[data-key="${key}"]`).forEach(el => {
+                            el.textContent = qty;
+                        });
                         updateCartSubTotal(data.subtotal);
                         updateCartTotal(data.subtotal); // Total equals subtotal for now (shipping not calculated)
                     } else {
