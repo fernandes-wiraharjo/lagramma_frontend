@@ -41,7 +41,7 @@
                 <div class="mb-2">
                     <x-bank-icon :bank="$bank" class="mb-1" /><br>
 
-                    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-center mt-4">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4">
                         <div class="w-100 w-md-auto mb-3 mb-md-0">
                             <div class="fs-18 fw-bold">{{ $bank['account_name'] }}</div>
                             <div class="py-2">
@@ -55,7 +55,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="w-100 w-md-auto">
+                        <div class="w-100 w-md-auto text-md-end">
                             <div class="fs-18 fw-bold lagramma-green-font">Total Transfer</div>
                             <div class="py-2">
                                 <span class="lagramma-button-solid rounded-4 fs-18 fw-bold py-2 px-3 copy-btn"
