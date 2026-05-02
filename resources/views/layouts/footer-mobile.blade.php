@@ -81,7 +81,7 @@
                     document.write(new Date().getFullYear())
                 </script> &copy; La Gramma . Develop by
                 <a href="https://fernandesdev.com/" target="_blank"
-                    class="text-reset text-decoration-underline">Fernandes Wiraharjo</a>
+                    class="text-reset text-decoration-underline">Fernandes Wiraharjo | M Putra Sofyan | Edy Tanto</a>
             </div>
 
             <span>

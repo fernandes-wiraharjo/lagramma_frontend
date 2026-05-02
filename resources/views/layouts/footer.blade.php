@@ -70,7 +70,7 @@
             <div class="col-sm-6 lg-footer-meta-text">
                 <script>
                     document.write(new Date().getFullYear())
-                </script> © La Gramma. Develop by Fernandes Wiraharjo
+                </script> © La Gramma. Develop by Fernandes Wiraharjo | M Putra Sofyan | Edy Tanto
             </div>
 
             <span>
