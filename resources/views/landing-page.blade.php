@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-12 p-0 pt-5 pt-lg-0 hero-image-container overflow-hidden">
                     <img class="w-100 h-100 object-fit-cover d-block"
-                        src="{{ URL::asset('build/images/assets/hero-idul-fitri.png') }}" alt="Idul Fitri">
+                        src="{{ URL::asset('build/images/assets/hero-image-lagramma-default.png') }}" alt="Idul Fitri">
                 </div>
             </div>
 

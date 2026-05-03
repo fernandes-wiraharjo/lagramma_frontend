@@ -185,7 +185,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3 lagramma-green-font">
             <h6 class="m-0" style="font-size: 1rem;">Total <span class="px-4">:</span></h6>
             <div class="px-2" style="font-size: 1rem;">
-                <h6 class="m-0 lagramma-green-font" style="font-size: 1rem;">Rp {{ number_format($total, 0, ',', '.') }}</h6>
+                <h6 class="m-0 lagramma-green-font cart-total" style="font-size: 1rem;">Rp {{ number_format($total, 0, ',', '.') }}</h6>
             </div>
         </div>
         <div class="row">

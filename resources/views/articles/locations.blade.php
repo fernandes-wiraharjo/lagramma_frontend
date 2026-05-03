@@ -4,6 +4,42 @@
 @endsection
 @section('css')
     <style>
+        .contact-table {
+            overflow: hidden;
+            font-weight: 300;
+            font-style: normal;
+            font-size: 1.5rem;
+            padding-bottom: 32px;
+        }
+
+        .contact-row {
+            display: grid;
+            grid-template-columns: 0.5fr 16px 1fr;
+        }
+
+        .contact-cell {
+            line-height: 1.5;
+        }
+
+        .contact-header {
+            letter-spacing: 0.05em;
+        }
+
+        .contact-email {
+            word-break: break-all;
+        }
+
+        @media (max-width: 1280px) {
+            .contact-row {
+                grid-template-columns: 1fr;
+                padding-bottom: 16px;
+            }
+
+            .contact-sep {
+                display: none;
+            }
+        }
+
         .location-title {
             font-weight: 400;
             font-size: 1.5rem;
@@ -117,12 +153,31 @@
                                 <img src="{{ URL::asset('build/images/icons/whatsapp.svg') }}" alt="WhatsApp Icon"
                                     width="32" height="32" />
                             </div>
-                            <div class="location-address">
-                                <p>Dalam Kota : <a target="_blank"
-                                        href="https://wa.me/6281952684970"><u>081952684970</u></a> / <a target="_blank"
-                                        href="https://wa.me/6282213706036"><u>082213706036</u></a></p>
-                                <p>Luar Kota :<a target="_blank" href="https://wa.me/6282254485151"><u>082254485151</u></a>
-                                </p>
+                            <div>
+                                <div class="contact-table pb-5">
+                                    <div class="contact-row">
+                                        <div class="contact-cell">Dalam Kota</div>
+                                        <div class="contact-sep">:</div>
+                                        <div class="contact-cell">
+                                            <a target="_blank" href="https://wa.me/6281952684970"><u>081952684970</u></a> /
+                                            <a target="_blank" href="https://wa.me/6282213706036"><u>082213706036</u></a>
+                                        </div>
+                                    </div>
+                                    <div class="contact-row">
+                                        <div class="contact-cell">Luar Kota</div>
+                                        <div class="contact-sep">:</div>
+                                        <div class="contact-cell">
+                                            <a target="_blank" href="https://wa.me/6282254485151"><u>082254485151</u></a>
+                                        </div>
+                                    </div>
+                                    <div class="contact-row">
+                                        <div class="contact-cell">Balikpapan</div>
+                                        <div class="contact-sep">:</div>
+                                        <div class="contact-cell">
+                                            <a target="_blank" href="https://wa.me/6282254485151"><u>082254485151</u></a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -145,7 +200,8 @@
                             </div>
                             <div>
                                 <p class="location-address">
-                                    <a class="lagramma-green-font" target="_blank" href="https://www.tiktok.com/@lagrammahomemade_">La Gramma Homemade</a>
+                                    <a class="lagramma-green-font" target="_blank"
+                                        href="https://www.tiktok.com/@lagrammahomemade_">La Gramma Homemade</a>
                                 </p>
                             </div>
                         </div>
