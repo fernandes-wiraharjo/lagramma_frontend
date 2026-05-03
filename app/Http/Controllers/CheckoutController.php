@@ -65,14 +65,16 @@ class CheckoutController extends Controller
         $shipperRegionId = config('app.shipper_region_id');
         $shipperLatLng = config('app.shipper_lat_lng');
 
+        $weightInKg = $request->weight / 1000; // convert grams to kg
+
         $response = Http::withHeaders([
             'x-api-key' => $apiKey
-        ])->get("{$baseUrl}/tariff/api/v1/calculate", [
+        ])->withoutVerifying()->get("{$baseUrl}/tariff/api/v1/calculate", [
             'shipper_destination_id' => $shipperRegionId,
             'receiver_destination_id' => $request->receiver_destination_id,
             'origin_pin_point' => $shipperLatLng,
             'destination_pin_point' => $request->destination_pin_point,
-            'weight' => $request->weight,
+            'weight' => $weightInKg,
             'item_value' => $request->item_value,
             'cod' => 'no'
         ]);

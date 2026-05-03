@@ -21,11 +21,47 @@ function updateProductCount(totalItems, currentPage, itemsPerPage) {
     const start = (currentPage - 1) * itemsPerPage + 1;
     const end = Math.min(currentPage * itemsPerPage, totalItems);
 
-    countElement.innerText = `Showing ${start}-${end} of ${totalItems} results`;
+    countElement.innerText = `${totalItems} Items`;
+    // countElement.innerText = `Showing ${start}-${end} of ${totalItems} results`;
 }
 
 loadProductList(productListData, currentPage);
 paginationEvents();
+
+// Auto-apply filters from query params
+(function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var categoryId = urlParams.get('category_id');
+    var searchTerm = urlParams.get('search');
+
+    if (categoryId) {
+        var categoryLink = document.querySelector('.filter-list a[data-category-id="' + categoryId + '"]');
+        if (categoryLink) {
+            var currentActive = document.querySelector(".filter-list a.active");
+            if (currentActive) currentActive.classList.remove("active");
+            categoryLink.classList.add("active");
+            currentCategory = categoryLink.querySelector(".listname").innerHTML;
+        }
+    }
+
+    if (searchTerm) {
+        currentSearchTerm = searchTerm;
+        var searchInput = document.getElementById("searchProductList");
+        if (searchInput) {
+            searchInput.value = searchTerm;
+        }
+
+        var filterCollapseEl = document.getElementById("catalogue-filter-panel");
+        if (filterCollapseEl) {
+            var bsCollapse = bootstrap.Collapse.getOrCreateInstance(filterCollapseEl);
+            bsCollapse.show();
+        }
+    }
+
+    if (categoryId || searchTerm) {
+        applyFilters();
+    }
+})();
 
 function applyFilters() {
     let result = productListData;
@@ -116,20 +152,21 @@ function loadProductList(datas, page) {
 
                 document.getElementById("product-grid").innerHTML += layout + '\
                         <div class="card ecommerce-product-widgets border-0 rounded-0 shadow-none overflow-hidden">\
-                            <div class="bg-light bg-opacity-50 rounded py-4 position-relative">\
-                                <img src="'+ datas[i].productImg + '" alt="" style="max-height: 200px;max-width: 100%;" class="mx-auto d-block rounded-2">\
+                            <div class="bg-light bg-opacity-50 rounded position-relative" style="width: 100%; aspect-ratio: 1 / 1;">\
+                                <img src="'+ datas[i].productImg + '" alt="" style="width: 100%; height: 100%; object-fit: cover;" class="mx-auto d-block rounded-2">\
                                 <div class="action vstack gap-2">\
                                 </div>\
                                 '+ discountElem + '\
                             </div>\
-                            <div class="pt-4">\
+                            <div class="py-4">\
                                 <div>\
                                     '+ colorElem + '\
                                     <a href="/product-detail/' + datas[i].id + '">\
-                                        <h6 class="text-capitalize fs-15 lh-base text-truncate mb-0">'+ datas[i].productTitle + '</h6>\
+                                        <h6 class="product-title text-truncate text-center">'+ datas[i].productTitle + '</h6>\
                                     </a>\
-                                    <div class="tn mt-3">\
-                                        <a href="/product-detail/' + datas[i].id + '" class="btn btn-primary btn-hover w-100 add-btn">View Product</a>\
+                                    <p class="product-price text-center">Rp 100.000</p>\
+                                    <div class="tn">\
+                                        <a href="/product-detail/' + datas[i].id + '" class="btn btn-primary lagramma-btn-hover w-100 add-btn">View Product</a>\
                                     </div>\
                                 </div>\
                             </div>\
@@ -222,12 +259,9 @@ function loadProductList(datas, page) {
                             <div>\
                                 '+ colorElem + '\
                                 <a href="#!">\
-                                    <h6 class="fs-16 lh-base text-truncate mb-0">'+ datas[i].productTitle + '</h6>\
+                                    <h6 class="product-title text-truncate text-center">'+ datas[i].productTitle + '</h6>\
                                 </a>\
-                                <div class="mt-3">\
-                                    <span class="float-end">'+ datas[i].rating + ' <i class="ri-star-half-fill text-warning align-bottom"></i></span>\
-                                    '+ afterDiscountElem + '\
-                                </div>\
+                                <p class="product-price text-center">Rp 100.000</p>\
                             </div>\
                         </div>\
                     </div>\
@@ -245,9 +279,9 @@ function selectedPage() {
     var pagenumLink = document.getElementById('page-num').getElementsByClassName('clickPageNumber');
     for (var i = 0; i < pagenumLink.length; i++) {
         if (i == currentPage - 1) {
-            pagenumLink[i].parentNode.classList.add("active");
+            pagenumLink[i].classList.add("active");
         } else {
-            pagenumLink[i].parentNode.classList.remove("active");
+            pagenumLink[i].classList.remove("active");
         }
     }
 };
@@ -272,7 +306,7 @@ function paginationEvents() {
         pageNumber.innerHTML = "";
         // for each page
         for (var i = 1; i < numPages() + 1; i++) {
-            pageNumber.innerHTML += "<div class='page-item'><a class='page-link clickPageNumber' href='javascript:void(0);'>" + i + "</a></div>";
+            pageNumber.innerHTML += "<div class='page-item'><a class='btn lagramma-page-link lagramma-page-link-hover clickPageNumber add-btn' href='javascript:void(0);'>" + i + "</a></div>";
         }
     }
 
@@ -281,6 +315,7 @@ function paginationEvents() {
             currentPage--;
             loadProductList(filteredProductList, currentPage);
         }
+        this.blur();
     });
 
     nextButton.addEventListener('click', function () {
@@ -288,6 +323,7 @@ function paginationEvents() {
             currentPage++;
             loadProductList(filteredProductList, currentPage);
         }
+        this.blur();
     });
 
     pageNumbers();
@@ -309,13 +345,14 @@ function searchResult(data) {
     var dataPageNum = Math.ceil(data.length / itemsPerPage)
     // for each page
     for (var i = 1; i < dataPageNum + 1; i++) {
-        pageNumber.innerHTML += "<div class='page-item'><a class='page-link clickPageNumber' href='javascript:void(0);'>" + i + "</a></div>";
+        pageNumber.innerHTML += "<div class='page-item'><a class='btn lagramma-page-link lagramma-page-link-hover clickPageNumber add-btn' href='javascript:void(0);'>" + i + "</a></div>";
     }
 }
 
 //  category list filter
 Array.from(document.querySelectorAll('.filter-list a')).forEach(function (filteritem) {
-    filteritem.addEventListener("click", function () {
+    filteritem.addEventListener("click", function (event) {
+        event.preventDefault();
         var filterListItem = document.querySelector(".filter-list a.active");
         if (filterListItem) filterListItem.classList.remove("active");
         filteritem.classList.add('active');
@@ -346,6 +383,30 @@ searchProductList.addEventListener("keyup", function () {
     currentSearchTerm = searchProductList.value;
     applyFilters();
 });
+
+var clearAllFilters = document.getElementById("clearall");
+if (clearAllFilters) {
+    clearAllFilters.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        currentCategory = "All";
+        currentSearchTerm = "";
+
+        if (searchProductList) {
+            searchProductList.value = "";
+        }
+
+        Array.from(document.querySelectorAll('.filter-list a')).forEach(function (filteritem) {
+            filteritem.classList.remove("active");
+            var label = filteritem.querySelector(".listname");
+            if (label && label.textContent.trim() === "All") {
+                filteritem.classList.add("active");
+            }
+        });
+
+        applyFilters();
+    });
+}
 
 document.getElementById("sort-elem").addEventListener("change", function (e) {
     var inputVal = e.target.value

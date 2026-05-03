@@ -56,7 +56,7 @@ class CatalogueController extends Controller
             ];
         })->toArray();
 
-        return view('catalogue', compact('categories', 'products', 'productsArray'));
+        return view('catalogue-lagramma', compact('categories', 'products', 'productsArray'));
     }
 
     public function getByID($id) {

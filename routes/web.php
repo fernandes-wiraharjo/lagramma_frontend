@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\TonerController;
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,7 +26,8 @@ Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang'
 
 Auth::routes();
 
-Route::get('/', [CatalogueController::class, 'index'])->name('index');
+Route::get('/', [LandingPageController::class, 'index'])->name('index');
+Route::get('/catalogue', [CatalogueController::class, 'index'])->name('index');
 Route::get('/product-detail/{id}', [CatalogueController::class, 'getByID']);
 Route::get('/view-cart', [CatalogueController::class, 'viewCart'])->name('view-cart');
 Route::post('/add-to-cart', [CatalogueController::class, 'addToCart']);
@@ -40,6 +43,13 @@ Route::post('/payment/confirmation/{invoiceNo}/upload', [CheckoutController::cla
 Route::post('/calculate-shipping', [CheckoutController::class, 'calculateShipping']);
 Route::get('/checkout-success/{invoiceNo}', [CheckoutController::class, 'viewSuccess'])->name('payment.success');
 Route::get('/checkout-failed/{invoiceNo}', [CheckoutController::class, 'viewFailed'])->name('payment.failed');
+
+Route::get('/a-story-of-love', [ArticleController::class, 'aStoryOfLove'])->name('article.story-of-love');
+Route::get('/frequently-asked-questions', [ArticleController::class, 'frequentlyAskedQuestions'])->name('article.frequently-asked-questions');
+Route::get('/contact-us', [ArticleController::class, 'contactUs'])->name('article.contact-us');
+Route::get('/e-commerce-term-and-condition', [ArticleController::class, 'eCommerceTermAndCondition'])->name('article.e-commerce-term-and-condition');
+Route::get('/e-commerce-term-and-condition-id', [ArticleController::class, 'eCommerceTermAndConditionId'])->name('article.e-commerce-term-and-condition-id');
+Route::get('/locations', [ArticleController::class, 'locations'])->name('article.locations');
 
 Route::middleware(['auth'])->group(function () {
     // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');

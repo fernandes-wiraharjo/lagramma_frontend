@@ -229,9 +229,9 @@
                             </div>
                             <div class="mt-3">
                                 <a href="product-details">
-                                    <h6 class="text-capitalize fs-17 text-truncate">URBAN Men Winter Stylish Jacket</h6>
+                                    <h6 class="product-title text-truncate text-center">URBAN Men Winter Stylish Jacket</h6>
                                 </a>
-                                <h6 class="fw-normal mb-3">$87.99</h6>
+                                <p class="product-price text-center">Rp 100.000</p>
                                 <div class="d-flex flex-wrap gap-1">
                                     <div data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"
                                         aria-label="Blue" data-bs-original-title="Blue">
@@ -286,7 +286,7 @@
                             </div>
                             <div class="mt-3">
                                 <a href="product-details">
-                                    <h6 class="text-capitalize fs-17 text-truncate">Elanhood Full Sleeve Solid Women Jacket
+                                    <h6 class="product-title text-truncate text-center">Elanhood Full Sleeve Solid Women Jacket
                                     </h6>
                                 </a>
                                 <h6 class="fw-normal mb-3">$120.32 <small
@@ -337,7 +337,7 @@
                             </div>
                             <div class="mt-3">
                                 <a href="product-details">
-                                    <h6 class="text-capitalize fs-17 text-truncate">American Tourists Blue Polyester
+                                    <h6 class="product-title text-truncate text-center">American Tourists Blue Polyester
                                         Backpack</h6>
                                 </a>
                                 <h6 class="fw-normal mb-3">$64.99</h6>
@@ -388,7 +388,7 @@
                             </div>
                             <div class="mt-3">
                                 <a href="product-details">
-                                    <h6 class="text-capitalize fs-17 text-truncate">Nike MAG Back to the Future</h6>
+                                    <h6 class="product-title text-truncate text-center">Nike MAG Back to the Future</h6>
                                 </a>
                                 <h6 class="fw-normal mb-3">$149.57</h6>
                                 <div class="d-flex flex-wrap gap-1">
@@ -430,7 +430,7 @@
                             </div>
                             <div class="mt-3">
                                 <a href="product-details">
-                                    <h6 class="text-capitalize fs-17 text-truncate">Girls Printed Shorts</h6>
+                                    <h6 class="product-title text-truncate text-center">Girls Printed Shorts</h6>
                                 </a>
                                 <h6 class="fw-normal mb-3">$124.64</h6>
                                 <div class="d-flex flex-wrap gap-1">
@@ -480,7 +480,7 @@
                             </div>
                             <div class="mt-3">
                                 <a href="product-details">
-                                    <h6 class="text-capitalize fs-17 text-truncate">Stylish Collar Full Sleeve T-shirt</h6>
+                                    <h6 class="product-title text-truncate text-center">Stylish Collar Full Sleeve T-shirt</h6>
                                 </a>
                                 <h6 class="fw-normal mb-3">$241.99 <small
                                         class="text-decoration-line-through fs-14 text-muted">119.99</small></h6>
@@ -530,7 +530,7 @@
                             </div>
                             <div class="mt-3">
                                 <a href="product-details">
-                                    <h6 class="text-capitalize fs-17 text-truncate">Style Women A-line dark Blue Dress</h6>
+                                    <h6 class="product-title text-truncate text-center">Style Women A-line dark Blue Dress</h6>
                                 </a>
                                 <h6 class="fw-normal mb-3">$120.32</h6>
                                 <div class="d-flex flex-wrap gap-1">
@@ -586,7 +586,7 @@
                             </div>
                             <div class="mt-3">
                                 <a href="product-details">
-                                    <h6 class="text-capitalize fs-17 text-truncate">Imported Fabulous Women Top And Bottom
+                                    <h6 class="product-title text-truncate text-center">Imported Fabulous Women Top And Bottom
                                         Set</h6>
                                 </a>
                                 <h6 class="fw-normal mb-3">$59.99 <small
@@ -637,7 +637,7 @@
                             </div>
                             <div class="mt-3">
                                 <a href="product-details">
-                                    <h6 class="text-capitalize fs-17 text-truncate">Urbanic Women Fit And Flare Black Dress
+                                    <h6 class="product-title text-truncate text-center">Urbanic Women Fit And Flare Black Dress
                                     </h6>
                                 </a>
                                 <h6 class="fw-normal mb-3">$97.49 <small
@@ -688,7 +688,7 @@
                             </div>
                             <div class="mt-3">
                                 <a href="product-details">
-                                    <h6 class="text-capitalize fs-17 text-truncate">Like Style Women pink Shoulder Bag</h6>
+                                    <h6 class="product-title text-truncate text-center">Like Style Women pink Shoulder Bag</h6>
                                 </a>
                                 <h6 class="fw-normal mb-3">$249.99</h6>
                                 <div class="d-flex flex-wrap gap-1">

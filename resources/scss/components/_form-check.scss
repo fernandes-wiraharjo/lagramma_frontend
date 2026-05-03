@@ -263,6 +263,8 @@ $value in $theme-colors {
     }
 }
 
+$lagramma_green:        #0c3e3c;
+
 // card radio
 .card-radio {
     padding: 0;
@@ -270,7 +272,8 @@ $value in $theme-colors {
     .form-check-label {
         background-color: var(--#{$prefix}secondary-bg);
         border: $form-check-input-border;
-        border-radius: $border-radius;
+        border-radius: 20px;
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
         padding: 1rem;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -288,7 +291,7 @@ $value in $theme-colors {
         display: none;
 
         &:checked+.form-check-label {
-            border-color: $primary !important;
+            border-color: $lagramma_green !important;
 
             &:before {
                 content: '\eb80';
@@ -297,7 +300,7 @@ $value in $theme-colors {
                 top: 2px;
                 right: 6px;
                 font-size: 16px;
-                color: $primary;
+                color: $lagramma_green;
             }
         }
     }

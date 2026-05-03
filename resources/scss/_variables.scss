@@ -9,7 +9,7 @@ $variable-prefix:             tb-; // Deprecated in v5.2.0 for the shorter `$pre
 $prefix:                      $variable-prefix;
 
 // Font Family
-$font-family-primary:                             'Switzer';
+$font-family-primary:                             'Inter', sans-serif;
 $font-family-secondary:                           'Lobster Two', cursive;
 // Vertical Menu
 //
@@ -148,6 +148,7 @@ $yellow:     #f1be46;
 $green:      #06d6a0;
 $teal:       #4ab0c1;
 $cyan:       #1ea6d3;
+$lagraam_green: #0c3e3c;
 // scss-docs-end color-variables
 
 // scss-docs-start colors-map
@@ -422,6 +423,9 @@ $theme-colors: (
   "dark":       $dark
 );
 // scss-docs-end theme-colors-map
+
+// Lagramma Brand Colors
+$lagramma_green:        #0c3e3c;
 
 // scss-docs-start theme-text-variables
 $primary-text-emphasis:   shade-color($primary, 20%);

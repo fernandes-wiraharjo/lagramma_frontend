@@ -190,7 +190,7 @@
                         <div class="content mx-4 pt-5">
                             <div class="card border-0 p-4 position-relative rounded-3 shadow-lg">
                                 <a href="#!">
-                                    <h6 class="text-capitalize fs-16 lh-base text-truncate">Striped High Neck Casual Men
+                                    <h6 class="product-title text-truncate text-center">Striped High Neck Casual Men
                                         Orange Sweater</h6>
                                 </a>
                                 <p class="text-muted"><i class="ri-star-fill text-warning align-bottom"></i> <i
@@ -219,7 +219,7 @@
                         <div class="content mx-4 pt-5">
                             <div class="card border-0 p-4 position-relative rounded-3 shadow-lg">
                                 <a href="#!">
-                                    <h6 class="text-capitalize fs-16 lh-base text-truncate">Girls Mint Green & Off-White
+                                    <h6 class="product-title text-truncate text-center">Girls Mint Green & Off-White
                                         Solid Open Toe Flats</h6>
                                 </a>
                                 <p class="text-muted"><i class="ri-star-fill text-warning align-bottom"></i> <i
@@ -248,7 +248,7 @@
                         <div class="content mx-4 pt-5">
                             <div class="card border-0 p-4 position-relative rounded-3 shadow-lg">
                                 <a href="#!">
-                                    <h6 class="text-capitalize fs-16 lh-base text-truncate">Ethex Women Ribbed Sweater</h6>
+                                    <h6 class="product-title text-truncate text-center">Ethex Women Ribbed Sweater</h6>
                                 </a>
                                 <p class="text-muted"><i class="ri-star-fill text-warning align-bottom"></i> <i
                                         class="ri-star-fill text-warning align-bottom"></i> <i

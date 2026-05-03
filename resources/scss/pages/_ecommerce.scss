@@ -592,7 +592,7 @@
 @media (min-width: 992px) {
     .sticky-side-div {
         position: sticky;
-        top: calc(#{$header-height} + 3.5rem);
+        top: calc(#{$header-height});
     }
 }
 
