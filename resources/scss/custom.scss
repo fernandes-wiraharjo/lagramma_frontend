@@ -172,14 +172,15 @@ $lagramma_green:        #0c3e3c;
 
 /* Topbar brand logo */
 .ecommerce-navbar .lg-topbar-logo {
-    width: 240px;
+    width: 360px;
     height: auto;
     max-width: 100%;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 991.98px) {
     .ecommerce-navbar .lg-topbar-logo {
-        width: 180px;
+        width: auto;
+        height: 30px;
     }
 }
 
@@ -544,8 +545,21 @@ $lagramma_green:        #0c3e3c;
     height: 200px;
 }
 
+@media (max-width: 991.98px) {
+    .lg-topbar-main-row {
+        height: 80px;
+    }
+}
+
 .ecommerce-navbar .lg-topbar-logo.lg-topbar-logo-dark {
-    width: 160px;
+    width: 360px;
+}
+
+@media (max-width: 991.98px) {
+    .ecommerce-navbar .lg-topbar-logo.lg-topbar-logo-dark {
+        width: auto;
+        height: 30px;
+    }
 }
 
 .lg-navbar-menus-mobile {

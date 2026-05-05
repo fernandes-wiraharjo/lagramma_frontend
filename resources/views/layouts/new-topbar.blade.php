@@ -21,7 +21,7 @@
                     <div class="logo-dark">
                         <!-- LA GRAMMA -->
                         <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt=""
-                            class="lg-topbar-logo lg-topbar-logo-dark" style="width: 360px;">
+                            class="lg-topbar-logo lg-topbar-logo-dark">
                     </div>
                     <div class="logo-light">
                         <!-- LA GRAMMA -->
