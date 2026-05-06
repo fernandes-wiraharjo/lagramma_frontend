@@ -83,10 +83,6 @@
         }
     }
 
-    .navbar-collapse {
-        height: 100% !important;
-    }
-
     &.is-sticky {
         background-color: var(--#{$prefix}secondary-bg) !important;
         box-shadow: $box-shadow-lg;
@@ -274,6 +270,16 @@
                 padding: 0 $dropdown-item-padding-x;
             }
         }
+    }
+}
+
+@media (min-width: 992px) {
+    .ecommerce-navbar .navbar-collapse {
+        display: none !important;
+    }
+
+    #userProfileSidebar {
+        display: none !important;
     }
 }
 
