@@ -70,14 +70,14 @@
                     </div>
                 @endif
 
-                <div class="header-item d-none d-lg-flex align-items-center">
+                <div class="header-item d-lg-none">
                     <button type="button" class="btn p-0 border-0 bg-transparent lg-topbar-action"
                         data-bs-toggle="offcanvas" data-bs-target="#userSidebar" aria-controls="userSidebar">
                         <i class="bi bi-person lg-topbar-icon"></i>
                     </button>
                 </div>
 
-                <div class="dropdown header-item dropdown-hover-end">
+                <div class="dropdown header-item dropdown-hover-end d-none d-lg-flex align-items-center">
                     <button type="button" class="btn p-0 border-0 bg-transparent lg-topbar-action"
                         id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">

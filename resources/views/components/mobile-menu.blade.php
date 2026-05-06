@@ -50,17 +50,6 @@
                         <i class="bi bi-person lg-topbar-icon"></i>
                     </button>
                 </div>
-
-                <div class="dropdown header-item dropdown-hover-end">
-                    <button type="button" class="btn p-0 border-0 bg-transparent lg-topbar-action"
-                        id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                        <i class="bi bi-person lg-topbar-icon"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end" id="userDropdownContent">
-                        {{-- user dropdown items --}}
-                    </div>
-                </div>
             </div>
         </div>
     </div>
