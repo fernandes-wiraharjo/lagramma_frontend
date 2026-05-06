@@ -202,15 +202,36 @@
             top: 0;
             bottom: 0;
             height: 100vh !important;
-            background-color: var(--#{$prefix}secondary-bg);
-            width: 250px;
+            background-color: $white;
+            width: 100%;
             z-index: 999;
             overflow-y: auto;
             transform: translateX(0);
             transition: all 0.4s;
 
             &:not(.show) {
-                transform: translateX(-250px);
+                transform: translateX(-100%);
+            }
+
+            .lg-mobile-header {
+                background-color: $lagramma_green;
+
+                .lg-topbar-action {
+                    color: #f5b400;
+
+                    &:hover,
+                    &:focus {
+                        color: #f5b400;
+                    }
+                }
+
+                .logo-dark {
+                    display: none !important;
+                }
+
+                .logo-light {
+                    display: block !important;
+                }
             }
         }
 

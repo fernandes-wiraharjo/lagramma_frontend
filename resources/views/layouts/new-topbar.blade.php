@@ -141,31 +141,7 @@
         </div>
     </div>
 
-    <!-- Navbar Menu - Mobile -->
-    <div class="collapse navbar-collapse d-lg-none" id="navbarSupportedContent">
-        <ul class="navbar-nav mb-0" id="navigation-menu">
-            <li class="nav-item d-block d-lg-none">
-                <a class="d-block p-5 h-auto text-center" href="/">
-                    <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" height="25"
-                        class="card-logo-dark mx-auto">
-                    <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" height="25"
-                        class="card-logo-light mx-auto">
-                </a>
-            </li>
-            <li class="nav-item d-lg-none">
-                <a class="nav-link" href="/catalogue">SHOP NOW</a>
-            </li>
-            <li class="nav-item d-lg-none">
-                <a class="nav-link" href="/a-story-of-love">A STORY OF LOVE</a>
-            </li>
-            <li class="nav-item d-lg-none">
-                <a class="nav-link" href="/locations">LOCATION</a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="bg-overlay navbar-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show">
-    </div>
+    <x-mobile-menu />
 </nav>
 
 {{-- Cart Offcanvas --}}
