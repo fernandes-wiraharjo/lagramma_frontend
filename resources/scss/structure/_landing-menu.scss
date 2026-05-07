@@ -283,6 +283,34 @@
     }
 }
 
+// User Sidebar
+.lg-user-sidebar {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    .lg-user-sidebar-header {
+        background-color: $lagramma_green;
+        height: 80px;
+
+        .lg-topbar-action {
+            color: #f5b400;
+
+            &:hover,
+            &:focus {
+                color: #f5b400;
+            }
+        }
+
+        .logo-dark {
+            display: none !important;
+        }
+
+        .logo-light {
+            display: block !important;
+        }
+    }
+}
+
 .dropdown-mega-full {
     position: static !important;
 
