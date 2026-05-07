@@ -31,7 +31,7 @@ class CatalogueController extends Controller
     public function index(Request $request) {
         // $today = Carbon::today();
         $categories = Category::where('is_active', true)->get();
-        $products = Product::with('category', 'mainImage')
+        $products = Product::with('category', 'mainImage', 'variants')
             ->where('is_active', true)
             ->whereDoesntHave('deactivateDates', function ($query) {
                 $query->where('start_date', '<=', now())
@@ -40,6 +40,7 @@ class CatalogueController extends Controller
             ->orderBy('name', 'asc')
             ->get();
         $productsArray = $products->map(function ($product) {
+            $cheapestVariant = $product->variants->sortBy('price')->first();
             return [
                 'id' => $product->id,
                 'wishList' => false,
@@ -48,7 +49,7 @@ class CatalogueController extends Controller
                     : asset('images/no_image.jpg'),
                 'productTitle' => $product->name,
                 'category' => $product->category->name ?? 'Uncategorized',
-                'price' => '0.00',
+                'price' => $cheapestVariant?->price ?? 0,
                 'discount' => '0%',
                 'rating' => '0.0',
                 'arrival' => false,
