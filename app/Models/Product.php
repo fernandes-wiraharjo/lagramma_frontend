@@ -46,6 +46,11 @@ class Product extends Model
         return $this->hasMany(ProductVariant::class, 'id_product');
     }
 
+    public function cheapestVariant()
+    {
+        return $this->hasOne(ProductVariant::class, 'id_product')->orderBy('price', 'asc');
+    }
+
     // Relationship: A Product has many Modifiers
     public function modifiers()
     {
