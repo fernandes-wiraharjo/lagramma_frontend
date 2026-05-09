@@ -123,11 +123,11 @@
             <div class="row" style="font-size: 1.25rem; font-weight: 400; padding-bottom: 20px;">
                 {{-- Bread Crumbs --}}
                 <div class="col-12 col-md-6">
-                    <div>Home > Shop > {{ $product->name }}</div>
+                    <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'Shop', 'url' => '/catalogue'], ['label' => $product->name]]" />
                 </div>
             </div>
 
-            <a href="/" class="btn btn-danger btn-hover w-20 py-2 px-4 mb-3 lagramma-button-solid rounded-4">< Back To Shop</a>
+            <a href="/catalogue" class="btn btn-danger btn-hover w-20 py-2 px-4 mb-3 lagramma-button-solid rounded-4">< Back To Shop</a>
 
             <div class="row gx-2">
                 <div class="col-lg-6">
