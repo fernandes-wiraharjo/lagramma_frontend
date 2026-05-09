@@ -134,11 +134,6 @@ function loadProductList(datas, page) {
                     var colorElem = ''
                 }
 
-                console.log('src/js/frontend/catalogue.init.js - loadProductList - datas[i]', datas[i])
-                console.log({
-                    datas
-                })
-
                 var text = datas[i].discount;
                 var myArray = text.split("%");
                 var discount = myArray[0];
