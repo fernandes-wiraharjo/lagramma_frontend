@@ -1,3 +1,7 @@
+function formatPrice(num) {
+    return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
 var filteredProductList = productListData;
 var prevButton = document.getElementById('page-prev');
 var nextButton = document.getElementById('page-next');
@@ -130,6 +134,11 @@ function loadProductList(datas, page) {
                     var colorElem = ''
                 }
 
+                console.log('src/js/frontend/catalogue.init.js - loadProductList - datas[i]', datas[i])
+                console.log({
+                    datas
+                })
+
                 var text = datas[i].discount;
                 var myArray = text.split("%");
                 var discount = myArray[0];
@@ -138,10 +147,10 @@ function loadProductList(datas, page) {
                     var discountElem = '<div class="avatar-xs label">\
                                     <div class="avatar-title bg-danger rounded-circle fs-11">'+ datas[i].discount + '</div>\
                                 </div>';
-                    var afterDiscountElem = '<h5 class="text-secondary mb-0">$' + afterDiscount.toFixed(2) + ' <span class="text-muted fs-12"><del>$' + datas[i].price + '</del></span></h5>'
+                    var priceElem = '<p class="product-price text-center">Rp ' + formatPrice(afterDiscount) + ' <del class="text-muted fs-12">Rp ' + formatPrice(datas[i].price) + '</del></p>';
                 } else {
                     var discountElem = "";
-                    var afterDiscountElem = '<h5 class="text-secondary mb-0">IDR' + datas[i].price + '</h5>'
+                    var priceElem = '<p class="product-price text-center">Rp ' + formatPrice(datas[i].price) + '</p>';
                 }
 
                 if (document.getElementById("col-3-layout")) {
@@ -164,7 +173,7 @@ function loadProductList(datas, page) {
                                     <a href="/product-detail/' + datas[i].id + '">\
                                         <h6 class="product-title text-truncate text-center">'+ datas[i].productTitle + '</h6>\
                                     </a>\
-                                    <p class="product-price text-center">Rp 100.000</p>\
+                                    '+ priceElem + '\
                                     <div class="tn">\
                                         <a href="/product-detail/' + datas[i].id + '" class="btn btn-primary lagramma-btn-hover w-100 add-btn">View Product</a>\
                                     </div>\
