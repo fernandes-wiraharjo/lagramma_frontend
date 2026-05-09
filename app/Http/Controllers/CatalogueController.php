@@ -64,7 +64,9 @@ class CatalogueController extends Controller
         $product = Product::with([
             'images',
             'mainImage',
-            'variants',
+            'variants' => function($query) {
+                $query->where('is_active', true); // Only active variants
+            },
             'category',
             'modifiers.modifier' => function($query) {
                 $query->where('is_active', true); // Only active modifiers
