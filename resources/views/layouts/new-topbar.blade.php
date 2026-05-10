@@ -115,7 +115,7 @@
     {{-- Mobile Search Section --}}
     <div class="w-100 d-block d-lg-none lg-navbar-menus lg-navbar-menus-mobile">
         <div class="container container-1440 h-100 position-relative d-flex justify-content-center align-items-center">
-            <x-search-input-alt max-width="560px" />
+            <x-search-input-alt max-width="560px" id="search-mobile" />
         </div>
     </div>
 

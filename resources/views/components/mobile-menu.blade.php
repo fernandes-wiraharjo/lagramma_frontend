@@ -10,6 +10,10 @@
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="bi bi-x-lg lg-topbar-icon"></i>
                 </button>
+                <button type="button" class="btn p-0 border-0 bg-transparent lg-topbar-action"
+                    id="mobileMenuSearchToggle">
+                    <i class="bi bi-search lg-topbar-icon"></i>
+                </button>
             </div>
 
             <!-- Logo - Center -->
@@ -69,3 +73,28 @@
 
 <div class="bg-overlay navbar-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show">
 </div>
+
+
+@push('extra_scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Mobile Menu Script Loaded");
+
+        document.getElementById('mobileMenuSearchToggle')?.addEventListener('click', function() {
+            const navbarCollapse = document.getElementById('navbarSupportedContent');
+            const searchInput = document.getElementById('search-mobile');
+
+            if (navbarCollapse) {
+                const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+                if (bsCollapse) {
+                    bsCollapse.hide();
+                }
+            }
+
+            if (searchInput) {
+                searchInput.focus();
+            }
+        });
+    });
+</script>
+@endpush

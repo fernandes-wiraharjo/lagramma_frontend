@@ -376,6 +376,8 @@
 
     @yield('scripts')
 
+    @stack('extra_scripts')
+
     {{--
     <!-- back-to-top -->
     <button onclick="topFunction()" class="btn btn-info btn-icon" style="bottom: 50px;" id="back-to-top">
