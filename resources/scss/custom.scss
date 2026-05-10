@@ -151,19 +151,22 @@ $lagramma_green:        #0c3e3c;
 }
 
 /* Topbar right icons */
-.ecommerce-navbar .lg-topbar-icons {
+.ecommerce-user-sidebar .lg-topbar-icons, .ecommerce-navbar .lg-topbar-icons {
     gap: 14px;
 }
 
-.ecommerce-navbar .lg-topbar-action {
+.ecommerce-user-sidebar .lg-topbar-action, .ecommerce-navbar .lg-topbar-action {
     color: #f5b400;
 }
 
+.ecommerce-user-sidebar .lg-topbar-action:hover,
+.ecommerce-user-sidebar .lg-topbar-action:focus,
 .ecommerce-navbar .lg-topbar-action:hover,
 .ecommerce-navbar .lg-topbar-action:focus {
     color: #f5b400;
 }
 
+.ecommerce-user-sidebar .lg-topbar-icon,
 .ecommerce-navbar .lg-topbar-icon {
     display: block;
     font-size: 1.65rem;
