@@ -58,15 +58,42 @@
         </div>
     </div>
 
-    <ul class="navbar-nav mb-0" id="navigation-menu">
-        <li class="nav-item d-lg-none">
-            <a class="nav-link" href="/catalogue">SHOP NOW</a>
+    <ul class="navbar-nav mb-0 pt-2" id="navigation-menu">
+        <li class="nav-item d-lg-none py-2">
+            <a style="{{ request()->is('catalogue') ? 'font-weight: 500;' : 'font-weight: 400;' }}" class="nav-link text-black fs-18 {{ request()->is('catalogue') ? 'menu-underline lg-navbar-menu-link' : '' }}" href="/catalogue">
+                SHOP NOW
+            </a>
         </li>
-        <li class="nav-item d-lg-none">
-            <a class="nav-link" href="/a-story-of-love">A STORY OF LOVE</a>
+        <li class="nav-item d-lg-none py-2">
+            <a style="{{ request()->is('a-story-of-love') ? 'font-weight: 500;' : 'font-weight: 400;' }}" class="nav-link text-black fs-18 {{ request()->is('a-story-of-love') ? 'menu-underline lg-navbar-menu-link' : '' }}" href="/a-story-of-love">A STORY OF LOVE</a>
         </li>
-        <li class="nav-item d-lg-none">
-            <a class="nav-link" href="/locations">LOCATION</a>
+        <li class="nav-item d-lg-none py-2">
+            <a style="{{ request()->is('locations') ? 'font-weight: 500;' : 'font-weight: 400;' }}" class="nav-link text-black fs-18 {{ request()->is('locations') ? 'menu-underline lg-navbar-menu-link' : '' }}" href="/locations">LOCATION</a>
+        </li>
+        <li class="nav-item d-lg-none py-2">
+            <a target="_blank" href="https://wa.me/6282213706036?text=Hello%20Lagramma!%20Saya%20ingin%20bertanya%20terkait"
+                class="nav-link d-flex align-items-center gap-3 text-decoration-none text-black lg-navbar-menu-link {{ request()->is('order-now') ? 'lg-navbar-menu-link-active' : '' }}">
+                <span class="fs-18" style="font-weight: 400;">ORDER NOW</span>
+                <img src="{{ URL::asset('build/images/icons/whatsapp-black.svg') }}" width="20"/>
+            </a>
+        </li>
+        <li class="nav-item d-lg-none py-2">
+            <a class="nav-link text-black fs-18 {{ request()->is('locations') ? 'menu-underline lg-navbar-menu-link' : '' }}" style="font-weight: 400;" href="#">
+                <div class="block">
+                    <span>CART</span>
+
+                    @php
+                        $cart = session('shopping_cart', []);
+                        $cartCount = count($cart);
+                        $subtotal = collect($cart)->sum('total_price');
+                    @endphp
+
+                    @if ($cartCount > 0)
+                        <span
+                            class="position-absolute topbar-badge lg-cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $cartCount }}</span>
+                    @endif
+                </div>
+            </a>
         </li>
     </ul>
 </div>
