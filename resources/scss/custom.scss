@@ -151,6 +151,20 @@ $lagramma_green:        #0c3e3c;
 }
 
 /* Topbar right icons */
+.ecommerce-user-sidebar.offcanvas {
+    width: 100% !important;
+}
+
+.ecommerce-user-sidebar .lg-topbar-header {
+    background-color: $lagramma_green;
+    max-height: 80px;
+}
+
+.ecommerce-user-sidebar .lg-topbar-logo {
+    width: auto;
+    height: 30px;
+}
+
 .ecommerce-user-sidebar .lg-topbar-icons, .ecommerce-navbar .lg-topbar-icons {
     gap: 14px;
 }

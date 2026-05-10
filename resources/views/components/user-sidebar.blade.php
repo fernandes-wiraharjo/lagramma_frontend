@@ -1,6 +1,6 @@
  <!-- Offcanvas Sidebar -->
- <div class="offcanvas offcanvas-end border-0 ecommerce-user-sidebar" tabindex="-1" id="userSidebar" aria-labelledby="userSidebarLabel" style="width: 100%;">
-     <div class="pb-2 pt-2 px-2" style="background-color: #0c3e3c; max-height: 80px;">
+ <div class="offcanvas offcanvas-end border-0 ecommerce-user-sidebar" tabindex="-1" id="userSidebar" aria-labelledby="userSidebarLabel">
+     <div class="pb-2 pt-2 px-2 lg-topbar-header">
          <div class="row w-100 g-0 align-items-center">
              <div class="col-auto pe-2">
                  <button type="button" class="btn p-0 border-0 bg-transparent position-relative lg-topbar-action"
@@ -11,11 +11,11 @@
                  <a class="navbar-brand me-0 text-center" href="/">
                      <div class="logo-dark">
                          <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt=""
-                             class="lg-topbar-logo lg-topbar-logo-dark" style="width: auto; height: 30px;">
+                             class="lg-topbar-logo lg-topbar-logo-dark">
                      </div>
                      <div class="logo-light">
                          <img src="{{ URL::asset('build/images/logo-light.png') }}" alt=""
-                             class="lg-topbar-logo" style="width: auto; height: 30px;">
+                             class="lg-topbar-logo">
                      </div>
                  </a>
              </div>
