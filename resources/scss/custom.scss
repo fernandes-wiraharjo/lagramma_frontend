@@ -146,6 +146,13 @@ $lagramma_green:        #0c3e3c;
     right: auto !important;
 }
 
+@media (max-width: 991.98px) {
+    .ecommerce-navbar {
+        position: relative !important;
+        z-index: 10;
+    }
+}
+
 .ecommerce-navbar.is-sticky {
     box-shadow: none !important;
 }
