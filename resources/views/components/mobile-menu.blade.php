@@ -81,7 +81,6 @@
             <a class="nav-link text-black fs-18 {{ request()->is('locations') ? 'menu-underline lg-navbar-menu-link' : '' }}" style="font-weight: 400;" href="#">
                 <div class="block">
                     <span>CART</span>
-
                     @php
                         $cart = session('shopping_cart', []);
                         $cartCount = count($cart);
@@ -90,7 +89,7 @@
 
                     @if ($cartCount > 0)
                         <span
-                            class="position-absolute topbar-badge lg-cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $cartCount }}</span>
+                            class="ms-2 topbar-badge lg-cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $cartCount }}</span>
                     @endif
                 </div>
             </a>
