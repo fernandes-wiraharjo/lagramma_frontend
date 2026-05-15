@@ -86,11 +86,8 @@
                         $cartCount = count($cart);
                         $subtotal = collect($cart)->sum('total_price');
                     @endphp
-
-                    @if ($cartCount > 0)
-                        <span
-                            class="ms-2 topbar-badge lg-cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $cartCount }}</span>
-                    @endif
+                    <span
+                        class="ms-2 topbar-badge lg-cartitem-badge fs-10 translate-middle badge rounded-circle bg-danger">{{ $cartCount }}</span>
                 </div>
             </a>
         </li>
