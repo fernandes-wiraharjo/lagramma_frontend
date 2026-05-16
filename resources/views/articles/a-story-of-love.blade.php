@@ -12,7 +12,24 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
-            min-height: calc(100vh);
+        }
+
+        @media (max-width: 768px) {
+            .background-image {
+                background-size: 200% auto;
+            }
+
+            .story-content {
+                font-size: 0.75rem;
+                padding-bottom: 160px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .story-content {
+                font-size: 1.25rem;
+                padding-bottom: 640px;
+            }
         }
     </style>
 @endsection
@@ -31,8 +48,7 @@
             </div>
         </div>
 
-        <div class="container container-1440"
-            style="font-size: 1.25rem; padding-bottom: 640px;">
+        <div class="container container-1440 story-content">
             <div style="font-weight: 300; max-width: 860px;">
                 <p>It all started with a small notebook left on a sewing table . as he fought back tears and reminisced
                     about the good old days , he was flipping through page after page of that cherished book. never even
