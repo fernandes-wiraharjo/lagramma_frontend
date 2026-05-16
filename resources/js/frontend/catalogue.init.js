@@ -20,13 +20,14 @@ if (document.getElementById("col-3-layout")) {
 }
 
 function updateProductCount(totalItems, currentPage, itemsPerPage) {
-    const countElement = document.getElementById('product-count');
+    const countElements = document.querySelectorAll('#product-count, #product-count-desktop');
 
     const start = (currentPage - 1) * itemsPerPage + 1;
     const end = Math.min(currentPage * itemsPerPage, totalItems);
 
-    countElement.innerText = `${totalItems} Items`;
-    // countElement.innerText = `Showing ${start}-${end} of ${totalItems} results`;
+    countElements.forEach(function(el) {
+        el.innerText = `${totalItems} Items`;
+    });
 }
 
 loadProductList(productListData, currentPage);
@@ -412,15 +413,17 @@ if (clearAllFilters) {
     });
 }
 
-document.getElementById("sort-elem").addEventListener("change", function (e) {
-    var inputVal = e.target.value
-    if (inputVal == "a_to_z") {
-        sortElementsByAsc();
-    } else if (inputVal == "z_to_a") {
-        sortElementsByDesc();
-    } else if (inputVal == "") {
-        sortElementsById()
-    }
+document.querySelectorAll("#sort-elem, #sort-elem-desktop").forEach(function(el) {
+    el.addEventListener("change", function (e) {
+        var inputVal = e.target.value
+        if (inputVal == "a_to_z") {
+            sortElementsByAsc();
+        } else if (inputVal == "z_to_a") {
+            sortElementsByDesc();
+        } else if (inputVal == "") {
+            sortElementsById()
+        }
+    });
 });
 
 // sort element ascending
