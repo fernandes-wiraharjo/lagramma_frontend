@@ -34,15 +34,19 @@
     </style>
 @endsection
 @section('content')
+    {{-- Mobile Breadcrumb --}}
+    <x-breadcrumb-mobile :items="[['label' => 'Home', 'url' => '/'], ['label' => 'A Story of Love']]" />
+
     {{-- <img class="w-100" src="{{ URL::asset('build/images/assets/a-story-of-love-bg.png') }}"> --}}
-    <div class="background-image">
-        <div class="position-relative checkout-page-wrapper">
+    <div class="background-image pt-4">
+        {{-- Desktop Breadcrumb --}}
+        <div class="position-relative checkout-page-wrapper d-none d-md-block">
             <div class="container container-1440">
                 {{-- Top Section --}}
                 <div class="row breadcrumb-spacing">
                     {{-- Bread Crumbs --}}
                     <div class="col-12 col-md-6">
-                        <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'About']]" />
+                        <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'A Story of Love']]" />
                     </div>
                 </div>
             </div>
@@ -70,7 +74,7 @@
                     We thankyou , our beloved customers for your support all along<br />
                     Let's bring our tradition to the world , together one layer at a time
                 </p>
-                
+
                 <br />
 
                 <p>in her memory,</p>
