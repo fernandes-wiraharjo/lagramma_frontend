@@ -1,5 +1,6 @@
  <!-- Offcanvas Sidebar -->
- <div class="offcanvas offcanvas-end border-0 ecommerce-user-sidebar" tabindex="-1" id="userSidebar" aria-labelledby="userSidebarLabel">
+ <div class="offcanvas offcanvas-end border-0 ecommerce-user-sidebar" tabindex="-1" id="userSidebar"
+     aria-labelledby="userSidebarLabel">
      <div class="pb-2 pt-2 px-2 lg-topbar-header">
          <div class="row w-100 g-0 align-items-center">
              <div class="col-auto pe-2">
@@ -60,13 +61,24 @@
      </div>
 
      <div class="offcanvas-body">
-         <p>This sidebar slides from right to left.</p>
-
-         <ul class="list-group">
-             <li class="list-group-item">Dashboard</li>
-             <li class="list-group-item">Profile</li>
-             <li class="list-group-item">Settings</li>
-             <li class="list-group-item">Logout</li>
+         <ul class="navbar-nav mb-0 pt-2" id="user-sidebar-menu">
+             <li class="nav-item nav-link text-black fw-semibold fs-18 py-2">
+                 Welcome
+             </li>
+             <li class="nav-item nav-link text-black fw-normal fs-18 py-3">
+                 Enjoy a sweeter experience with La Gramma
+             </li>
+             <li class="nav-item py-2">
+                 <a
+                     class="nav-link text-black fs-18 fw-light {{ request()->is('/login') ? 'menu-underline lg-navbar-menu-link' : '' }}"
+                     href="{{ config('app.backend_url') }}/login">Login</a>
+             </li>
+             <li class="nav-item py-2">
+                 <a
+                     class="nav-link text-black fs-18 fw-light {{ request()->is('/register') ? 'menu-underline lg-navbar-menu-link' : '' }}"
+                     href="{{ config('app.backend_url') }}/register">Sign Up</a>
+                 </a>
+             </li>
          </ul>
      </div>
  </div>

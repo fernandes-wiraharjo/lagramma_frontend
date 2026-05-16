@@ -77,9 +77,10 @@
                 <img src="{{ URL::asset('build/images/icons/whatsapp-black.svg') }}" width="20"/>
             </a>
         </li>
+        {{-- Mobile Sidebar Cart --}}
         <li class="nav-item d-lg-none py-2">
-            <a class="nav-link text-black fs-18 {{ request()->is('locations') ? 'menu-underline lg-navbar-menu-link' : '' }}" style="font-weight: 400;" href="#">
-                <div class="block">
+            <a class="nav-link text-black fs-18 {{ request()->is('locations') ? 'menu-underline lg-navbar-menu-link' : '' }}" style="font-weight: 400;" href="#" data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" aria-controls="ecommerceCart">
+                <div class="d-flex align-items-center gap-2">
                     <span>CART</span>
                     @php
                         $cart = session('shopping_cart', []);
