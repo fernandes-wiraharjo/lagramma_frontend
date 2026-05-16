@@ -75,14 +75,44 @@
             background-position: center;
             z-index: 0;
         }
+
+        @media (max-width: 767px) {
+            .background-left {
+                display: none;
+            }
+
+            .location-content {
+                padding-left: 0 !important;
+                padding-top: 32px;
+            }
+
+            .location-title,
+            .location-address {
+                font-size: 1.125rem;
+            }
+
+            .contact-table {
+                font-size: 1.125rem;
+            }
+
+            .location-list {
+                gap: 28px;
+            }
+        }
     </style>
 @endsection
 @section('content')
-    <div class="background-page-wrapper">
+    {{-- Mobile Breadcrumb --}}
+    <x-breadcrumb-mobile :items="[['label' => 'Home', 'url' => '/'], ['label' => 'Location']]" />
+
+    <img src="{{ URL::asset('build/images/assets/locations.png') }}" alt="Locations"
+        class="w-100 d-md-none" />
+
+    <div class="background-page-wrapper px-2">
         <div class="background-left"></div>
 
         <div class="container container-1440">
-            <div class="position-relative checkout-page-wrapper">
+            <div class="position-relative checkout-page-wrapper d-none d-md-block">
                 <div class="container container-1440">
                     {{-- Top Section --}}
                     <div class="row breadcrumb-spacing">
@@ -95,8 +125,8 @@
             </div>
 
             <div class="row">
-                <div class="col-6"></div>
-                <div class="col-6" style="padding-left: 56px; padding-bottom: 64px;">
+                <div class="col-6 d-none d-md-block"></div>
+                <div class="col-12 col-md-6 location-content px-2" style="padding-left: 56px; padding-bottom: 64px;">
                     {{-- Location List --}}
                     <section class="location-list">
                         <div class="d-flex align-items-start gap-3">
@@ -154,7 +184,7 @@
                                     width="32" height="32" />
                             </div>
                             <div>
-                                <div class="contact-table pb-5">
+                                <div class="contact-table pb-2">
                                     <div class="contact-row">
                                         <div class="contact-cell">Dalam Kota</div>
                                         <div class="contact-sep">:</div>
