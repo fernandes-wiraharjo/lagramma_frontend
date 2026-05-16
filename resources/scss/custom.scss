@@ -87,6 +87,10 @@ $lagramma_green:        #0c3e3c;
     border: 1px solid $lagramma_green;
     border-radius: 0;
     color: #000000;
+
+    @media (max-width: 767.98px) {
+        font-size: 0.875rem;
+    }
 }
 
 .lagramma-button-solid {
@@ -120,6 +124,10 @@ $lagramma_green:        #0c3e3c;
     font-size: 20px;
     letter-spacing: 0%;
     margin-bottom: 8px;
+
+    @media (max-width: 767.98px) {
+        font-size: 0.875rem;
+    }
 }
 
 .product-price {
@@ -128,6 +136,10 @@ $lagramma_green:        #0c3e3c;
     line-height: 100%;
     letter-spacing: 0%;
     margin-bottom: 8px;
+
+    @media (max-width: 767.98px) {
+        font-size: 0.875rem;
+    }
 }
 
 /* Header color */

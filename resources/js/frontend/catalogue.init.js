@@ -149,9 +149,9 @@ function loadProductList(datas, page) {
                 }
 
                 if (document.getElementById("col-3-layout")) {
-                    var layout = '<div class="col-xxl-3 col-lg-4 col-md-6">'
+                    var layout = '<div class="col-6 col-md-6 col-lg-4 col-xxl-3">'
                 } else {
-                    var layout = '<div class="col-xxl-4 col-lg-4 col-md-6">'
+                    var layout = '<div class="col-6 col-md-6 col-lg-4 col-xxl-4">'
                 }
 
                 document.getElementById("product-grid").innerHTML += layout + '\
@@ -229,9 +229,9 @@ function loadProductList(datas, page) {
                 }
 
                 if (document.getElementById("col-3-layout")) {
-                    var layout = '<div class="col-xxl-3 col-lg-4 col-md-6">'
+                    var layout = '<div class="col-6 col-md-6 col-lg-4 col-xxl-3">'
                 } else {
-                    var layout = '<div class="col-lg-4 col-md-6">'
+                    var layout = '<div class="col-6 col-md-6 col-lg-4">'
                 }
 
                 document.getElementById("product-grid-right").innerHTML += layout + '\

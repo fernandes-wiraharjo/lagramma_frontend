@@ -98,6 +98,10 @@
             .location-list {
                 gap: 28px;
             }
+
+            .open-hour-section {
+                margin-top: 28px !important;
+            }
         }
     </style>
 @endsection
@@ -167,7 +171,7 @@
                     </section>
 
                     {{-- Open Hour Information --}}
-                    <section class="location-list" style="margin-top: 64px;">
+                    <section class="location-list open-hour-section" style="margin-top: 64px;">
                         <div class="d-flex align-items-start gap-3">
                             <div>
                                 <img src="{{ URL::asset('build/images/icons/watch.svg') }}" alt="Open Hour Icon"
