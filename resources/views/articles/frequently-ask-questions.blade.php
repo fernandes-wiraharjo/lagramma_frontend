@@ -3,10 +3,31 @@
     Frequently Asked Questions
 @endsection
 @section('css')
+    <style>
+        @media (max-width: 767.98px) {
+            .lagramma-h1 {
+                font-size: 0.875rem !important;
+                border-bottom: 1px solid #000;
+            }
+
+            .lagramma-p,
+            .lagramma-h2 {
+                font-size: 1.25rem !important;
+            }
+
+            .lagramma-p {
+                padding-bottom: 0.75rem !important;
+            }
+
+            .lagramma-h2 {
+                padding-bottom: 0.5rem !important;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <div class="container container-1440">
-        <h1 class="lagramma-h1 pb-4 mt-5">Frequently Asked Questions</h1>
+        <h1 class="lagramma-h1 pb-4 mt-5 mb-5">Frequently Asked Questions</h1>
         <h2 class="lagramma-h2">1. How do I place an order?</h2>
         <p class="lagramma-p">You can order directly through our website.<br />Simply choose your favorite products, add to
             cart, and proceed to checkout.</p>
