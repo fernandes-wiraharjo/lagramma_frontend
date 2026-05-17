@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     // end of address section
 
-    const checkoutBtn = document.getElementById('create-order-btn');
+    const checkoutBtns = document.querySelectorAll('.create-order-btn');
     const radioButtons = document.querySelectorAll('input[name="shippingAddress"]');
     const shippingOptionWrapper = document.getElementById('shippingOptionWrapper');
     const shippingSelect = document.getElementById('shippingOption');
@@ -195,17 +195,25 @@ document.addEventListener('DOMContentLoaded', function () {
         shippingCost = option.shipping_cost;
         grandTotal = shippingCost + subtotal;
 
-        document.getElementById('shippingCost').innerText = `IDR ${shippingCost.toLocaleString()}`;
-        document.getElementById('grandTotal').innerText = `IDR ${grandTotal.toLocaleString()}`;
+        document.querySelectorAll('.shipping-cost').forEach(el => {
+            el.innerText = `IDR ${shippingCost.toLocaleString()}`;
+        });
+        document.querySelectorAll('.grand-total').forEach(el => {
+            el.innerText = `IDR ${grandTotal.toLocaleString()}`;
+        });
     }
 
     //selected address event
     function selectedAddress() {
         const selected = document.querySelector('input[name="shippingAddress"]:checked');
         const enabled = hasAddress && selected && itemCount > 0 && cbTermCondition.checked;
-        checkoutBtn.disabled = !enabled;
+        checkoutBtns.forEach(btn => btn.disabled = !enabled);
+
+        // Highlight selected address card
+        document.querySelectorAll('.card-radio').forEach(card => card.classList.remove('address-selected'));
 
         if (selected) {
+            selected.closest('.card-radio').classList.add('address-selected');
             shippingOptionWrapper.classList.remove('d-none');
             sendToOtherContainer.classList.remove('d-none');
             const address = JSON.parse(selected.dataset.address);
@@ -244,86 +252,87 @@ document.addEventListener('DOMContentLoaded', function () {
     cbTermCondition.addEventListener('change', selectedAddress);
 });
 
-document.getElementById('create-order-btn').addEventListener('click', function () {
-    if (!isLoggedIn) {
-        alert('Silahkan login terlebih dahulu untuk melanjutkan proses checkout.');
-        const currentUrl = window.location.href;
-        const backendLoginUrl = `${backendUrl}/login?redirect=${encodeURIComponent(currentUrl)}`;
-        window.location.href = backendLoginUrl;
-        return;
-    }
-
-    const createOrderButton = document.getElementById('create-order-btn');
-    const buttonText = document.getElementById('btn-text');
-    const loadingSpinner = document.getElementById('loading-spinner');
-
-    // Selected shipping option
-    const selectedShippingIndex = document.getElementById('shippingOption').value;
-    const selectedShipping = shippingOptions[selectedShippingIndex];
-
-    // Selected address
-    const selectedAddress = document.querySelector('input[name="shippingAddress"]:checked');
-    const address = JSON.parse(selectedAddress.dataset.address);
-
-    // STO (Send to Other) Fields
-    const sendToOtherChecked = document.getElementById('cbSendToOther').checked;
-    const stoPicName = sendToOtherChecked ? document.getElementById('sto_pic_name').value : '';
-    const stoPicPhone = sendToOtherChecked ? document.getElementById('sto_pic_phone').value : '';
-    const stoReceiverName = sendToOtherChecked ? document.getElementById('sto_receiver_name').value : '';
-    const stoReceiverPhone = sendToOtherChecked ? document.getElementById('sto_receiver_phone').value : '';
-    const stoNote = sendToOtherChecked ? document.getElementById('sto_note').value : '';
-
-    // Disable the button and show loading spinner
-    createOrderButton.disabled = true;
-    buttonText.classList.add('d-none');
-    loadingSpinner.classList.remove('d-none');
-
-    fetch('/checkout', {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            source: checkoutSource,  // <-- send 'buy_now' or 'cart'
-            receiver_address_id: address.id,
-            receiver_destination_id: address.region_id,
-            receiver_address: address.address,
-            destination_pin_point: `${address.latitude},${address.longitude}`,
-            shipping: selectedShipping.shipping_name,
-            shipping_type: selectedShipping.service_name,
-            shipping_cost: selectedShipping.shipping_cost,
-            shipping_cashback: selectedShipping.shipping_cashback,
-            service_fee: selectedShipping.service_fee,
-            grand_total: grandTotal,
-            is_send_to_other: sendToOtherChecked,
-            sto_pic_name: stoPicName,
-            sto_pic_phone: stoPicPhone,
-            sto_receiver_name: stoReceiverName,
-            sto_receiver_phone: stoReceiverPhone,
-            sto_note: stoNote
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        // Re-enable the button
-        createOrderButton.disabled = false;
-        buttonText.classList.remove('d-none');
-        loadingSpinner.classList.add('d-none');
-
-        alert(data.message);
-        if (data.success) {
-            window.location.href = data.redirect_url;
+document.querySelectorAll('.create-order-btn').forEach(function (createOrderButton) {
+    createOrderButton.addEventListener('click', function () {
+        if (!isLoggedIn) {
+            alert('Silahkan login terlebih dahulu untuk melanjutkan proses checkout.');
+            const currentUrl = window.location.href;
+            const backendLoginUrl = `${backendUrl}/login?redirect=${encodeURIComponent(currentUrl)}`;
+            window.location.href = backendLoginUrl;
+            return;
         }
-    })
-    .catch(err => {
-        // Re-enable the button in case of an error
-        createOrderButton.disabled = false;
-        buttonText.classList.remove('d-none');
-        loadingSpinner.classList.add('d-none');
 
-        console.error(err);
-        alert('Error checkout process.');
+        const buttonText = createOrderButton.querySelector('.btn-text');
+        const loadingSpinner = createOrderButton.querySelector('.loading-spinner');
+
+        // Selected shipping option
+        const selectedShippingIndex = document.getElementById('shippingOption').value;
+        const selectedShipping = shippingOptions[selectedShippingIndex];
+
+        // Selected address
+        const selectedAddress = document.querySelector('input[name="shippingAddress"]:checked');
+        const address = JSON.parse(selectedAddress.dataset.address);
+
+        // STO (Send to Other) Fields
+        const sendToOtherChecked = document.getElementById('cbSendToOther').checked;
+        const stoPicName = sendToOtherChecked ? document.getElementById('sto_pic_name').value : '';
+        const stoPicPhone = sendToOtherChecked ? document.getElementById('sto_pic_phone').value : '';
+        const stoReceiverName = sendToOtherChecked ? document.getElementById('sto_receiver_name').value : '';
+        const stoReceiverPhone = sendToOtherChecked ? document.getElementById('sto_receiver_phone').value : '';
+        const stoNote = sendToOtherChecked ? document.getElementById('sto_note').value : '';
+
+        // Disable the button and show loading spinner
+        createOrderButton.disabled = true;
+        buttonText.classList.add('d-none');
+        loadingSpinner.classList.remove('d-none');
+
+        fetch('/checkout', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                source: checkoutSource,  // <-- send 'buy_now' or 'cart'
+                receiver_address_id: address.id,
+                receiver_destination_id: address.region_id,
+                receiver_address: address.address,
+                destination_pin_point: `${address.latitude},${address.longitude}`,
+                shipping: selectedShipping.shipping_name,
+                shipping_type: selectedShipping.service_name,
+                shipping_cost: selectedShipping.shipping_cost,
+                shipping_cashback: selectedShipping.shipping_cashback,
+                service_fee: selectedShipping.service_fee,
+                grand_total: grandTotal,
+                is_send_to_other: sendToOtherChecked,
+                sto_pic_name: stoPicName,
+                sto_pic_phone: stoPicPhone,
+                sto_receiver_name: stoReceiverName,
+                sto_receiver_phone: stoReceiverPhone,
+                sto_note: stoNote
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            // Re-enable the button
+            createOrderButton.disabled = false;
+            buttonText.classList.remove('d-none');
+            loadingSpinner.classList.add('d-none');
+
+            alert(data.message);
+            if (data.success) {
+                window.location.href = data.redirect_url;
+            }
+        })
+        .catch(err => {
+            // Re-enable the button in case of an error
+            createOrderButton.disabled = false;
+            buttonText.classList.remove('d-none');
+            loadingSpinner.classList.add('d-none');
+
+            console.error(err);
+            alert('Error checkout process.');
+        });
     });
 });
