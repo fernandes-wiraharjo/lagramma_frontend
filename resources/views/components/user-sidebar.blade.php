@@ -59,22 +59,40 @@
 
      <div class="offcanvas-body">
          <ul class="navbar-nav mb-0 pt-2" id="user-sidebar-menu">
-             <li class="nav-item nav-link text-black fw-semibold fs-18 py-2">
-                 Welcome
-             </li>
-             <li class="nav-item nav-link text-black fw-normal fs-18 py-3">
-                 Enjoy a sweeter experience with La Gramma
-             </li>
-             <li class="nav-item py-2">
-                 <a
-                     class="nav-link text-black fs-18 fw-light {{ request()->is('/login') ? 'menu-underline lg-navbar-menu-link' : '' }}"
-                     href="{{ config('app.backend_url') }}/login">Login</a>
-             </li>
-             <li class="nav-item py-2">
-                 <a
-                     class="nav-link text-black fs-18 fw-light {{ request()->is('/register') ? 'menu-underline lg-navbar-menu-link' : '' }}"
-                     href="{{ config('app.backend_url') }}/register">Sign Up</a>
-             </li>
+             @auth
+                 <li class="nav-item nav-link text-black fw-semibold fs-18 py-2">
+                     Hello, {{ explode(' ', Auth::user()->name)[0] }}
+                 </li>
+                 <li class="nav-item py-2">
+                     <a class="nav-link text-black fs-18 fw-normal" href="{{ config('app.backend_url') }}/my-account">Profile</a>
+                 </li>
+                 <li class="nav-item py-2">
+                     <a class="nav-link text-black fs-18 fw-normal" href="{{ config('app.backend_url') }}/orders">Order History</a>
+                 </li>
+                 <li class="nav-item py-2">
+                     <a class="nav-link text-black fs-18 fw-normal" href="{{ config('app.backend_url') }}/account-setting">Settings</a>
+                 </li>
+                 <li class="nav-item py-2">
+                     <a class="nav-link text-black fs-18 fw-normal" href="{{ config('app.backend_url') }}/logout">Logout</a>
+                 </li>
+             @else
+                 <li class="nav-item nav-link text-black fw-semibold fs-18 py-2">
+                     Welcome
+                 </li>
+                 <li class="nav-item nav-link text-black fw-normal fs-18 py-3">
+                     Enjoy a sweeter experience with La Gramma
+                 </li>
+                 <li class="nav-item py-2">
+                     <a
+                         class="nav-link text-black fs-18 fw-light {{ request()->is('/login') ? 'menu-underline lg-navbar-menu-link' : '' }}"
+                         href="{{ config('app.backend_url') }}/login">Login</a>
+                 </li>
+                 <li class="nav-item py-2">
+                     <a
+                         class="nav-link text-black fs-18 fw-light {{ request()->is('/register') ? 'menu-underline lg-navbar-menu-link' : '' }}"
+                         href="{{ config('app.backend_url') }}/register">Sign Up</a>
+                 </li>
+             @endauth
          </ul>
      </div>
  </div>
