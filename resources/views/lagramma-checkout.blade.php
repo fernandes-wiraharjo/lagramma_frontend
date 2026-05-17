@@ -54,7 +54,8 @@
                 <div class="col-xl-8">
                     <div class="card rounded-4 shadow-blur p-4">
                         <div class="card-body">
-                            <div class="table-responsive table-card">
+                            {{-- Desktop: Table Layout --}}
+                            <div class="d-none d-md-block table-responsive table-card">
                                 <table class="table align-middle table-borderless table-nowrap text-center mb-0">
                                     <thead class="checkout-table-head">
                                         <tr>
@@ -65,97 +66,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- <tr>
-                                            <td class="text-start">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <div class="avatar-title bg-success-subtle rounded-3">
-                                                            <img src="{{ URL::asset('build/images/products/img-4.png') }}" alt=""
-                                                                class="avatar-xs">
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6>Girls Mint Green & Off-White Solid Open</h6>
-                                                        <p class="text-muted mb-0">Graphic Print Men & Women Footwear</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                $24.00
-                                            </td>
-                                            <td>
-                                                02
-                                            </td>
-                                            <td class="text-end">$48.00</td>
-                                        </tr> -->
                                         @foreach ($items as $key => $item)
-                                        <tr>
-                                            <td class="text-start">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <div class="avatar-title bg-success-subtle rounded-3">
-                                                            <img src="{{ $item['image'] ?? URL::asset('build/images/products/default.png') }}" alt=""
-                                                                class="avatar-sm">
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="checkout-table-product-name">
-                                                            {{ $item['product_name'] }}
-                                                            @if (!empty($item['modifiers']))
-                                                                <span class="text-checkout-primary-semibold">( Rp {{ number_format($item['price'], 0, ',', '.') }} )</span>
-                                                            @endif
-                                                        </h6>
-                                                        <h7 class="checkout-table-product-variant">{{ !empty($item['product_variant_name']) ? $item['product_variant_name'] : '' }}</h7>
-                                                        <p class="text-muted mb-0">
-                                                            {{-- Show Modifiers if available --}}
-                                                            @if (!empty($item['modifiers']))
-                                                            <div class="mt-2">
-                                                                <!-- <h6 class="fs-13 fw-semibold text-muted mb-1">Topping:</h6> -->
-                                                                <ul class="mb-2 ps-3">
-                                                                    @foreach ($item['modifiers'] as $modifier)
-                                                                        <li>
-                                                                            {{ $modifier['modifier_name'] }}: {{ $modifier['modifier_option_name'] }}
-                                                                            <span class="checkout-table-modifier-price">(+Rp {{ number_format($modifier['price'], 0, ',', '.') }})</span>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                            @endif
-
-                                                            {{-- For Hampers: Show item details --}}
-                                                            @if ($item['type'] === 'hampers' && !empty($item['items']))
-                                                            <div class="mt-2">
-                                                                <h6 class="fs-13 fw-semibold text-muted mb-1">Items:</h6>
-                                                                <ul class="mb-2 ps-3">
-                                                                    @foreach ($item['items'] as $subItem)
-                                                                        <li>
-                                                                            {{ $subItem['product_name'] }}{{ !empty($subItem['name']) ? ' - ' . $subItem['name'] : '' }} x {{ $subItem['quantity'] }}
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                            @endif
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="checkout-table-cell-rate">
-                                                @php
-                                                    $modifierPrice = !empty($item['modifiers']) ? $item['modifiers'][0]['price'] : 0;
-                                                    $rate = $item['price'] + $modifierPrice;
-                                                @endphp
-                                                Rp {{ number_format($rate, 0, ',', '.') }}
-                                            </td>
-                                            <td class="checkout-table-cell-qty">
-                                                {{ $item['quantity'] ?? 0 }}
-                                            </td>
-                                            <td class="text-end checkout-table-cell-price">
-                                                Rp {{ number_format($item['total_price'], 0, ',', '.') }}
-                                            </td>
-                                        </tr>
+                                            <x-checkout-product-item :item="$item" layout="table" />
                                         @endforeach
                                     </tbody>
                                 </table>
+                            </div>
+
+                            {{-- Mobile: Card Layout --}}
+                            <div class="d-block d-md-none">
+                                @foreach ($items as $key => $item)
+                                    <x-checkout-product-item :item="$item" layout="card" />
+                                @endforeach
                             </div>
                         </div>
                     </div>

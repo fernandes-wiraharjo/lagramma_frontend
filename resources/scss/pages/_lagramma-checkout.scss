@@ -366,3 +366,42 @@ $lagramma_green: #0c3e3c;
 .checkbox-label-text {
     padding-left: 8px;
 }
+
+// ============================================
+// Mobile Product Card
+// ============================================
+
+.checkout-mobile-header {
+    font-size: 1.25rem;
+    color: $checkout-primary;
+    border-bottom: 2px solid $checkout-primary;
+    font-weight: 600;
+
+    &-product {
+        padding-bottom: 0.5rem;
+    }
+
+    &-totals {
+        padding: 0.5rem 0;
+
+        span {
+            flex: 1;
+            text-align: center;
+        }
+    }
+}
+
+.checkout-mobile-product-card {
+    padding: 1rem 0;
+    border-bottom: 1px solid #e0e0e0;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    .checkout-mobile-product-totals {
+        > div {
+            flex: 1;
+        }
+    }
+}
