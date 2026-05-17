@@ -26,13 +26,13 @@
         </div>
     </div>
 
-    <div class="container container-1440 pb-4">
+    <div class="container container-1440 pb-4 px-3">
         <div class="row">
-            <section class="col-xl-7 pe-5">
-                <x-payment-info :order="$order" :orderPayment="$orderPayment" :bankAccounts="$bankAccounts" :transferAmount="$transferAmount" />
+            <section class="col-xl-7 pe-xl-5">
+                <x-payment-info :subtotal="$subtotal" :order="$order" :orderPayment="$orderPayment" :bankAccounts="$bankAccounts" :transferAmount="$transferAmount" />
             </section>
 
-            <section class="col-xl-5">
+            <section class="d-none d-xl-block col-xl-5">
                 <x-order-summary :subtotal="$subtotal" :uniqueCode="$orderPayment->unique_code" :transferAmount="$transferAmount" :delivery="$order->delivery" />
             </section>
         </div>
