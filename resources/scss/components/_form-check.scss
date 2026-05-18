@@ -291,7 +291,7 @@ $lagramma_green:        #0c3e3c;
         display: none;
 
         &:checked+.form-check-label {
-            border-color: $lagramma_green !important;
+            border-color: #FEAE03 !important;
 
             &:before {
                 content: '\eb80';
@@ -300,7 +300,7 @@ $lagramma_green:        #0c3e3c;
                 top: 2px;
                 right: 6px;
                 font-size: 16px;
-                color: $lagramma_green;
+                color: #1FAF38;
             }
         }
     }

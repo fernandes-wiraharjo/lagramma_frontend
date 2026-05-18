@@ -50,12 +50,29 @@
         .content-margin-bottom {
             margin-bottom: 88px;
         }
+
+        @media (max-width: 767.98px) {
+            .lagramma-h1 {
+                font-size: 0.875rem !important;
+                border-bottom: 1px solid #000;
+            }
+
+            .lagramma-h2 {
+                font-size: 1.25rem !important;
+                padding-bottom: 0.5rem !important;
+            }
+
+            .contact-table {
+                font-size: 1.25rem !important;
+                padding-bottom: 0.75rem !important;
+            }
+        }
     </style>
 @endsection
 
 @section('content')
     <div class="container container-1440 content-margin-bottom">
-        <h1 class="lagramma-h1 pb-4 mt-5">Contact Us</h1>
+        <h1 class="lagramma-h1 pb-5 mt-5">Contact Us</h1>
 
         <h2 class="lagramma-h2">Contact Us</h2>
         <p class="contact-table">We're here to help you with orders, questions, and special requests.</p>

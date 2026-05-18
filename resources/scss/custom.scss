@@ -87,6 +87,10 @@ $lagramma_green:        #0c3e3c;
     border: 1px solid $lagramma_green;
     border-radius: 0;
     color: #000000;
+
+    @media (max-width: 767.98px) {
+        font-size: 0.875rem;
+    }
 }
 
 .lagramma-button-solid {
@@ -120,6 +124,10 @@ $lagramma_green:        #0c3e3c;
     font-size: 20px;
     letter-spacing: 0%;
     margin-bottom: 8px;
+
+    @media (max-width: 767.98px) {
+        font-size: 0.875rem;
+    }
 }
 
 .product-price {
@@ -128,6 +136,10 @@ $lagramma_green:        #0c3e3c;
     line-height: 100%;
     letter-spacing: 0%;
     margin-bottom: 8px;
+
+    @media (max-width: 767.98px) {
+        font-size: 0.875rem;
+    }
 }
 
 /* Header color */
@@ -146,24 +158,48 @@ $lagramma_green:        #0c3e3c;
     right: auto !important;
 }
 
+@media (max-width: 991.98px) {
+    .ecommerce-navbar {
+        position: relative !important;
+        z-index: 10;
+    }
+}
+
 .ecommerce-navbar.is-sticky {
     box-shadow: none !important;
 }
 
 /* Topbar right icons */
-.ecommerce-navbar .lg-topbar-icons {
+.ecommerce-user-sidebar.offcanvas {
+    width: 100% !important;
+}
+
+.ecommerce-user-sidebar .lg-topbar-header {
+    background-color: $lagramma_green;
+    max-height: 80px;
+}
+
+.ecommerce-user-sidebar .lg-topbar-logo {
+    width: auto;
+    height: 30px;
+}
+
+.ecommerce-user-sidebar .lg-topbar-icons, .ecommerce-navbar .lg-topbar-icons {
     gap: 14px;
 }
 
-.ecommerce-navbar .lg-topbar-action {
+.ecommerce-user-sidebar .lg-topbar-action, .ecommerce-navbar .lg-topbar-action {
     color: #f5b400;
 }
 
+.ecommerce-user-sidebar .lg-topbar-action:hover,
+.ecommerce-user-sidebar .lg-topbar-action:focus,
 .ecommerce-navbar .lg-topbar-action:hover,
 .ecommerce-navbar .lg-topbar-action:focus {
     color: #f5b400;
 }
 
+.ecommerce-user-sidebar .lg-topbar-icon,
 .ecommerce-navbar .lg-topbar-icon {
     display: block;
     font-size: 1.65rem;
@@ -172,14 +208,15 @@ $lagramma_green:        #0c3e3c;
 
 /* Topbar brand logo */
 .ecommerce-navbar .lg-topbar-logo {
-    width: 240px;
+    width: 360px;
     height: auto;
     max-width: 100%;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 991.98px) {
     .ecommerce-navbar .lg-topbar-logo {
-        width: 180px;
+        width: auto;
+        height: 30px;
     }
 }
 
@@ -544,8 +581,21 @@ $lagramma_green:        #0c3e3c;
     height: 200px;
 }
 
+@media (max-width: 991.98px) {
+    .lg-topbar-main-row {
+        height: 80px;
+    }
+}
+
 .ecommerce-navbar .lg-topbar-logo.lg-topbar-logo-dark {
-    width: 160px;
+    width: 360px;
+}
+
+@media (max-width: 991.98px) {
+    .ecommerce-navbar .lg-topbar-logo.lg-topbar-logo-dark {
+        width: auto;
+        height: 30px;
+    }
 }
 
 .lg-navbar-menus-mobile {
@@ -754,4 +804,10 @@ $lagramma_green:        #0c3e3c;
             flex-grow: 1;
         }
     }
+}
+
+.menu-underline {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
 }

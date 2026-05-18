@@ -3,10 +3,51 @@
     E-Commerce Terms & Condition
 @endsection
 @section('css')
+    <style>
+        .indent-1 {
+            padding-left: 56px !important;
+        }
+
+        .indent-2 {
+            padding-left: 104px !important;
+        }
+
+        @media (max-width: 767.98px) {
+            .lagramma-h1 {
+                font-size: 0.875rem !important;
+                border-bottom: 1px solid #000;
+            }
+
+            .lagramma-p,
+            .lagramma-h2 {
+                font-size: 1.25rem !important;
+            }
+
+            .lagramma-p {
+                padding-bottom: 0.75rem !important;
+            }
+
+            .lagramma-h2 {
+                padding-bottom: 0.5rem !important;
+            }
+
+            .lagramma-green-font {
+                font-size: 1.25rem !important;
+            }
+
+            .indent-1 {
+                padding-left: 1.75rem !important;
+            }
+
+            .indent-2 {
+                padding-left: 4rem !important;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <div class="container container-1440">
-        <h1 class="lagramma-h1 pb-4 mt-5">E-Commerce Terms & Condition</h1>
+        <h1 class="lagramma-h1 pb-5 mt-5">E-Commerce Terms & Condition</h1>
 
         <p class="lagramma-p" style="font-weight: 500;">La Gramma takes great pride in preparing and delivering our products with the highest care and
             quality. Every order is freshly made and carefully packed to ensure it arrives in the best condition.</p>
@@ -16,21 +57,21 @@
         <h2 class="lagramma-h2">Product Storage & Handling</h2>
         <p class="lagramma-p" style="font-weight: 500;">All La Gramma products are made fresh without preservatives.</p>
 
-        <ul class="lagramma-p" style="padding-left: 64px;">
+        <ul class="lagramma-p indent-1">
             <li>Cakes and desserts are best consumed within 3–5 days when stored in the refrigerator.</li>
             <li>Do not refreeze products once they have been chilled or opened.</li>
             <li>We are not responsible for product quality if storage instructions are not followed by the customer.</li>
         </ul>
 
         <h2 class="lagramma-h2">Delivery & Shipping</h2>
-        <ul class="lagramma-p" style="padding-left: 64px;">
+        <ul class="lagramma-p indent-1">
             <li>Deliveries are available within Pontianak and surrounding areas.</li>
             <li>Delivery schedule depends on courier availability and selected time slot.</li>
             <li>Delivery fees are calculated at checkout.</li>
         </ul>
 
         <p class="lagramma-p" style="font-weight: 500;">Once the order is handed to the courier, La Gramma is not responsible for:</p>
-        <ul class="lagramma-p" style="padding-left: 128px;">
+        <ul class="lagramma-p indent-2">
             <li>Late delivery caused by traffic, weather, or courier delays</li>
             <li>Lost or stolen packages after confirmed delivery</li>
             <li>Incorrect addresses provided by the customer</li>
@@ -38,7 +79,7 @@
         <p class="lagramma-p" style="font-weight: 500;">For apartment or office buildings, someone must be available to receive the order.</p>
 
         <h2 class="lagramma-h2">Payment Verification</h2>
-        <ul class="lagramma-p" style="padding-left: 64px;">
+        <ul class="lagramma-p indent-1">
             <li>Payments must be made in full before the order is processed.</li>
             <li>Customers must upload proof of transfer via the Payment Confirmation page.</li>
             <li>Orders without valid payment proof will not be processed.</li>
@@ -49,13 +90,13 @@
 
         <h2 class="lagramma-h2">Refunds & Replacements</h2>
         <p class="lagramma-p" style="font-weight: 500;">Due to the perishable nature of our products:</p>
-        <ul class="lagramma-p" style="padding-left: 64px;">
+        <ul class="lagramma-p indent-1">
             <li>No refunds or exchanges are available once the order is confirmed.</li>
             <li>Customers must upload proof of transfer via the Payment Confirmation page.</li>
         </ul>
 
         <p class="lagramma-p" style="font-weight: 500;">Refunds or replacements will not be granted for:</p>
-        <ul class="lagramma-p" style="padding-left: 64px;">
+        <ul class="lagramma-p indent-1">
             <li>Incorrect address or contact details</li>
             <li>Customer unavailable at delivery</li>
             <li>Late delivery due to courier or force majeure</li>
@@ -64,7 +105,7 @@
 
         <h2 class="lagramma-h2">Peak Season Policy</h2>
         <p class="lagramma-p" style="font-weight: 500; padding-bottom: 0px; margin-bottom: 0px;">During festive seasons (Ramadan, Eid, Christmas, New Year, etc.), order volume is limited to maintain quality.</p>
-        <ul class="lagramma-p" style="padding-left: 64px; padding-top: 0px;">
+        <ul class="lagramma-p indent-1" style="padding-top: 0px;">
             <li>We recommend ordering at least 2–3 days in advance.</li>
             <li>Delivery slots may close once capacity is reached.</li>
         </ul>

@@ -12,27 +12,47 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
-            min-height: calc(100vh);
+        }
+
+        @media (max-width: 768px) {
+            .background-image {
+                background-size: 200% auto;
+            }
+
+            .story-content {
+                font-size: 0.75rem;
+                padding-bottom: 160px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .story-content {
+                font-size: 1.25rem;
+                padding-bottom: 640px;
+            }
         }
     </style>
 @endsection
 @section('content')
+    {{-- Mobile Breadcrumb --}}
+    <x-breadcrumb-mobile :items="[['label' => 'Home', 'url' => '/'], ['label' => 'A Story of Love']]" />
+
     {{-- <img class="w-100" src="{{ URL::asset('build/images/assets/a-story-of-love-bg.png') }}"> --}}
-    <div class="background-image">
-        <div class="position-relative checkout-page-wrapper">
+    <div class="background-image pt-4">
+        {{-- Desktop Breadcrumb --}}
+        <div class="position-relative checkout-page-wrapper d-none d-md-block">
             <div class="container container-1440">
                 {{-- Top Section --}}
                 <div class="row breadcrumb-spacing">
                     {{-- Bread Crumbs --}}
                     <div class="col-12 col-md-6">
-                        <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'About']]" />
+                        <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'A Story of Love']]" />
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="container container-1440"
-            style="font-size: 1.25rem; padding-bottom: 640px;">
+        <div class="container container-1440 story-content">
             <div style="font-weight: 300; max-width: 860px;">
                 <p>It all started with a small notebook left on a sewing table . as he fought back tears and reminisced
                     about the good old days , he was flipping through page after page of that cherished book. never even
@@ -54,7 +74,7 @@
                     We thankyou , our beloved customers for your support all along<br />
                     Let's bring our tradition to the world , together one layer at a time
                 </p>
-                
+
                 <br />
 
                 <p>in her memory,</p>

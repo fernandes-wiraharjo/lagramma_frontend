@@ -114,13 +114,28 @@
             object-fit: cover;
             display: block;
         }
+
+        .padding-container {
+            padding-top: 0px;
+            padding-bottom: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .padding-container {
+                padding-top: 40px;
+                padding-bottom: 40px;
+            }
+        }
     </style>
 @endsection
 @section('content')
-    <div class="position-relative" style="padding-top: 40px; padding-bottom: 40px;">
+    {{-- Mobile Breadcrumb --}}
+    <x-breadcrumb-mobile :items="[['label' => 'Home', 'url' => '/'], ['label' => 'Shop', 'url' => '/catalogue'], ['label' => $product->name]]" />
+
+    <div class="position-relative padding-container">
         <div class="container container-1440">
             {{-- Top Section --}}
-            <div class="row" style="font-size: 1.25rem; font-weight: 400; padding-bottom: 20px;">
+            <div class="row d-none d-md-flex" style="font-size: 1.25rem; font-weight: 400; padding-bottom: 20px;">
                 {{-- Bread Crumbs --}}
                 <div class="col-12 col-md-6">
                     <x-breadcrumb :items="[['label' => 'Home', 'url' => '/'], ['label' => 'Shop', 'url' => '/catalogue'], ['label' => $product->name]]" />
