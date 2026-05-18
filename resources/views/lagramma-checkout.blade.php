@@ -54,7 +54,8 @@
                 <div class="col-xl-8">
                     <div class="card rounded-4 shadow-blur p-4">
                         <div class="card-body">
-                            <div class="table-responsive table-card">
+                            {{-- Desktop: Table Layout --}}
+                            <div class="d-none d-md-block table-responsive table-card">
                                 <table class="table align-middle table-borderless table-nowrap text-center mb-0">
                                     <thead class="checkout-table-head">
                                         <tr>
@@ -65,99 +66,25 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- <tr>
-                                            <td class="text-start">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <div class="avatar-title bg-success-subtle rounded-3">
-                                                            <img src="{{ URL::asset('build/images/products/img-4.png') }}" alt=""
-                                                                class="avatar-xs">
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6>Girls Mint Green & Off-White Solid Open</h6>
-                                                        <p class="text-muted mb-0">Graphic Print Men & Women Footwear</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                $24.00
-                                            </td>
-                                            <td>
-                                                02
-                                            </td>
-                                            <td class="text-end">$48.00</td>
-                                        </tr> -->
                                         @foreach ($items as $key => $item)
-                                        <tr>
-                                            <td class="text-start">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <div class="avatar-title bg-success-subtle rounded-3">
-                                                            <img src="{{ $item['image'] ?? URL::asset('build/images/products/default.png') }}" alt=""
-                                                                class="avatar-sm">
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="checkout-table-product-name">
-                                                            {{ $item['product_name'] }}
-                                                            @if (!empty($item['modifiers']))
-                                                                <span class="text-checkout-primary-semibold">( Rp {{ number_format($item['price'], 0, ',', '.') }} )</span>
-                                                            @endif
-                                                        </h6>
-                                                        <h7 class="checkout-table-product-variant">{{ !empty($item['product_variant_name']) ? $item['product_variant_name'] : '' }}</h7>
-                                                        <p class="text-muted mb-0">
-                                                            {{-- Show Modifiers if available --}}
-                                                            @if (!empty($item['modifiers']))
-                                                            <div class="mt-2">
-                                                                <!-- <h6 class="fs-13 fw-semibold text-muted mb-1">Topping:</h6> -->
-                                                                <ul class="mb-2 ps-3">
-                                                                    @foreach ($item['modifiers'] as $modifier)
-                                                                        <li>
-                                                                            {{ $modifier['modifier_name'] }}: {{ $modifier['modifier_option_name'] }}
-                                                                            <span class="checkout-table-modifier-price">(+Rp {{ number_format($modifier['price'], 0, ',', '.') }})</span>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                            @endif
-
-                                                            {{-- For Hampers: Show item details --}}
-                                                            @if ($item['type'] === 'hampers' && !empty($item['items']))
-                                                            <div class="mt-2">
-                                                                <h6 class="fs-13 fw-semibold text-muted mb-1">Items:</h6>
-                                                                <ul class="mb-2 ps-3">
-                                                                    @foreach ($item['items'] as $subItem)
-                                                                        <li>
-                                                                            {{ $subItem['product_name'] }}{{ !empty($subItem['name']) ? ' - ' . $subItem['name'] : '' }} x {{ $subItem['quantity'] }}
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                            @endif
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="checkout-table-cell-rate">
-                                                @php
-                                                    $modifierPrice = !empty($item['modifiers']) ? $item['modifiers'][0]['price'] : 0;
-                                                    $rate = $item['price'] + $modifierPrice;
-                                                @endphp
-                                                Rp {{ number_format($rate, 0, ',', '.') }}
-                                            </td>
-                                            <td class="checkout-table-cell-qty">
-                                                {{ $item['quantity'] ?? 0 }}
-                                            </td>
-                                            <td class="text-end checkout-table-cell-price">
-                                                Rp {{ number_format($item['total_price'], 0, ',', '.') }}
-                                            </td>
-                                        </tr>
+                                            <x-checkout-product-item :item="$item" layout="table" />
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
+
+                            {{-- Mobile: Card Layout --}}
+                            <div class="d-block d-md-none">
+                                @foreach ($items as $key => $item)
+                                    <x-checkout-product-item :item="$item" layout="card" />
+                                @endforeach
+                            </div>
                         </div>
+                    </div>
+
+                    {{-- Order Summary: Mobile --}}
+                    <div class="d-lg-none">
+                        <x-order-summary-card :subtotal="$subtotal" />
                     </div>
 
                     <div class="mt-4 pt-2">
@@ -297,7 +224,7 @@
                         </div>
                         <div class="mt-3" id="sendToOtherContainer">
                             <label class="d-flex align-items-center checkout-form-label">
-                                <input type="checkbox" id="cbSendToOther" class="checkout-checkbox"><span class="checkbox-label-text">Mengirim kepada orang lain?</span>
+                                <input type="checkbox" id="cbSendToOther" class="checkout-checkbox"><span class="checkbox-label-text">Send to Other?</span>
                             </label>
                         </div>
                         <!-- Conditional sender/receiver fields -->
@@ -337,49 +264,10 @@
                     </div>
                 </div>
                 <!-- end col -->
-                <div class="col-lg-4">
+                {{-- Order Summary: Desktop --}}
+                <div class="col-lg-4 d-none d-lg-block">
                     <div class="sticky-side-div">
-                        <div class="card overflow-hidden rounded-4 shadow-blur p-4">
-                            <div class="card-header pb-0 border-0">
-                                <h5 class="card-title-checkout mb-0">Order Summary</h5>
-                            </div>
-                            <div class="card-body pt-4 px-4">
-                                <div class="table-responsive table-card">
-                                    <table class="table table-borderless mb-0 fs-15">
-                                        <tbody>
-                                            <tr>
-                                                <td class="order-summary-label no-padding">Subtotal</td>
-                                                <td class="text-end order-summary-value cart-lg-subtotal">Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="order-summary-label no-padding-top">Shipping</td>
-                                                <td class="text-end order-summary-value cart-shipping" id="shippingCost">-</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="order-summary-total-label">Total</td>
-                                                <td class="text-end order-summary-total-value">
-                                                    <span class="fw-semibold cart-total" id="grandTotal">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- end table-responsive -->
-
-                                <div class="hstack gap-2 justify-content-between justify-content-end mt-4">
-                                    <a href="view-cart" class="btn-back-cart rounded-4 text-center">Back To Cart <img src="{{ URL::asset('/build/images/icons/cart-01.svg') }}" /></a>
-                                    <!-- <a href="payment" class="btn btn-hover btn-primary w-100">Create Order</a> -->
-                                    <button
-                                        id="create-order-btn"
-                                        class="btn-payment rounded-4"
-                                        disabled>
-                                        <span id="btn-text">Payment</span>
-                                        <img src="{{ URL::asset('/build/images/icons/payment-01.svg') }}" />
-                                        <span id="loading-spinner" class="d-none spinner-border spinner-border-sm text-light spinner-checkout" role="status"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <x-order-summary-card :subtotal="$subtotal" />
                     </div>
                     <!-- end stickey -->
                 </div>

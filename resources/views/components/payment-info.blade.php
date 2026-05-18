@@ -1,3 +1,5 @@
+@props(['order', 'orderPayment', 'bankAccounts', 'transferAmount', 'subtotal'])
+
 <div class="row">
     <div class="col-12">
         <h2 class="lagramma-green-font"
@@ -35,6 +37,10 @@
             <small class="fs-14">Please transfer the exact amount including the unique code so we can automatically
                 match your payment.</small>
         </div>
+
+        <section class="col-12 d-xl-none">
+            <x-order-summary :subtotal="$subtotal" :uniqueCode="$orderPayment->unique_code" :transferAmount="$transferAmount" :delivery="$order->delivery" />
+        </section>
 
         <div class="card overflow-hidden rounded-4 shadow-blur p-4">
             @foreach ($bankAccounts as $bank)

@@ -3,7 +3,7 @@
 @endphp
 
 <div class="sticky-side-div">
-    <div class="card overflow-hidden rounded-4 shadow-blur p-4">
+    <div class="card overflow-hidden rounded-4 shadow-blur px-1 py-4">
         <div class="card-header pb-0 border-0">
             <h5 class="card-title-checkout mb-0">Order Summary</h5>
         </div>

@@ -5,15 +5,60 @@
 @section('css')
     <style>
         .action-button {
-                width: 320px;
+            width: 320px;
+        }
+        .checkout-success-section {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .checkout-success-breadcrumb {
+            font-size: 1.25rem;
+            font-weight: 400;
+            padding-bottom: 20px;
+        }
+        .checkout-success-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .checkout-success-invoice {
+            font-size: 2rem;
+            font-weight: 300;
+        }
+        .checkout-success-actions {
+            gap: 20px;
+        }
+        .checkout-success-actions a {
+            font-size: 1.5rem;
+        }
+        .payment-complete-img {
+            width: 50%;
+        }
+        @media (max-width: 767.98px) {
+            .payment-complete-img {
+                width: 100% !important;
             }
+
+            .checkout-success-title {
+                font-size: 2rem;
+                font-weight: 600;
+            }
+
+            .checkout-success-invoice {
+                font-size: 1rem;
+                font-weight: 300;
+            }
+            .action-button {
+                width: 100% !important;
+                font-size: 1.25rem !important;
+            }
+        }
     </style>
 @endsection
 @section('content')
-    <div class="position-relative" style="padding-top: 40px; padding-bottom: 40px;">
+    <div class="position-relative checkout-success-section">
         <div class="container container-1440">
             {{-- Top Section --}}
-            <div class="row" style="font-size: 1.25rem; font-weight: 400; padding-bottom: 20px;">
+            <div class="row checkout-success-breadcrumb">
                 {{-- Bread Crumbs --}}
                 <div class="col-12 col-md-6">
                     <div>Shop > Confirmation</div>
@@ -30,17 +75,16 @@
             <div class="row">
                 <div class="col-12 mx-auto">
                     <img src="{{ URL::asset('build/images/assets/payment-complete.png') }}" alt=""
-                        class="w-50 d-block mx-auto">
+                        class="payment-complete-img d-block mx-auto">
 
-                    <h4 class="mb-3 text-capitalize text-center lagramma-green-font"
-                        style="font-size: 2.5rem; font-weight: 700;">Your Order Is Completed!</h4>
-                    <p class="text-muted mb-0 text-center" style="font-size: 2rem; font-weight: 300;">Invoice No:
+                    <h4 class="mb-3 text-capitalize text-center lagramma-green-font checkout-success-title">Your Order Is Completed!</h4>
+                    <p class="text-muted mb-0 text-center checkout-success-invoice">Invoice No:
                         {{ $invoiceNo }}</p>
-                    <div class="mt-4 pt-2 hstack gap-2 justify-content-center w-100 mx-auto d-flex flex-column flex-md-row" style="gap: 20px;">
+                    <div class="mt-4 pt-2 hstack justify-content-center w-100 mx-auto d-flex flex-column flex-md-row checkout-success-actions">
                         <a href="{{ config('app.backend_url') }}/orders"
-                            class="text-center rounded-4 solid-border-green lagramma-button-solid py-3 action-button" style="font-size: 1.5rem; color: #ffffff;">View
+                            class="text-center rounded-4 solid-border-green lagramma-button-solid py-2 py-md-3 action-button" style="color: #ffffff;">View
                             Order</a>
-                        <a href="/" class="text-center solid-border-green rounded-4 lagramma-button-outline py-3 action-button" style="font-size: 1.5rem; color: #0c3e3c;">Back To
+                        <a href="/" class="text-center solid-border-green rounded-4 lagramma-button-outline py-2 py-md-3 action-button" style="color: #0c3e3c;">Back To
                             Shopping</a>
                     </div>
                 </div>

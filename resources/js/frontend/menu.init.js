@@ -486,6 +486,20 @@ navbarCollapsible.addEventListener('shown.bs.collapse', event => {
     initMenuItemScroll()
 })
 
+// Hide mobile menu when user sidebar offcanvas is shown
+const userSidebar = document.getElementById('userSidebar')
+if (userSidebar) {
+    userSidebar.addEventListener('show.bs.offcanvas', function () {
+        var mobileMenu = document.getElementById('navbarSupportedContent')
+        if (mobileMenu && mobileMenu.classList.contains('show')) {
+            var bsCollapse = bootstrap.Collapse.getInstance(mobileMenu)
+            if (bsCollapse) {
+                bsCollapse.hide()
+            }
+        }
+    })
+}
+
 function initModeSetting() {
     if (sessionStorage.getItem("data-bs-theme") && sessionStorage.getItem("data-bs-theme") == "light") {
         document.documentElement.setAttribute('data-bs-theme', 'light');
