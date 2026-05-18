@@ -285,7 +285,7 @@
         const subtotal = @json($subtotal);
         const totalWeight = @json($totalWeight);
         const itemCount = @json($itemCount);
-        const komerceApiKey = @json(config('app.komerce_api_key'));
+        const komerceApiKey = true;
         let shippingCost = 0;
         let grandTotal = 0;
     </script>
@@ -298,5 +298,5 @@
     <!-- landing-index js -->
     <script src="{{ URL::asset('build/js/frontend/menu.init.js') }}"></script>
     <!-- maps js -->
-     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=feInitMap&libraries=places&v=weekly"></script>
+     <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_api_key') }}&callback=feInitMap&libraries=places&v=weekly"></script>
 @endsection

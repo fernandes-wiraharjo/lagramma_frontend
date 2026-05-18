@@ -80,9 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     withCredentials: true   // IMPORTANT: send cookies
                 },
                 crossDomain: true,
-                headers: {
-                    "x-api-key": komerceApiKey
-                },
                 data: params => ({ keyword: params.term }),
                 processResults: data => ({
                     results: data.data.map(item => ({
