@@ -12,7 +12,7 @@ function getTime(params) {
     params = new Date(params);
     if (params.getHours() != null) {
         var hour = params.getHours();
-        var minute = (params.getMinutes()) ? params.getMinutes() : 00;
+        var minute = (params.getMinutes()) ? params.getMinutes() : 0;
         return hour + ":" + minute;
     }
 }

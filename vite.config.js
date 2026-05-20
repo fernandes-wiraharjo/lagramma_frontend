@@ -3,6 +3,7 @@
 const vite = require('vite');
 import laravel from 'laravel-vite-plugin';
 import { viteStaticCopy } from 'vite-plugin-static-copy'
+import { globSync } from 'fs';
 
 export default vite.defineConfig({
     build: {
@@ -11,6 +12,7 @@ export default vite.defineConfig({
         rtl: true,
         outDir: 'public/build/',
         cssCodeSplit: true,
+        minify: true,
         rollupOptions: {
             output: {
               assetFileNames: (css) => {
@@ -20,7 +22,14 @@ export default vite.defineConfig({
                     return 'icons/' + css.name;
                 }
             },
-                entryFileNames: 'js/' + `[name]` + `.js`,
+                entryFileNames: (chunkInfo) => {
+                    const srcPath = chunkInfo.facadeModuleId
+                        ? chunkInfo.facadeModuleId.replace(/\\/g, '/')
+                        : '';
+                    const match = srcPath.match(/resources\/js\/(.*)\.js/);
+                    const subPath = match ? match[1] : chunkInfo.name;
+                    return 'js/' + subPath + '.js';
+                },
             },
         },
       },
@@ -28,11 +37,15 @@ export default vite.defineConfig({
         laravel(
             {
                 input: [
+                    // SCSS entries
                     'resources/scss/app.scss',
                     'resources/scss/bootstrap.scss',
                     'resources/scss/icons.scss',
                     'resources/scss/custom.scss',
                     'resources/scss/custom-catalogue.scss',
+
+                    // JS entries (all files in resources/js)
+                    ...globSync('resources/js/**/*.js'),
                 ],
                 refresh: true,                
             }
@@ -49,10 +62,6 @@ export default vite.defineConfig({
                 },
                 {
                     src: 'resources/json',
-                    dest: ''
-                },
-                {
-                    src: 'resources/js',
                     dest: ''
                 },
                 {
