@@ -687,6 +687,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+{{--
 <div class="modal fade" id="subscribeModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0">
@@ -715,6 +716,7 @@
         </div>
     </div>
 </div>
+--}}
 <!-- end modal -->
 
 {{-- <a href="../backend/index" class="btn btn-warning position-fixed bottom-0 start-0 m-5 z-3 btn-hover d-none d-lg-block"><i class="bi bi-database align-middle me-1"></i> Backend</a> --}}
