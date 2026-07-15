@@ -41,6 +41,7 @@ class CartService
         }
 
         $cart[$key]['total_price'] = $cart[$key]['quantity'] * ($cart[$key]['price'] + collect($cart[$key]['modifiers'])->sum('price'));
+        $cart[$key]['total_weight'] = $cart[$key]['quantity'] * $cart[$key]['weight'];
 
         $this->saveCart($cart);
     }
@@ -56,6 +57,7 @@ class CartService
                 unset($cart[$key]);
             } else {
                 $cart[$key]['total_price'] = $cart[$key]['quantity'] * ($cart[$key]['price'] + collect($cart[$key]['modifiers'])->sum('price'));
+                $cart[$key]['total_weight'] = $cart[$key]['quantity'] * $cart[$key]['weight'];
             }
         }
 
